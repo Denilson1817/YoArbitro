@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "11660063125",
+    "project_id": "yoarbitro-43a80",
+    "storage_bucket": "yoarbitro-43a80.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:11660063125:android:0ab6bbb991e4d5809d869c",
+        "android_client_info": {
+          "package_name": "com.denilsonperez.yoarbitro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "11660063125-2t69dqdk7i37d6cnergmkkqrairumri5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.denilsonperez.yoarbitro",
+            "certificate_hash": "a552b39a3073f959a6e808aa616286650a766965"
+          }
+        },
+        {
+          "client_id": "11660063125-2883nfek24r6ooaplk1024o2e0a54me1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA9PXroAASd2UB6pw99Z7F0axtu3-onPKk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "11660063125-2883nfek24r6ooaplk1024o2e0a54me1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

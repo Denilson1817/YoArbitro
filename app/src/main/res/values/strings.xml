@@ -3,4 +3,39 @@
     <string name="btnIniciarSesion">Iniciar Sesión</string>
     <string name="btnRegistrarse">Registrarse</string>
 
+    <!--RegistroActivity-->
+    <string name="crearCuenta">Crear cuenta </string>
+    <string name="nombreEt">Nombre</string>
+    <string name="edadEt">Edad</string>
+    <string name="localidadEt">Localidad</string>
+    <string name="numeroEt">Numero</string>
+    <string name="correoEt">Correo electronico</string>
+    <string name="contrasenaEt">Contraseña</string>
+    <string name="confirmarContrasenaEt">Confirmar contraseña</string>
+    <string name="btnRegistrarUsuario">Registrar</string>
+    <string name="btnTengoUnaCuenta">Tengo una cuenta</string>
+
+    <!-- IniciarSesionActividad-->
+    <string name="iniciarSesion">Iniciar Sesión</string>
+    <string name="correologin">Correo</string>
+    <string name="passwordLogin">Contraseña</string>
+    <string name="usuarioNuevo">¿No tienes una cuenta?</string>
+
+    <!-- MenuPrincipalActivity -->
+    <string name="bienvenidoPrincipal">Bienvenido(a)</string>
+    <string name="nombresPrincipal">--</string>
+    <string name="correoPrincipal">--</string>
+    <string name="btnGenerarCedula">Generar Cédulas</string>
+    <string name="btnCedulasGuardadas">Cédulas Guardadas</string>
+    <string name="btnCenas">Cenas</string>
+    <string name="btnFavoritos">Favoritos</string>
+    <string name="btnCerrarSesion">Cerrar Sesión</string>
+
+    <!-- MenuPrincipalAdminActivity -->
+    <string name="bienvenidoAdminPrincipal">Bienvenido(a)</string>
+    <string name="nombresAdminPrincipal">--</string>
+    <string name="correoAdminPrincipal">--</string>
+    <string name="btnVerArbitros">Consultar Árbitros</string>
+    <string name="btnRegistrarEquipos">Registrar Equipos</string>
+    <string name="btnCerrarSesionAdmin">Cerrar Sesión</string>
 </resources>
