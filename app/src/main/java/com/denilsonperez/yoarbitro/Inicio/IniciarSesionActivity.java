@@ -1,4 +1,4 @@
-package com.denilsonperez.yoarbitro;
+package com.denilsonperez.yoarbitro.Inicio;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -15,6 +15,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.denilsonperez.yoarbitro.MenuPrincipalActivity;
+import com.denilsonperez.yoarbitro.MenuPrincipalAdminActivity;
+import com.denilsonperez.yoarbitro.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -25,7 +28,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class IniciarSesionActivity extends AppCompatActivity {
     EditText correoInicioSesion, contrasenaInicioSesion;
     Button btnIniciarSesion;
-    TextView nuevoUsuario;
+    TextView nuevoUsuario, usuarioNuevoSegundo;
 
     ProgressDialog progressDialog;
     FirebaseAuth firebaseAuth;
@@ -37,16 +40,17 @@ public class IniciarSesionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_iniciar_sesion);
-
+/*
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Iniciar Sesion");
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
-
+*/
         correoInicioSesion = findViewById(R.id.correoIniciarSesion);
         contrasenaInicioSesion = findViewById(R.id.contrasenaIniciarSesion);
         btnIniciarSesion = findViewById(R.id.btnIniciarSesion);
         nuevoUsuario = findViewById(R.id.usuarioNuevo);
+        usuarioNuevoSegundo = findViewById(R.id.usuarioNuevoSegundo);
 
         firebaseAuth = FirebaseAuth.getInstance();
         progressDialog = new ProgressDialog(IniciarSesionActivity.this);
@@ -62,10 +66,19 @@ public class IniciarSesionActivity extends AppCompatActivity {
         nuevoUsuario.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(IniciarSesionActivity.this, RegistrarActivity.class));
+                startActivity(new Intent(IniciarSesionActivity.this, RegistrarUnoActivity.class));
             }
         });
+
+        usuarioNuevoSegundo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(IniciarSesionActivity.this, RegistrarUnoActivity.class));
+            }
+        });
+
     }
+
     private void validarDatos(){
         correo = correoInicioSesion.getText().toString();
         contrasena = contrasenaInicioSesion.getText().toString();
@@ -135,4 +148,5 @@ public class IniciarSesionActivity extends AppCompatActivity {
         onBackPressed();
         return super.onSupportNavigateUp();
     }
+
 }

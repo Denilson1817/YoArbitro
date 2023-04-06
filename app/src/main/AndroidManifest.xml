@@ -13,6 +13,13 @@
         android:theme="@style/Theme.YoArbitro"
         tools:targetApi="31">
         <activity
+            android:name=".Inicio.RegistrarseDosActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".ConsultarArbitrosActivity"
             android:exported="false">
             <meta-data
@@ -62,39 +69,26 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".IniciarSesionActivity"
+            android:name=".Inicio.IniciarSesionActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".RegistrarActivity"
+            android:name=".Inicio.RegistrarUnoActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".PantallaDeCargaActivity"
+            android:name=".Inicio.PantallaDeCargaActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".MainActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
 
             <meta-data

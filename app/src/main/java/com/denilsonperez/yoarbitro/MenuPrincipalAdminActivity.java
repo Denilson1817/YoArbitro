@@ -12,6 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.denilsonperez.yoarbitro.Inicio.IniciarSesionActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -78,7 +79,7 @@ public class MenuPrincipalAdminActivity extends AppCompatActivity {
     }
     private void salirAplicacion() {
         firebaseAuth.signOut();
-        startActivity(new Intent(MenuPrincipalAdminActivity.this, MainActivity.class));
+        startActivity(new Intent(MenuPrincipalAdminActivity.this, IniciarSesionActivity.class));
         Toast.makeText(this, "Sesión finalizada", Toast.LENGTH_SHORT).show();
     }
     private void cargaDeDAtos(){
@@ -111,7 +112,7 @@ public class MenuPrincipalAdminActivity extends AppCompatActivity {
             //El usuario a iniciado sesión
             cargaDeDAtos();
         }else{
-            startActivity(new Intent(MenuPrincipalAdminActivity.this, MainActivity.class));
+            startActivity(new Intent(MenuPrincipalAdminActivity.this, IniciarSesionActivity.class));
             finish();
         }
     }

@@ -1,39 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".IniciarSesionActivity">
+    tools:context=".Inicio.IniciarSesionActivity">
 
-    <ScrollView
+    <ImageView
+        android:id="@+id/imageView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="200dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/fondo"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/iniciarSesion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:text="@string/iniciarSesion"
+        android:textSize="30sp"
+        tools:ignore="MissingConstraints"
+        android:paddingTop="40dp"/>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iniciarSesion"
+        app:cardCornerRadius="15dp"
+        tools:ignore="MissingConstraints">
 
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
+
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@color/white"
             android:gravity="center"
             android:orientation="vertical"
             android:padding="10dp">
 
             <TextView
-                android:id="@+id/iniciarSesion"
+                android:id="@+id/bienvenidaTexto"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="@string/iniciarSesion"
-                android:textSize="25sp" />
-
-            <com.airbnb.lottie.LottieAnimationView
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                app:lottie_autoPlay="true"
-                app:lottie_fileName="login.json"
-                app:lottie_imageAssetsFolder="assets"
-                app:lottie_loop="true" />
+                android:textStyle="bold"
+                android:textColor="@color/verdePasto"
+                android:text="@string/bienvenidaTexto"
+                android:textSize="20sp"
+                tools:ignore="MissingConstraints"/>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -42,18 +63,20 @@
 
                 <EditText
                     android:id="@+id/correoIniciarSesion"
-                    android:layout_width="match_parent"
+                    android:layout_width="250dp"
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/icono_correo"
                     android:drawablePadding="10dp"
+                    android:background="@drawable/rounded_edittext"
                     android:hint="@string/correologin"
                     android:inputType="textEmailAddress"
-                    android:padding="20dp" />
+                    android:padding="20dp"
+                    />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
+                android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 app:passwordToggleEnabled="true">
@@ -66,6 +89,7 @@
                     android:drawablePadding="10dp"
                     android:hint="@string/passwordLogin"
                     android:inputType="textPassword"
+                    android:background="@drawable/rounded_edittext"
                     android:padding="20dp" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -75,7 +99,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="@string/btnIniciarSesion" />
+                android:background="@drawable/rounded_button"
+                app:cardCornerRadius="15dp"
+                android:text="@string/btnIniciarSesion"/>
 
             <TextView
                 android:id="@+id/usuarioNuevo"
@@ -87,7 +113,19 @@
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
-        </androidx.appcompat.widget.LinearLayoutCompat>
-    </ScrollView>
+            <TextView
+                android:id="@+id/usuarioNuevoSegundo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:gravity="center"
+                android:textColor="@color/rojo"
+                android:text="@string/usuarioNuevoSegundo"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
-</RelativeLayout>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -12,6 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.denilsonperez.yoarbitro.Inicio.IniciarSesionActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -71,7 +72,7 @@ public class MenuPrincipalActivity extends AppCompatActivity {
     }
     private void salirAplicacion() {
         firebaseAuth.signOut();
-        startActivity(new Intent(MenuPrincipalActivity.this, MainActivity.class));
+        startActivity(new Intent(MenuPrincipalActivity.this, IniciarSesionActivity.class));
         Toast.makeText(this, "Sesión finalizada", Toast.LENGTH_SHORT).show();
     }
 
@@ -87,11 +88,11 @@ public class MenuPrincipalActivity extends AppCompatActivity {
                     correoPrincipal.setVisibility(View.VISIBLE);
 
                     //Obtener los datos de firebase
-                    String nombres = ""+snapshot.child("nombres").getValue();
+                    String nombre = ""+snapshot.child("nombre").getValue();
                     String correo = ""+snapshot.child("correo").getValue();
 
                     //Setear los datos en los respectivos textview.
-                    nombresPrincipal.setText(nombres);
+                    nombresPrincipal.setText(nombre);
                     correoPrincipal.setText(correo);
                 }
             }
@@ -105,7 +106,7 @@ public class MenuPrincipalActivity extends AppCompatActivity {
             //El usuario a iniciado sesión
             cargaDeDAtos();
         }else{
-            startActivity(new Intent(MenuPrincipalActivity.this, MainActivity.class));
+            startActivity(new Intent(MenuPrincipalActivity.this, IniciarSesionActivity.class));
             finish();
         }
     }

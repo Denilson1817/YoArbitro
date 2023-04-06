@@ -1,10 +1,12 @@
-package com.denilsonperez.yoarbitro;
+package com.denilsonperez.yoarbitro.Inicio;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+
+import com.denilsonperez.yoarbitro.R;
 
 public class PantallaDeCargaActivity extends AppCompatActivity {
 
@@ -18,7 +20,7 @@ public class PantallaDeCargaActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                startActivity(new Intent(PantallaDeCargaActivity.this, MainActivity.class));
+                startActivity(new Intent(PantallaDeCargaActivity.this, IniciarSesionActivity.class));
                 finish();
             }
         }, tiempoDeCarga);

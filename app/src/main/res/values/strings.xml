@@ -1,10 +1,12 @@
 <resources>
     <string name="app_name">YoArbitro</string>
-    <string name="btnIniciarSesion">Iniciar Sesión</string>
-    <string name="btnRegistrarse">Registrarse</string>
+    <string name="btnIniciarSesion">Ingresar</string>
+
 
     <!--RegistroActivity-->
-    <string name="crearCuenta">Crear cuenta </string>
+    <string name="crearCuenta">Registrate</string>
+    <string name="btnSiguiente">Siguiente</string>
+    <string name="btnCancelar">Cancelar</string>
     <string name="nombreEt">Nombre</string>
     <string name="edadEt">Edad</string>
     <string name="localidadEt">Localidad</string>
@@ -12,14 +14,16 @@
     <string name="correoEt">Correo electronico</string>
     <string name="contrasenaEt">Contraseña</string>
     <string name="confirmarContrasenaEt">Confirmar contraseña</string>
-    <string name="btnRegistrarUsuario">Registrar</string>
-    <string name="btnTengoUnaCuenta">Tengo una cuenta</string>
+    <string name="btnTengoUnaCuenta">¿Tienes una cuenta?</string>
+    <string name="btnTengoUnaCuentaSegunda">Clic aquí.</string>
 
     <!-- IniciarSesionActividad-->
-    <string name="iniciarSesion">Iniciar Sesión</string>
+    <string name="iniciarSesion">Iniciar sesión</string>
     <string name="correologin">Correo</string>
     <string name="passwordLogin">Contraseña</string>
     <string name="usuarioNuevo">¿No tienes una cuenta?</string>
+    <string name="usuarioNuevoSegundo">Registrate aquí.</string>
+    <string name="bienvenidaTexto">Bienvenido a YoArbitro</string>
 
     <!-- MenuPrincipalActivity -->
     <string name="bienvenidoPrincipal">Bienvenido(a)</string>

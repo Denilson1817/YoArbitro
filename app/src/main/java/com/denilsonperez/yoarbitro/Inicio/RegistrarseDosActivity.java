@@ -1,4 +1,4 @@
-package com.denilsonperez.yoarbitro;
+package com.denilsonperez.yoarbitro.Inicio;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -15,6 +15,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.denilsonperez.yoarbitro.MenuPrincipalActivity;
+import com.denilsonperez.yoarbitro.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
@@ -24,79 +26,79 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
 
-public class RegistrarActivity extends AppCompatActivity {
-    EditText nombreEt, correoEt, contrasenaEt, confirmarContrasenaEt, edadEt, localidadEt, numeroEt;
+public class RegistrarseDosActivity extends AppCompatActivity {
+    EditText correoEt, contrasenaEt, confirmarContrasenaEt;
     Button btnRegistrarUsuario;
-    TextView tengoUnaCuenta;
+    TextView tengoUnaCuenta, tengounaCuentaSegunda;
 
     FirebaseAuth firebaseAuth;
     ProgressDialog progressDialog;
 
-    String nombre = "", correo = "", password = "", confirmarPassword = "", edad ="", localidad ="", numero="";
+    String correo= "", contrasena ="", confirmarContrasena ="", nombreEt="", edadEt="", localidadEt="", numeroEt="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_registrar);
+        setContentView(R.layout.activity_registrarse_dos);
+        /*
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Registrar");
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
-
-        //inicializar las vistas
-        nombreEt = findViewById(R.id.nombreEt);
+*/
+        //Iniciarlizar las vistas
         correoEt = findViewById(R.id.correoEt);
         contrasenaEt = findViewById(R.id.contrasenaEt);
-        edadEt = findViewById(R.id.edadEt);
-        localidadEt = findViewById(R.id.localidadEt);
-        numeroEt = findViewById(R.id.numeroEt);
         confirmarContrasenaEt = findViewById(R.id.confirmarContrasenaEt);
         btnRegistrarUsuario = findViewById(R.id.btnRegistrarUsuario);
         tengoUnaCuenta = findViewById(R.id.tengoUnaCuenta);
 
+        //Recibir datos de la anterior activity
+        Bundle recibeDatos = getIntent().getExtras();
+        nombreEt = recibeDatos.getString("nombreEt");
+        edadEt = recibeDatos.getString("edadEt");
+        localidadEt = recibeDatos.getString("localidadEt");
+        numeroEt = recibeDatos.getString("numeroEt");
+
         firebaseAuth = FirebaseAuth.getInstance();
 
-        progressDialog = new ProgressDialog(RegistrarActivity.this);
+        progressDialog = new ProgressDialog(RegistrarseDosActivity.this);
         progressDialog.setTitle("Espere por favor");
         progressDialog.setCanceledOnTouchOutside(false);
 
         btnRegistrarUsuario.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 validarDatos();
             }
         });
         tengoUnaCuenta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(RegistrarActivity.this, IniciarSesionActivity.class));
+                startActivity(new Intent(RegistrarseDosActivity.this, IniciarSesionActivity.class));
             }
         });
+        /*
+        tengounaCuentaSegunda.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(RegistrarseDosActivity.this, IniciarSesionActivity.class));
+            }
+        });*/
     }
-    private void validarDatos(){
-        nombre = nombreEt.getText().toString();
-        correo = correoEt.getText().toString();
-        password = contrasenaEt.getText().toString();
-        edad = edadEt.getText().toString();
-        localidad = localidadEt.getText().toString();
-        numero = numeroEt.getText().toString();
-        confirmarPassword = confirmarContrasenaEt.getText().toString();
 
-        if(TextUtils.isEmpty(nombre)){
-            Toast.makeText(this, "Ingrese nombre", Toast.LENGTH_SHORT).show();
-        }else if(!Patterns.EMAIL_ADDRESS.matcher(correo).matches()){
+    public void validarDatos(){
+        correo = correoEt.getText().toString();
+        contrasena = contrasenaEt.getText().toString();
+        confirmarContrasena = confirmarContrasenaEt.getText().toString();
+
+        if(!Patterns.EMAIL_ADDRESS.matcher(correo).matches()){
             Toast.makeText(this, "Ingrese correo", Toast.LENGTH_SHORT).show();
-        }else if(TextUtils.isEmpty(edad)){
-            Toast.makeText(this, "Ingrese edad", Toast.LENGTH_SHORT).show();
-        }else if(TextUtils.isEmpty(localidad)){
-            Toast.makeText(this, "Ingrese su localidad", Toast.LENGTH_SHORT).show();
-        }else if(TextUtils.isEmpty(numero)){
-            Toast.makeText(this, "Ingrese su numero", Toast.LENGTH_SHORT).show();
-        }else if(TextUtils.isEmpty(password)){
+        }else if(TextUtils.isEmpty(contrasena)){
             Toast.makeText(this, "Ingrese contraseña", Toast.LENGTH_SHORT).show();
-        }else if(TextUtils.isEmpty(confirmarPassword)){
+        }else if(TextUtils.isEmpty(confirmarContrasena)){
             Toast.makeText(this, "Confirme contraseña", Toast.LENGTH_SHORT).show();
-        }else if(!password.equals(confirmarPassword)){
+        }else if(!contrasena.equals(confirmarContrasena)){
             Toast.makeText(this, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
         }else{
             crearCuenta();
@@ -106,7 +108,7 @@ public class RegistrarActivity extends AppCompatActivity {
         progressDialog.setMessage("Creando su cuenta");
         progressDialog.show();
         //Crear un usuario en firebase
-        firebaseAuth.createUserWithEmailAndPassword(correo, password)
+        firebaseAuth.createUserWithEmailAndPassword(correo, contrasena)
                 .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                     @Override
                     public void onSuccess(AuthResult authResult) {
@@ -117,7 +119,7 @@ public class RegistrarActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         progressDialog.dismiss();
-                        Toast.makeText(RegistrarActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RegistrarseDosActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -129,13 +131,14 @@ public class RegistrarActivity extends AppCompatActivity {
         String uid = firebaseAuth.getUid();
         //Configurar datos para agregar en la base de datos
         HashMap<String, String> Datos = new HashMap<>();
+
         Datos.put("uid",uid);
+        Datos.put("nombre", nombreEt);
+        Datos.put("edad", edadEt);
+        Datos.put("localidad", localidadEt);
+        Datos.put("numero", numeroEt);
         Datos.put("correo",correo);
-        Datos.put("nombres",nombre);
-        Datos.put("contraseña", password);
-        Datos.put("edad",edad);
-        Datos.put("localidad",localidad);
-        Datos.put("numero",numero);
+        Datos.put("contraseña", contrasena);
 
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Arbitros");
         databaseReference.child(uid)
@@ -144,15 +147,15 @@ public class RegistrarActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void unused) {
                         progressDialog.dismiss();
-                        Toast.makeText(RegistrarActivity.this, "Cuenta creada", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(RegistrarActivity.this, MenuPrincipalActivity.class));
+                        Toast.makeText(RegistrarseDosActivity.this, "Cuenta creada", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(RegistrarseDosActivity.this, MenuPrincipalActivity.class));
                         finish();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         progressDialog.dismiss();
-                        Toast.makeText(RegistrarActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RegistrarseDosActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
