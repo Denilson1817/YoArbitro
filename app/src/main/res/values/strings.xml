@@ -1,7 +1,9 @@
 <resources>
     <string name="app_name">YoArbitro</string>
     <string name="btnIniciarSesion">Ingresar</string>
-
+    
+    <string name="abrirNav">Abrir el menu</string>
+    <string name="cerrarNav">Cerrar el menu</string>
 
     <!--RegistroActivity-->
     <string name="crearCuenta">Registrate</string>

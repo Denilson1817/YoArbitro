@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -11,8 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/fondo"
-        tools:ignore="MissingConstraints" />
+        android:src="@drawable/fondo"/>
 
     <TextView
         android:id="@+id/iniciarSesion"
@@ -22,22 +21,23 @@
         android:textStyle="bold"
         android:textColor="@color/white"
         android:text="@string/iniciarSesion"
-        android:textSize="30sp"
+        android:textSize="@dimen/iniciarSesionSize"
         tools:ignore="MissingConstraints"
         android:paddingTop="40dp"/>
 
     <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        app:cardCornerRadius="15dp"
+        android:layout_marginTop="180dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iniciarSesion"
-        app:cardCornerRadius="15dp"
         tools:ignore="MissingConstraints">
 
         <androidx.appcompat.widget.LinearLayoutCompat
-
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/white"
@@ -50,11 +50,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:textStyle="bold"
-                android:textColor="@color/verdePasto"
                 android:text="@string/bienvenidaTexto"
+                android:textColor="@color/verdePasto"
                 android:textSize="20sp"
-                tools:ignore="MissingConstraints"/>
+                android:textStyle="bold"
+                tools:ignore="MissingConstraints" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -63,33 +63,32 @@
 
                 <EditText
                     android:id="@+id/correoIniciarSesion"
-                    android:layout_width="250dp"
+                    android:layout_width="290dp"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_edittext"
                     android:drawableStart="@drawable/icono_correo"
                     android:drawablePadding="10dp"
-                    android:background="@drawable/rounded_edittext"
                     android:hint="@string/correologin"
                     android:inputType="textEmailAddress"
-                    android:padding="20dp"
-                    />
+                    android:padding="20dp" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="250dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 app:passwordToggleEnabled="true">
 
                 <EditText
                     android:id="@+id/contrasenaIniciarSesion"
-                    android:layout_width="match_parent"
+                    android:layout_width="290dp"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_edittext"
                     android:drawableStart="@drawable/icono_password"
                     android:drawablePadding="10dp"
                     android:hint="@string/passwordLogin"
                     android:inputType="textPassword"
-                    android:background="@drawable/rounded_edittext"
                     android:padding="20dp" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -100,8 +99,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/rounded_button"
-                app:cardCornerRadius="15dp"
-                android:text="@string/btnIniciarSesion"/>
+                android:text="@string/btnIniciarSesion"
+                app:cardCornerRadius="15dp" />
 
             <TextView
                 android:id="@+id/usuarioNuevo"
@@ -119,8 +118,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:gravity="center"
-                android:textColor="@color/rojo"
                 android:text="@string/usuarioNuevoSegundo"
+                android:textColor="@color/rojo"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -128,4 +127,4 @@
 
     </androidx.cardview.widget.CardView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

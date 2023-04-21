@@ -28,7 +28,7 @@ import java.util.HashMap;
 
 public class RegistrarUnoActivity extends AppCompatActivity {
     EditText nombreEt, edadEt, localidadEt, numeroEt;
-    Button btnSiguiente;
+    Button btnSiguiente, btnCancelar;
     TextView tengoUnaCuenta, tengounaCuentaSegunda;
     FirebaseAuth firebaseAuth;
     ProgressDialog progressDialog;
@@ -39,26 +39,26 @@ public class RegistrarUnoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registrar_uno);
-        /*
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("Registrar");
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setDisplayShowHomeEnabled(true);
-*/
         //inicializar las vistas
         nombreEt = findViewById(R.id.nombreEt);
         edadEt = findViewById(R.id.edadEt);
         localidadEt = findViewById(R.id.localidadEt);
         numeroEt = findViewById(R.id.numeroEt);
         btnSiguiente = findViewById(R.id.btnSiguiente);
+        btnCancelar = findViewById(R.id.btnCancelar);
         tengoUnaCuenta = findViewById(R.id.tengoUnaCuenta);
         tengounaCuentaSegunda = findViewById(R.id.tengoUnaCuentaSegunda);
-
         firebaseAuth = FirebaseAuth.getInstance();
-
         progressDialog = new ProgressDialog(RegistrarUnoActivity.this);
         progressDialog.setTitle("Espere por favor");
         progressDialog.setCanceledOnTouchOutside(false);
+
+        btnCancelar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(RegistrarUnoActivity.this, IniciarSesionActivity.class));
+            }
+        });
 
         btnSiguiente.setOnClickListener(new View.OnClickListener() {
             @Override

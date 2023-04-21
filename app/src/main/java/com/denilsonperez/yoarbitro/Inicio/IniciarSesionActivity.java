@@ -29,10 +29,8 @@ public class IniciarSesionActivity extends AppCompatActivity {
     EditText correoInicioSesion, contrasenaInicioSesion;
     Button btnIniciarSesion;
     TextView nuevoUsuario, usuarioNuevoSegundo;
-
     ProgressDialog progressDialog;
     FirebaseAuth firebaseAuth;
-
     //Para validar los datos
     String correo = "", contrasena = "", correoAdmin="admin@gmail.com";
 
@@ -40,12 +38,6 @@ public class IniciarSesionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_iniciar_sesion);
-/*
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("Iniciar Sesion");
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setDisplayShowHomeEnabled(true);
-*/
         correoInicioSesion = findViewById(R.id.correoIniciarSesion);
         contrasenaInicioSesion = findViewById(R.id.contrasenaIniciarSesion);
         btnIniciarSesion = findViewById(R.id.btnIniciarSesion);
@@ -82,7 +74,6 @@ public class IniciarSesionActivity extends AppCompatActivity {
     private void validarDatos(){
         correo = correoInicioSesion.getText().toString();
         contrasena = contrasenaInicioSesion.getText().toString();
-
         if(!Patterns.EMAIL_ADDRESS.matcher(correo).matches()){
             Toast.makeText(this, "correo inválido", Toast.LENGTH_SHORT).show();
         }else if (TextUtils.isEmpty(contrasena)){

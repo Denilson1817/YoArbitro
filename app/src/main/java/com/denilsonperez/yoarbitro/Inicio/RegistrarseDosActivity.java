@@ -28,9 +28,8 @@ import java.util.HashMap;
 
 public class RegistrarseDosActivity extends AppCompatActivity {
     EditText correoEt, contrasenaEt, confirmarContrasenaEt;
-    Button btnRegistrarUsuario;
+    Button btnRegistrarUsuario,btnCancelar;
     TextView tengoUnaCuenta, tengounaCuentaSegunda;
-
     FirebaseAuth firebaseAuth;
     ProgressDialog progressDialog;
 
@@ -40,19 +39,13 @@ public class RegistrarseDosActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registrarse_dos);
-        /*
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("Registrar");
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setDisplayShowHomeEnabled(true);
-*/
         //Iniciarlizar las vistas
         correoEt = findViewById(R.id.correoEt);
         contrasenaEt = findViewById(R.id.contrasenaEt);
         confirmarContrasenaEt = findViewById(R.id.confirmarContrasenaEt);
         btnRegistrarUsuario = findViewById(R.id.btnRegistrarUsuario);
         tengoUnaCuenta = findViewById(R.id.tengoUnaCuenta);
-
+        btnCancelar = findViewById(R.id.btnCancelar);
         //Recibir datos de la anterior activity
         Bundle recibeDatos = getIntent().getExtras();
         nombreEt = recibeDatos.getString("nombreEt");
@@ -75,6 +68,12 @@ public class RegistrarseDosActivity extends AppCompatActivity {
         tengoUnaCuenta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                startActivity(new Intent(RegistrarseDosActivity.this, IniciarSesionActivity.class));
+            }
+        });
+        btnCancelar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 startActivity(new Intent(RegistrarseDosActivity.this, IniciarSesionActivity.class));
             }
         });
