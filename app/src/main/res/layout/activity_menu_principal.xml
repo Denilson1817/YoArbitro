@@ -51,11 +51,13 @@
                 <Button
                     android:id="@+id/btnSeleccionEquipoUno"
                     android:layout_width="250dp"
-                    android:layout_marginTop="20dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    app:cornerRadius="15dp"
+                    android:backgroundTint="@color/gris"
+                    android:checkable="false"
                     android:gravity="center"
-                    android:background="@drawable/rounded_button"
-                    android:text="Clic para seleccionar equipo1"/>
+                    android:text="Clic para seleccionar equipo1" />
 
 
             </LinearLayout>
