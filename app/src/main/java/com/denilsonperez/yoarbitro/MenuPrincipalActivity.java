@@ -27,10 +27,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class MenuPrincipalActivity extends AppCompatActivity {
+public class MenuPrincipalActivity extends AppCompatActivity{
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     ActionBarDrawerToggle drawerToggle;
+    FirebaseAuth firebaseAuth;
+    DatabaseReference Arbitros;
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(drawerToggle.onOptionsItemSelected(item)){
@@ -49,12 +51,30 @@ public class MenuPrincipalActivity extends AppCompatActivity {
         drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        navigationView.bringToFront();
+        Arbitros = FirebaseDatabase.getInstance().getReference("Arbitros");
+        firebaseAuth = FirebaseAuth.getInstance();
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
-                    case R.id.home:
-                        Toast.makeText(MenuPrincipalActivity.this, "Menu seleccionado", Toast.LENGTH_SHORT).show();
+                    case R.id.home: {
+                        startActivity(new Intent(MenuPrincipalActivity.this, MenuPrincipalActivity.class));
+                        finish();
+                        break;
+                    }
+                    case R.id.consultarCedulas:{
+                        startActivity(new Intent(MenuPrincipalActivity.this, CedulasGuardadasActivity.class));
+                        finish();
+                        break;
+                    }
+                    case R.id.cerrarSesion:{
+                        firebaseAuth.signOut();
+                        startActivity(new Intent(MenuPrincipalActivity.this, IniciarSesionActivity.class));
+                        Toast.makeText(MenuPrincipalActivity.this, "Sesión finalizada", Toast.LENGTH_SHORT).show();
+                        finish();
+                        break;
+                    }
                 }
                 return false;
             }

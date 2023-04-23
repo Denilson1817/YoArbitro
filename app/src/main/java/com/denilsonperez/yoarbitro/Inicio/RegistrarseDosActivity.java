@@ -45,6 +45,7 @@ public class RegistrarseDosActivity extends AppCompatActivity {
         confirmarContrasenaEt = findViewById(R.id.confirmarContrasenaEt);
         btnRegistrarUsuario = findViewById(R.id.btnRegistrarUsuario);
         tengoUnaCuenta = findViewById(R.id.tengoUnaCuenta);
+        tengounaCuentaSegunda = findViewById(R.id.tengoUnaCuentaSegunda);
         btnCancelar = findViewById(R.id.btnCancelar);
         //Recibir datos de la anterior activity
         Bundle recibeDatos = getIntent().getExtras();
@@ -63,27 +64,29 @@ public class RegistrarseDosActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 validarDatos();
+                finish();
             }
         });
         tengoUnaCuenta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(RegistrarseDosActivity.this, IniciarSesionActivity.class));
+                finish();
             }
         });
         btnCancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(RegistrarseDosActivity.this, IniciarSesionActivity.class));
+                finish();
             }
         });
-        /*
         tengounaCuentaSegunda.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(RegistrarseDosActivity.this, IniciarSesionActivity.class));
             }
-        });*/
+        });
     }
 
     public void validarDatos(){

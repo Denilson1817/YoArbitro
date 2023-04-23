@@ -57,6 +57,7 @@ public class RegistrarUnoActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(RegistrarUnoActivity.this, IniciarSesionActivity.class));
+                finish();
             }
         });
 
@@ -73,6 +74,7 @@ public class RegistrarUnoActivity extends AppCompatActivity {
                     Intent intent = new Intent(RegistrarUnoActivity.this, RegistrarseDosActivity.class);
                     intent.putExtras(enviarDatos);
                     startActivity(intent);
+                    finish();
                 }
             }
         });
@@ -81,12 +83,14 @@ public class RegistrarUnoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(RegistrarUnoActivity.this, IniciarSesionActivity.class));
+                finish();
             }
         });
         tengounaCuentaSegunda.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(RegistrarUnoActivity.this, IniciarSesionActivity.class));
+                finish();
             }
         });
     }
