@@ -8,6 +8,10 @@
     tools:context=".MenuPrincipalActivity"
     android:background="@drawable/fondo_principal">
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
     <com.google.android.material.navigation.NavigationView
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
@@ -15,6 +19,10 @@
         app:menu="@menu/main_menu"
         android:id="@+id/navView"
         android:layout_gravity="start"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -110,6 +118,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/button" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </androidx.drawerlayout.widget.DrawerLayout>
