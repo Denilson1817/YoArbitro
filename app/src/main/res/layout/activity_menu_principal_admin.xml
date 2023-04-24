@@ -30,7 +30,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/bienvenidoPrincipal"
                     android:textColor="@color/white"
                     android:textSize="20sp"/>
 
@@ -47,7 +46,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:visibility="gone"
-                    android:text="@string/nombresPrincipal"
                     android:textColor="@color/white"
                     android:textSize="20sp"/>
 
@@ -56,7 +54,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:visibility="gone"
-                    android:text="@string/correoPrincipal"
                     android:textColor="@color/white"
                     android:textSize="20sp"/>
 
@@ -102,7 +99,6 @@
                     android:id="@+id/btnCedulasGuardadas"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="@string/btnCedulasGuardadas"
                     android:textColor="@color/white"
                     android:textSize="20sp"
                     app:cornerRadius="20sp"/>
@@ -133,7 +129,7 @@
             android:id="@+id/btnCerrarSesionAdmin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/btnCerrarSesion"
+
             android:layout_marginTop="20dp"
             app:cornerRadius="20sp"/>
 

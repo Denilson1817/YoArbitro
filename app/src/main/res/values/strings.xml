@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">YoArbitro</string>
     <string name="btnIniciarSesion">Ingresar</string>
-    
+
     <string name="abrirNav">Abrir el menu</string>
     <string name="cerrarNav">Cerrar el menu</string>
 
@@ -28,14 +28,8 @@
     <string name="bienvenidaTexto">Bienvenido a YoArbitro</string>
 
     <!-- MenuPrincipalActivity -->
-    <string name="bienvenidoPrincipal">Bienvenido(a)</string>
-    <string name="nombresPrincipal">--</string>
-    <string name="correoPrincipal">--</string>
-    <string name="btnGenerarCedula">Generar Cédulas</string>
-    <string name="btnCedulasGuardadas">Cédulas Guardadas</string>
-    <string name="btnCenas">Cenas</string>
-    <string name="btnFavoritos">Favoritos</string>
-    <string name="btnCerrarSesion">Cerrar Sesión</string>
+    <string name="btnSeleccionEquipoUno">Clic para seleccionar equipo 1</string>
+    <string name="btnSeleccionEquipoDos">Clic para seleccionar equipo 2</string>
 
     <!-- MenuPrincipalAdminActivity -->
     <string name="bienvenidoAdminPrincipal">Bienvenido(a)</string>
@@ -44,4 +38,5 @@
     <string name="btnVerArbitros">Consultar Árbitros</string>
     <string name="btnRegistrarEquipos">Registrar Equipos</string>
     <string name="btnCerrarSesionAdmin">Cerrar Sesión</string>
+
 </resources>
