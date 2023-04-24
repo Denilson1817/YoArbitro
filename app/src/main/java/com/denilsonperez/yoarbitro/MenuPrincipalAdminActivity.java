@@ -2,10 +2,14 @@ package com.denilsonperez.yoarbitro;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -13,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.denilsonperez.yoarbitro.Inicio.IniciarSesionActivity;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -22,103 +27,64 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class MenuPrincipalAdminActivity extends AppCompatActivity {
-    Button cerrarSesionAdmin, registrarEquipos, cedulasGuardadasAdmin, consultarArbitros;
+    DrawerLayout drawerLayout;
+    NavigationView navigationView;
+    ActionBarDrawerToggle drawerToggle;
     FirebaseAuth firebaseAuth;
-    FirebaseUser user;
-
-    TextView nombresPrincipalAdmin, correoPrincipalAdmin;
-    ProgressBar progresoDatos;
-
     DatabaseReference Arbitros;
-
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(drawerToggle.onOptionsItemSelected(item)){
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_principal_admin);
-
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("Administrador de liga");
-
-        nombresPrincipalAdmin = findViewById(R.id.nombresPrincipalAdmin);
-        correoPrincipalAdmin = findViewById(R.id.correosPrincipalAdmin);
-        progresoDatos = findViewById(R.id.progresoDatos);
-
+        drawerLayout = findViewById(R.id.drawerLayout);
+        navigationView = findViewById(R.id.navView);
+        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.abrirNav, R.string.cerrarNav);
+        drawerLayout.addDrawerListener(drawerToggle);
+        drawerToggle.syncState();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        navigationView.bringToFront();
         Arbitros = FirebaseDatabase.getInstance().getReference("Arbitros");
         firebaseAuth = FirebaseAuth.getInstance();
-        user = firebaseAuth.getCurrentUser();
-
-        cerrarSesionAdmin = findViewById(R.id.btnCerrarSesionAdmin);
-        registrarEquipos = findViewById(R.id.btnRegistrarEquipos);
-        cedulasGuardadasAdmin = findViewById(R.id.btnCedulasGuardadas);
-        consultarArbitros = findViewById(R.id.btnConsultarArbitros);
-
-        cerrarSesionAdmin.setOnClickListener(new View.OnClickListener() {
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public void onClick(View v) {
-                salirAplicacion();
-            }
-        });
-        registrarEquipos.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MenuPrincipalAdminActivity.this,RegistrarEquiposActivity.class));
-            }
-        });
-        cedulasGuardadasAdmin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MenuPrincipalAdminActivity.this, CedulasGuardadasAdminActivity.class));
-            }
-        });
-        consultarArbitros.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MenuPrincipalAdminActivity.this, ConsultarArbitrosActivity.class));
-            }
-        });
-    }
-    private void salirAplicacion() {
-        firebaseAuth.signOut();
-        startActivity(new Intent(MenuPrincipalAdminActivity.this, IniciarSesionActivity.class));
-        Toast.makeText(this, "Sesión finalizada", Toast.LENGTH_SHORT).show();
-    }
-    private void cargaDeDAtos(){
-        Arbitros.child(user.getUid()).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                //Si el usuario existe
-                if(snapshot.exists()){
-                    progresoDatos.setVisibility(View.GONE);
-                    //Mostrar los texview
-                    nombresPrincipalAdmin.setVisibility(View.VISIBLE);
-                    correoPrincipalAdmin.setVisibility(View.VISIBLE);
-
-                    //Obtener los datos de firebase
-                    String nombres = ""+snapshot.child("nombres").getValue();
-                    String correo = ""+snapshot.child("correo").getValue();
-
-                    //Setear los datos en los respectivos textview.
-                    nombresPrincipalAdmin.setText(nombres);
-                    correoPrincipalAdmin.setText(correo);
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.home: {
+                        startActivity(new Intent(MenuPrincipalAdminActivity.this, MenuPrincipalActivity.class));
+                        finish();
+                        break;
+                    }
+                    case R.id.consultarCedulas:{
+                        startActivity(new Intent(MenuPrincipalAdminActivity.this, CedulasGuardadasActivity.class));
+                        finish();
+                        break;
+                    }
+                    case R.id.cerrarSesion:{
+                        firebaseAuth.signOut();
+                        startActivity(new Intent(MenuPrincipalAdminActivity.this, IniciarSesionActivity.class));
+                        Toast.makeText(MenuPrincipalAdminActivity.this, "Sesión finalizada", Toast.LENGTH_SHORT).show();
+                        finish();
+                        break;
+                    }
                 }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                return false;
             }
         });
-    }
-    private void comprobarInicioSesion(){
-        if(user!=null){
-            //El usuario a iniciado sesión
-            cargaDeDAtos();
-        }else{
-            startActivity(new Intent(MenuPrincipalAdminActivity.this, IniciarSesionActivity.class));
-            finish();
-        }
+
     }
     @Override
-    protected void onStart() {
-        comprobarInicioSesion();
-        super.onStart();
+    public void onBackPressed() {
+        if(drawerLayout.isDrawerOpen(GravityCompat.START)){
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }else{
+            super.onBackPressed();
+        }
     }
 }
