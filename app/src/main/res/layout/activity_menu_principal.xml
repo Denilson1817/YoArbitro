@@ -8,6 +8,10 @@
     tools:context=".MenuPrincipalActivity"
     android:background="@drawable/fondo_principal">
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
     <com.google.android.material.navigation.NavigationView
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
@@ -15,6 +19,10 @@
         app:menu="@menu/main_menu"
         android:id="@+id/navView"
         android:layout_gravity="start"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -31,8 +39,9 @@
             tools:ignore="MissingConstraints"/>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/cardView"
             android:layout_width="300dp"
-            android:layout_height="400dp"
+            android:layout_height="380dp"
             android:layout_centerHorizontal="true"
             android:background="@color/white"
             app:cardCornerRadius="15dp"
@@ -44,26 +53,71 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
                 android:layout_gravity="center_horizontal"
+                android:background="@color/white"
                 android:orientation="vertical">
 
                 <Button
                     android:id="@+id/btnSeleccionEquipoUno"
                     android:layout_width="250dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    app:cornerRadius="15dp"
+                    android:layout_marginTop="80dp"
                     android:backgroundTint="@color/gris"
                     android:checkable="false"
                     android:gravity="center"
-                    android:text="Clic para seleccionar equipo1" />
+                    android:text="@string/btnSeleccionEquipoUno"
+                    app:cornerRadius="15dp" />
 
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:paddingTop="20sp"
+                    android:text="VS"
+                    android:textColor="@color/verdePasto"
+                    android:textSize="30sp" />
+
+                <Button
+                    android:id="@+id/btnSeleccionEquipoDos"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:backgroundTint="@color/gris"
+                    android:checkable="false"
+                    android:gravity="center"
+                    android:text="@string/btnSeleccionEquipoDos"
+                    app:cornerRadius="15dp" />
 
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <Button
+            android:id="@+id/button"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:text="@string/btnSiguiente"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginTop="40sp"
+            app:cornerRadius="15dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
+        <Button
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20sp"
+            android:text="@string/btnCancelar"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:cornerRadius="15dp"
+            android:backgroundTint="@color/rojo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </androidx.drawerlayout.widget.DrawerLayout>
