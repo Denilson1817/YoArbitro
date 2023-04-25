@@ -24,6 +24,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class IniciarSesionActivity extends AppCompatActivity {
     EditText correoInicioSesion, contrasenaInicioSesion;
@@ -33,6 +34,8 @@ public class IniciarSesionActivity extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
     //Para validar los datos
     String correo = "", contrasena = "", correoAdmin="admin@gmail.com";
+     FirebaseAuth mAuth;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,26 +52,27 @@ public class IniciarSesionActivity extends AppCompatActivity {
         progressDialog.setTitle("Espere por favor");
         progressDialog.setCanceledOnTouchOutside(false);
 
-        btnIniciarSesion.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                validarDatos();
-            }
-        });
-        nuevoUsuario.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(IniciarSesionActivity.this, RegistrarUnoActivity.class));
-            }
-        });
 
-        usuarioNuevoSegundo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(IniciarSesionActivity.this, RegistrarUnoActivity.class));
-            }
-        });
 
+            btnIniciarSesion.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    validarDatos();
+                }
+            });
+            nuevoUsuario.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(IniciarSesionActivity.this, RegistrarUnoActivity.class));
+                }
+            });
+
+            usuarioNuevoSegundo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startActivity(new Intent(IniciarSesionActivity.this, RegistrarUnoActivity.class));
+                }
+            });
     }
 
     private void validarDatos(){
