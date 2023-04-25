@@ -28,12 +28,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class MenuPrincipalActivity extends AppCompatActivity{
-    Button btnEquipoUno, btnEquipoDos;
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     ActionBarDrawerToggle drawerToggle;
     FirebaseAuth firebaseAuth;
     DatabaseReference Arbitros;
+    String username1;
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(drawerToggle.onOptionsItemSelected(item)){
@@ -55,8 +55,7 @@ public class MenuPrincipalActivity extends AppCompatActivity{
         navigationView.bringToFront();
         Arbitros = FirebaseDatabase.getInstance().getReference("Arbitros");
         firebaseAuth = FirebaseAuth.getInstance();
-        btnEquipoUno = findViewById(R.id.btnSeleccionEquipoUno);
-        btnEquipoDos = findViewById(R.id.btnSeleccionEquipoDos);
+
 
         NavigationView navigationView = findViewById(R.id.navView);
         View headerView = navigationView.getHeaderView(0);
@@ -67,18 +66,7 @@ public class MenuPrincipalActivity extends AppCompatActivity{
             String username = currentUser.getEmail();
             usernameTextView.setText(username);
         }
-        btnEquipoUno.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MenuPrincipalActivity.this, SeleccionEquiposActivity.class));
-            }
-        });
-        btnEquipoDos.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MenuPrincipalActivity.this, SeleccionEquiposActivity.class));
-            }
-        });
+
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
