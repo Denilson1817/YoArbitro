@@ -58,6 +58,15 @@ public class MenuPrincipalActivity extends AppCompatActivity{
         btnEquipoUno = findViewById(R.id.btnSeleccionEquipoUno);
         btnEquipoDos = findViewById(R.id.btnSeleccionEquipoDos);
 
+        NavigationView navigationView = findViewById(R.id.navView);
+        View headerView = navigationView.getHeaderView(0);
+        TextView usernameTextView = headerView.findViewById(R.id.txtUserName);
+
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+        if (currentUser != null) {
+            String username = currentUser.getEmail();
+            usernameTextView.setText(username);
+        }
         btnEquipoUno.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
