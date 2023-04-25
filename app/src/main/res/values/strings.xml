@@ -38,5 +38,6 @@
     <string name="btnVerArbitros">Consultar Árbitros</string>
     <string name="btnRegistrarEquipos">Registrar Equipos</string>
     <string name="btnCerrarSesionAdmin">Cerrar Sesión</string>
+    <string name="txtListaEquipos">Lista de equipos</string>
 
 </resources>
