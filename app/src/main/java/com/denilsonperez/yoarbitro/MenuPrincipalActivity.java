@@ -33,7 +33,6 @@ public class MenuPrincipalActivity extends AppCompatActivity{
     ActionBarDrawerToggle drawerToggle;
     FirebaseAuth firebaseAuth;
     DatabaseReference Arbitros;
-    String username1;
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(drawerToggle.onOptionsItemSelected(item)){
@@ -55,18 +54,6 @@ public class MenuPrincipalActivity extends AppCompatActivity{
         navigationView.bringToFront();
         Arbitros = FirebaseDatabase.getInstance().getReference("Arbitros");
         firebaseAuth = FirebaseAuth.getInstance();
-
-
-        NavigationView navigationView = findViewById(R.id.navView);
-        View headerView = navigationView.getHeaderView(0);
-        TextView usernameTextView = headerView.findViewById(R.id.txtUserName);
-
-        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
-        if (currentUser != null) {
-            String username = currentUser.getEmail();
-            usernameTextView.setText(username);
-        }
-
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
