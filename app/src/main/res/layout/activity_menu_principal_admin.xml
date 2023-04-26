@@ -8,7 +8,6 @@
     tools:context=".MenuPrincipalAdminActivity"
     android:background="@drawable/fondo_principal">
 
-
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -19,8 +18,6 @@
             android:layout_height="250sp"
             android:layout_gravity="center_horizontal"
             app:srcCompat="@drawable/arbitro" />
-
-
     </FrameLayout>
 
     <com.google.android.material.navigation.NavigationView
