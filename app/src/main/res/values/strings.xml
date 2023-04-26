@@ -41,8 +41,11 @@
     <string name="txtListaEquipos">Lista de equipos</string>
 
     <!-- activity_registrar_equiposs -->
+    <string name="TituloRegistrarEquipos">Registrar Equipos</string>
     <string name="nombreEquipo">Nombre del equipo</string>
     <string name="nombreDelegado">Nombre del delegado</string>
     <string name="numContacto">Número contacto</string>
+    <string name="btnAceptarRegistro">Aceptar</string>
+    <string name="btnCancelarRegistro">Cancelar</string>
 
 </resources>

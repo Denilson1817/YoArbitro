@@ -53,7 +53,6 @@ public class MenuPrincipalAdminActivity extends AppCompatActivity {
         navigationView.bringToFront();
         Arbitros = FirebaseDatabase.getInstance().getReference("Arbitros");
         firebaseAuth = FirebaseAuth.getInstance();
-        //Esto es una prueba de fusión entre la rama Deni y test
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
