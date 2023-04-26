@@ -63,7 +63,7 @@ public class MenuPrincipalAdminActivity extends AppCompatActivity {
                         finish();
                         break;
                     }
-                    case R.id.consultarEquipos:{
+                    case R.id.registrarEquipos:{
                         startActivity(new Intent(MenuPrincipalAdminActivity.this, RegistrarEquiposActivity.class));
                         finish();
                         break;
