@@ -40,4 +40,9 @@
     <string name="btnCerrarSesionAdmin">Cerrar Sesión</string>
     <string name="txtListaEquipos">Lista de equipos</string>
 
+    <!-- activity_registrar_equiposs -->
+    <string name="nombreEquipo">Nombre del equipo</string>
+    <string name="nombreDelegado">Nombre del delegado</string>
+    <string name="numContacto">Número contacto</string>
+
 </resources>
