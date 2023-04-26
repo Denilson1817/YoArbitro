@@ -59,7 +59,7 @@ public class MenuPrincipalAdminActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.home: {
-                        startActivity(new Intent(MenuPrincipalAdminActivity.this, MenuPrincipalActivity.class));
+                        startActivity(new Intent(MenuPrincipalAdminActivity.this, MenuPrincipalAdminActivity.class));
                         finish();
                         break;
                     }
