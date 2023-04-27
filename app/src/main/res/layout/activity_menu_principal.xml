@@ -43,6 +43,7 @@
             android:layout_width="300dp"
             android:layout_height="380dp"
             android:layout_centerHorizontal="true"
+            android:layout_marginTop="65dp"
             android:background="@color/white"
             app:cardCornerRadius="15dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -61,14 +62,15 @@
 
                 <Button
                     android:id="@+id/btnSeleccionEquipoUno"
-                    android:layout_width="250dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="80dp"
                     android:backgroundTint="@color/gris"
                     android:checkable="false"
                     android:gravity="center"
-                    android:text="@string/btnSeleccionEquipoUno"
-                    app:cornerRadius="15dp" />
+                    android:visibility="visible"
+                    app:cornerRadius="15dp"
+                    tools:text="@string/btnSeleccionEquipoUno" />
 
 
                 <TextView

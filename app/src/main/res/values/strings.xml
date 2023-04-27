@@ -28,8 +28,8 @@
     <string name="bienvenidaTexto">Bienvenido a YoArbitro</string>
 
     <!-- MenuPrincipalActivity -->
-    <string name="btnSeleccionEquipoUno">Clic para seleccionar equipo 1</string>
-    <string name="btnSeleccionEquipoDos">Clic para seleccionar equipo 2</string>
+    <string name="btnSeleccionEquipoUno">Equipo 1</string>
+    <string name="btnSeleccionEquipoDos">Equipo 2</string>
 
     <!-- MenuPrincipalAdminActivity -->
     <string name="bienvenidoAdminPrincipal">Bienvenido(a)</string>
@@ -47,5 +47,11 @@
     <string name="numContacto">Número contacto</string>
     <string name="btnAceptarRegistro">Aceptar</string>
     <string name="btnCancelarRegistro">Cancelar</string>
+
+    <!--activity agregar equipos-->
+    <string name="tituloEquipo">Seleccionar equipo</string>
+
+
+
 
 </resources>
