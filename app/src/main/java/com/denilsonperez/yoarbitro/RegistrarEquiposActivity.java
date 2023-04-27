@@ -63,6 +63,7 @@ public class RegistrarEquiposActivity extends AppCompatActivity {
         btnSiguiente = findViewById(R.id.btnRegistrarEquipos);
         btnCancelar = findViewById(R.id.btnCancelar);
         firebaseAuth = FirebaseAuth.getInstance();
+        //Comentario para subir cambios a gith
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
