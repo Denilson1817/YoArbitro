@@ -35,6 +35,7 @@ public class MenuPrincipalActivity extends AppCompatActivity{
     DatabaseReference Arbitros;
     String username1;
     Button cbtnSeleccionEquipoUno;
+    String laPrueba;
     private boolean activityRestarted = false;
 
     @Override
