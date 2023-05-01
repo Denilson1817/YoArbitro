@@ -49,4 +49,9 @@ public class Equipo {
     public void setUid(String uid) {
         this.uid = uid;
     }
+
+    @Override
+    public String toString() {
+        return nombre;
+    }
 }
