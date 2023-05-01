@@ -41,16 +41,8 @@
     <string name="txtListaEquipos">Lista de equipos</string>
 
     <!-- activity_registrar_equiposs -->
-    <string name="TituloRegistrarEquipos">Registrar Equipos</string>
     <string name="nombreEquipo">Nombre del equipo</string>
     <string name="nombreDelegado">Nombre del delegado</string>
     <string name="numContacto">Número contacto</string>
-    <string name="btnAceptarRegistro">Aceptar</string>
-    <string name="btnCancelarRegistro">Cancelar</string>
 
-    <!--activity agregar equipos-->
-    <string name="tituloEquipo">Seleccionar equipo</string>
-
-    <!-- ConsultarArbitrosActivity -->
-    <string name="tituloArbitros">Arbitros registrados</string>
 </resources>

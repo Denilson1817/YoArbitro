@@ -1,6 +1,7 @@
-package com.denilsonperez.yoarbitro.Admin;
+package com.denilsonperez.yoarbitro;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
@@ -8,16 +9,23 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.denilsonperez.yoarbitro.CedulasGuardadasActivity;
 import com.denilsonperez.yoarbitro.Inicio.IniciarSesionActivity;
-import com.denilsonperez.yoarbitro.R;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class MenuPrincipalAdminActivity extends AppCompatActivity {
     DrawerLayout drawerLayout;
@@ -45,6 +53,7 @@ public class MenuPrincipalAdminActivity extends AppCompatActivity {
         navigationView.bringToFront();
         Arbitros = FirebaseDatabase.getInstance().getReference("Arbitros");
         firebaseAuth = FirebaseAuth.getInstance();
+        //Esto es una prueba de fusión entre la rama Deni y test
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -56,11 +65,6 @@ public class MenuPrincipalAdminActivity extends AppCompatActivity {
                     }
                     case R.id.registrarEquipos:{
                         startActivity(new Intent(MenuPrincipalAdminActivity.this, RegistrarEquiposActivity.class));
-                        finish();
-                        break;
-                    }
-                    case R.id.consultarArbitros:{
-                        startActivity(new Intent(MenuPrincipalAdminActivity.this, ConsultarArbitrosActivity.class));
                         finish();
                         break;
                     }
