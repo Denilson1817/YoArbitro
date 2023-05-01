@@ -86,7 +86,7 @@ public class MenuPrincipalAdminActivity extends AppCompatActivity {
                         break;
                     }
                     case R.id.consultarCedulas:{
-                        startActivity(new Intent(MenuPrincipalAdminActivity.this, CedulasGuardadasActivity.class));
+                        startActivity(new Intent(MenuPrincipalAdminActivity.this, ConsultarCedulasActivity.class));
                         finish();
                         break;
                     }

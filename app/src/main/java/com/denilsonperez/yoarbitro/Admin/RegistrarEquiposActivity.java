@@ -64,18 +64,27 @@ public class RegistrarEquiposActivity extends AppCompatActivity {
         btnSiguiente = findViewById(R.id.btnRegistrarEquipos);
         btnCancelar = findViewById(R.id.btnCancelar);
         firebaseAuth = FirebaseAuth.getInstance();
-        //Comentario para subir cambios a gith
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.home: {
-                        startActivity(new Intent(RegistrarEquiposActivity.this, MenuPrincipalActivity.class));
+                        startActivity(new Intent(RegistrarEquiposActivity.this, MenuPrincipalAdminActivity.class));
                         finish();
                         break;
                     }
                     case R.id.consultarCedulas:{
-                        startActivity(new Intent(RegistrarEquiposActivity.this, CedulasGuardadasActivity.class));
+                        startActivity(new Intent(RegistrarEquiposActivity.this, ConsultarCedulasActivity.class));
+                        finish();
+                        break;
+                    }
+                    case R.id.registrarEquipos:{
+                        startActivity(new Intent(RegistrarEquiposActivity.this, RegistrarEquiposActivity.class));
+                        finish();
+                        break;
+                    }
+                    case R.id.consultarArbitros:{
+                        startActivity(new Intent(RegistrarEquiposActivity.this, ConsultarArbitrosActivity.class));
                         finish();
                         break;
                     }

@@ -87,7 +87,7 @@ public class ConsultarArbitrosActivity extends AppCompatActivity {
                         break;
                     }
                     case R.id.consultarCedulas:{
-                        startActivity(new Intent(ConsultarArbitrosActivity.this, CedulasGuardadasActivity.class));
+                        startActivity(new Intent(ConsultarArbitrosActivity.this, ConsultarCedulasActivity.class));
                         finish();
                         break;
                     }
