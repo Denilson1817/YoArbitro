@@ -23,28 +23,28 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".ConsultarArbitrosActivity"
+            android:name=".Admin.ConsultarArbitrosActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".CedulasGuardadasAdminActivity"
+            android:name=".Admin.CedulasGuardadasAdminActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".RegistrarEquiposActivity"
+            android:name=".Admin.RegistrarEquiposActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".MenuPrincipalAdminActivity"
+            android:name=".Admin.MenuPrincipalAdminActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

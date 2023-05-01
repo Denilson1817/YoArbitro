@@ -1,7 +1,6 @@
 package com.denilsonperez.yoarbitro.Inicio;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
@@ -16,7 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.denilsonperez.yoarbitro.MenuPrincipalActivity;
-import com.denilsonperez.yoarbitro.MenuPrincipalAdminActivity;
+import com.denilsonperez.yoarbitro.Admin.MenuPrincipalAdminActivity;
 import com.denilsonperez.yoarbitro.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -24,7 +23,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.FirebaseDatabase;
 
 public class IniciarSesionActivity extends AppCompatActivity {
     EditText correoInicioSesion, contrasenaInicioSesion;

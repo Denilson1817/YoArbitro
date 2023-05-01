@@ -1,4 +1,4 @@
-package com.denilsonperez.yoarbitro;
+package com.denilsonperez.yoarbitro.Admin;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -7,7 +7,6 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.annotation.SuppressLint;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -17,7 +16,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.denilsonperez.yoarbitro.CedulasGuardadasActivity;
 import com.denilsonperez.yoarbitro.Inicio.IniciarSesionActivity;
+import com.denilsonperez.yoarbitro.MenuPrincipalActivity;
+import com.denilsonperez.yoarbitro.R;
 import com.denilsonperez.yoarbitro.modelo.Equipo;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -26,7 +28,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.HashMap;
 import java.util.UUID;
 
 public class RegistrarEquiposActivity extends AppCompatActivity {
