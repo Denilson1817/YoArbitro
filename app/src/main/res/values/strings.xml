@@ -48,4 +48,9 @@
     <string name="btnAceptarRegistro">Aceptar</string>
     <string name="btnCancelarRegistro">Cancelar</string>
 
+    <!--activity agregar equipos-->
+    <string name="tituloEquipo">Seleccionar equipo</string>
+
+    <!-- ConsultarArbitrosActivity -->
+    <string name="tituloArbitros">Arbitros registrados</string>
 </resources>
