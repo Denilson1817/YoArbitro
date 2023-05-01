@@ -132,7 +132,7 @@ public class RegistrarEquiposActivity extends AppCompatActivity {
             datos.setDelegado(delegado);
             datos.setNumContacto(numero);
 
-            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Equipo");
+            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Equipos");
             databaseReference.child(datos.getUid())
                     .setValue(datos)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
