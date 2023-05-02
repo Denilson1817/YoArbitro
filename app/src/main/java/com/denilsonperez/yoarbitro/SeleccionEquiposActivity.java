@@ -1,7 +1,10 @@
 package com.denilsonperez.yoarbitro;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -24,18 +27,13 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import android.view.MenuItem;
+import android.widget.Toast;
+
+import com.denilsonperez.yoarbitro.Inicio.IniciarSesionActivity;
+import com.google.android.material.navigation.NavigationView;
 
 public class SeleccionEquiposActivity extends AppCompatActivity {
-
-
-    private List<Equipo> listaEquipos = new ArrayList<Equipo>();
-    private int selectedItemPosition = -1;
-    ArrayAdapter<Equipo> arrayAdapterEquipo;
-    ListView lvDatosEquipos;
-    //Para el manejo de datos en firebase
-    FirebaseDatabase firebaseDataBase;
-    DatabaseReference databaseReference;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

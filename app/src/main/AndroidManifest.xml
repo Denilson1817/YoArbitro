@@ -13,6 +13,9 @@
         android:theme="@style/Theme.YoArbitro"
         tools:targetApi="31">
         <activity
+            android:name=".Admin.ConsultarCedulasActivity"
+            android:exported="false" />
+        <activity
             android:name=".SeleccionEquiposActivity"
             android:exported="false" />
         <activity
@@ -23,28 +26,28 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".ConsultarArbitrosActivity"
+            android:name=".Admin.ConsultarArbitrosActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".CedulasGuardadasAdminActivity"
+            android:name=".Admin.CedulasGuardadasAdminActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".RegistrarEquiposActivity"
+            android:name=".Admin.RegistrarEquiposActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".MenuPrincipalAdminActivity"
+            android:name=".Admin.MenuPrincipalAdminActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
