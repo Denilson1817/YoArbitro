@@ -34,6 +34,10 @@ public class MenuPrincipalActivity extends AppCompatActivity{
     FirebaseAuth firebaseAuth;
     DatabaseReference Arbitros;
     String username1;
+    Button cbtnSeleccionEquipoUno;
+    String laPrueba;
+    private boolean activityRestarted = false;
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(drawerToggle.onOptionsItemSelected(item)){
@@ -55,17 +59,38 @@ public class MenuPrincipalActivity extends AppCompatActivity{
         navigationView.bringToFront();
         Arbitros = FirebaseDatabase.getInstance().getReference("Arbitros");
         firebaseAuth = FirebaseAuth.getInstance();
-
+        cbtnSeleccionEquipoUno = findViewById(R.id.btnSeleccionEquipoUno);
+        if (savedInstanceState != null) {
+            activityRestarted = savedInstanceState.getBoolean("activityRestarted");
+        }
 
         NavigationView navigationView = findViewById(R.id.navView);
         View headerView = navigationView.getHeaderView(0);
         TextView usernameTextView = headerView.findViewById(R.id.txtUserName);
+
+
+
 
         FirebaseUser currentUser = firebaseAuth.getCurrentUser();
         if (currentUser != null) {
             String username = currentUser.getEmail();
             usernameTextView.setText(username);
         }
+        // Recuperar el texto seleccionado del extra del Intent
+        String selectedText = getIntent().getStringExtra("selectedText");
+
+        cbtnSeleccionEquipoUno.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MenuPrincipalActivity.this, SeleccionEquiposActivity.class));
+                cbtnSeleccionEquipoUno.setText(selectedText);
+
+            }
+        });
+
+
+
+
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -101,5 +126,11 @@ public class MenuPrincipalActivity extends AppCompatActivity{
         }else{
             super.onBackPressed();
         }
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        activityRestarted = false;
     }
 }
