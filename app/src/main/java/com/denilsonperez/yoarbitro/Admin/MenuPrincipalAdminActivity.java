@@ -41,7 +41,6 @@ public class MenuPrincipalAdminActivity extends AppCompatActivity {
     private int selectedItemPosition = -1;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
-
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(drawerToggle.onOptionsItemSelected(item)){

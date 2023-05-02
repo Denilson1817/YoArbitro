@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import com.denilsonperez.yoarbitro.MenuPrincipalActivity;
-import com.denilsonperez.yoarbitro.MenuPrincipalAdminActivity;
+import com.denilsonperez.yoarbitro.Admin.MenuPrincipalAdminActivity;
 import com.denilsonperez.yoarbitro.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
