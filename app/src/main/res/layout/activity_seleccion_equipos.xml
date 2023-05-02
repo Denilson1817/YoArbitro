@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/drawerLayout"
     tools:context=".SeleccionEquiposActivity"
     android:background="@drawable/fondo_principal">
 
@@ -11,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         app:headerLayout="@layout/header"
-        app:menu="@menu/main_menu_admin"
+        app:menu="@menu/main_menu"
         android:id="@+id/navView"
         android:layout_gravity="start"/>
 
@@ -81,3 +82,8 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.drawerlayout.widget.DrawerLayout>
+
+
+
+
+

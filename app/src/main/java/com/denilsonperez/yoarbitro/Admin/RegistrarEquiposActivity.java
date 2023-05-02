@@ -111,7 +111,6 @@ public class RegistrarEquiposActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 validarDatos();
-                finish();
                 }
 
         });
@@ -148,7 +147,7 @@ public class RegistrarEquiposActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(Void unused) {
                             Toast.makeText(RegistrarEquiposActivity.this, "Equipo registrado", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(RegistrarEquiposActivity.this, MenuPrincipalAdminActivity.class));
+                            startActivity(new Intent(RegistrarEquiposActivity.this, AgregarJugadoresActivity.class));
                             finish();
                         }
                     }).addOnFailureListener(new OnFailureListener() {

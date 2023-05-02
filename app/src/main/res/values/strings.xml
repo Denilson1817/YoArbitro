@@ -41,7 +41,7 @@
     <string name="txtListaEquipos">Lista de equipos</string>
 
     <!-- activity_registrar_equiposs -->
-    <string name="TituloRegistrarEquipos">Registrar Equipos</string>
+    <string name="tituloRegistrarEquipos">Registrar Equipos</string>
     <string name="nombreEquipo">Nombre del equipo</string>
     <string name="nombreDelegado">Nombre del delegado</string>
     <string name="numContacto">Número contacto</string>
@@ -56,4 +56,16 @@
 
     <!-- ConsultarCedulasActivity-->
     <string name="tituloConsultarCedulas">Cedulas guardadas</string>
+
+    <!-- AgregarJugadoresActivity-->
+    <string name="tituloAgregarJugadores">Lista de jugadores</string>
+
+    <!-- AgregarJugadoresDos (Formulario) -->
+    <string name="tituloRegistrarJugadores">Datos del jugador</string>
+    <string name="nombreDeJugador">Nombre de jugador</string>
+    <string name="numeroDeJugador">Numero de jugador</string>
+
+
+
+
 </resources>
