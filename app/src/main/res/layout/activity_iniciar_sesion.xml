@@ -97,10 +97,9 @@
                 android:id="@+id/btnIniciarSesion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:cornerRadius="15dp"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/rounded_button"
-                android:text="@string/btnIniciarSesion"
-                app:cardCornerRadius="15dp" />
+                android:text="@string/btnIniciarSesion" />
 
             <TextView
                 android:id="@+id/usuarioNuevo"
