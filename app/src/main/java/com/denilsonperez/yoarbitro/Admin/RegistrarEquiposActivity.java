@@ -132,14 +132,13 @@ public class RegistrarEquiposActivity extends AppCompatActivity {
             }
         }
 
-        private void guardarInformacion() {
+    private void guardarInformacion() {
 
             Equipo datos = new Equipo();
             datos.setUid(UUID.randomUUID().toString());
             datos.setNombre(nombre);
             datos.setDelegado(delegado);
             datos.setNumContacto(numero);
-
             DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Equipos");
             databaseReference.child(datos.getUid())
                     .setValue(datos)
