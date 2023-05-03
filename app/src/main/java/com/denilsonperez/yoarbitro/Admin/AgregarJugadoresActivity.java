@@ -26,6 +26,8 @@ public class AgregarJugadoresActivity extends AppCompatActivity {
     ActionBarDrawerToggle drawerToggle;
     FirebaseAuth firebaseAuth;
     Button btnAgregarJugadores;
+    Intent recibir;
+    String uideEquipo;
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(drawerToggle.onOptionsItemSelected(item)){
@@ -37,6 +39,12 @@ public class AgregarJugadoresActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agregar_jugadores);
+
+        //jorge
+        recibir = getIntent();
+        uideEquipo = recibir.getStringExtra("UUID");
+        Toast.makeText(AgregarJugadoresActivity.this, uideEquipo, Toast.LENGTH_SHORT).show();
+
         drawerLayout = findViewById(R.id.drawerLayout);
         navigationView = findViewById(R.id.navView);
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.abrirNav, R.string.cerrarNav);
@@ -84,7 +92,12 @@ public class AgregarJugadoresActivity extends AppCompatActivity {
         btnAgregarJugadores.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(AgregarJugadoresActivity.this, AgregarJugadoresDosActivity.class));
+
+                Intent intent = new Intent(AgregarJugadoresActivity.this, AgregarJugadoresDosActivity.class );
+                //startActivity(new Intent  (RegistrarEquiposActivity.this, AgregarJugadoresActivity.class));
+                intent.putExtra("UUID",uideEquipo);
+                startActivity(intent);
+                //startActivity(new Intent(AgregarJugadoresActivity.this, AgregarJugadoresDosActivity.class));
             }
         });
     }
