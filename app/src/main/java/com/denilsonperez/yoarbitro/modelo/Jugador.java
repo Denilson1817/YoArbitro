@@ -5,13 +5,16 @@ public class Jugador {
     private String nombre;
     private String numero;
 
+    private String idEquipo;
+
     public Jugador() {
     }
 
-    public Jugador(String uid, String nombre, String numero) {
+    public Jugador(String uid, String nombre, String numero, String idEquipo) {
         this.uid = uid;
         this.nombre = nombre;
         this.numero = numero;
+        this.idEquipo = idEquipo;
     }
 
     public String getUid() {
@@ -41,5 +44,13 @@ public class Jugador {
     @Override
     public String toString() {
         return nombre + numero;
+    }
+
+    public String getIdEquipo() {
+        return idEquipo;
+    }
+
+    public void setIdEquipo(String idEquipo) {
+        this.idEquipo = idEquipo;
     }
 }

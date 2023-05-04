@@ -35,6 +35,9 @@ public class AgregarJugadoresDosActivity extends AppCompatActivity {
     Button btnRegistrarJugador, btnCancelar;
     EditText nombreJugadorEt, numeroJugadorEt;
     String nombreDeJugador="", numeroDeJugador="";
+
+    Intent recibir;
+    String uideEquipo;
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(drawerToggle.onOptionsItemSelected(item)){
@@ -46,6 +49,14 @@ public class AgregarJugadoresDosActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agregar_jugadores_dos);
+
+
+        //jorge
+        recibir = getIntent();
+        uideEquipo = recibir.getStringExtra("UUID");
+        Toast.makeText(AgregarJugadoresDosActivity.this, uideEquipo, Toast.LENGTH_SHORT).show();
+
+
         drawerLayout = findViewById(R.id.drawerLayout);
         navigationView = findViewById(R.id.navView);
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.abrirNav, R.string.cerrarNav);
@@ -57,7 +68,7 @@ public class AgregarJugadoresDosActivity extends AppCompatActivity {
         btnCancelar = findViewById(R.id.btnCancelar);
         btnRegistrarJugador = findViewById(R.id.btnRegistrarJugador);
         nombreJugadorEt = findViewById(R.id.nombreJugador);
-        numeroJugadorEt = findViewById(R.id.numDeJugador);
+        numeroJugadorEt = findViewById(R.id.nomDeleEquipo);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -125,6 +136,11 @@ public class AgregarJugadoresDosActivity extends AppCompatActivity {
         datosJugador.setUid(UUID.randomUUID().toString());
         datosJugador.setNombre(nombreDeJugador);
         datosJugador.setNumero(numeroDeJugador);
+
+        // jorge
+        datosJugador.setIdEquipo(uideEquipo);
+
+
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Jugadores");
         databaseReference.child(datosJugador.getUid())
                 .setValue(datosJugador)
