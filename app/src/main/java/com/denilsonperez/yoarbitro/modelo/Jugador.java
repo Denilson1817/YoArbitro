@@ -41,16 +41,16 @@ public class Jugador {
         this.numero = numero;
     }
 
-    @Override
-    public String toString() {
-        return nombre + numero;
-    }
-
     public String getIdEquipo() {
         return idEquipo;
     }
 
     public void setIdEquipo(String idEquipo) {
         this.idEquipo = idEquipo;
+    }
+
+    @Override
+    public String toString() {
+        return "Nombre: " + nombre + ", numero: " + numero;
     }
 }

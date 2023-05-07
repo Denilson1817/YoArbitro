@@ -10,21 +10,39 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.denilsonperez.yoarbitro.Inicio.IniciarSesionActivity;
 import com.denilsonperez.yoarbitro.R;
+import com.denilsonperez.yoarbitro.modelo.Jugador;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AgregarJugadoresActivity extends AppCompatActivity {
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     ActionBarDrawerToggle drawerToggle;
     FirebaseAuth firebaseAuth;
+
+    // Jorge
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference databaseReference;
+    private List<Jugador> jugadorList = new ArrayList<>();
+    ArrayAdapter<Jugador> jugadorArrayAdapter;
+    ListView listv_jugadores;
+
     Button btnAgregarJugadores;
     Intent recibir;
     String uideEquipo;
@@ -52,7 +70,12 @@ public class AgregarJugadoresActivity extends AppCompatActivity {
         drawerToggle.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         navigationView.bringToFront();
-        firebaseAuth = FirebaseAuth.getInstance();
+
+        // Jorge
+        listv_jugadores = findViewById(R.id.listaJugadores);
+        inicializarFirebase();
+        listarDatos();
+
         btnAgregarJugadores = findViewById(R.id.btnAgregarJugadores);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -101,6 +124,36 @@ public class AgregarJugadoresActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void inicializarFirebase() {
+        FirebaseApp.initializeApp(this);
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference();
+    }
+
+    private void listarDatos() {
+        databaseReference.child("Jugadores").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                jugadorList.clear();
+                for (DataSnapshot objSnapshot : snapshot.getChildren()){
+                    Jugador jugador = objSnapshot.getValue(Jugador.class);
+                    if (uideEquipo.equals(jugador.getIdEquipo())){
+                        jugadorList.add(jugador);
+                    }
+
+                    jugadorArrayAdapter = new ArrayAdapter<Jugador>(AgregarJugadoresActivity.this, android.R.layout.simple_list_item_activated_1, jugadorList);
+                    listv_jugadores.setAdapter(jugadorArrayAdapter);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
     @Override
     public void onBackPressed() {
         if(drawerLayout.isDrawerOpen(GravityCompat.START)){
