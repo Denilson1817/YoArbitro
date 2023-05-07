@@ -147,7 +147,6 @@ public class RegistrarEquiposActivity extends AppCompatActivity {
                         public void onSuccess(Void unused) {
                             Toast.makeText(RegistrarEquiposActivity.this, "Equipo registrado", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(RegistrarEquiposActivity.this, AgregarJugadoresActivity.class );
-                            //startActivity(new Intent  (RegistrarEquiposActivity.this, AgregarJugadoresActivity.class));
                             intent.putExtra("UUID", datos.getUid());
                             startActivity(intent);
                             finish();
