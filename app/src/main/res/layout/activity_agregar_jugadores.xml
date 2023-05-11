@@ -42,7 +42,7 @@
 
                     <ListView
                         android:layout_marginTop="100sp"
-                        android:id="@+id/listaArbitros"
+                        android:id="@+id/listaJugadores"
                         android:layout_width="291dp"
                         android:layout_height="561dp"
                         app:layout_constraintBottom_toBottomOf="parent"
