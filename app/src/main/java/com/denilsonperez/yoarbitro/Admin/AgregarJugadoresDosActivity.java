@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -35,7 +36,6 @@ public class AgregarJugadoresDosActivity extends AppCompatActivity {
     Button btnRegistrarJugador, btnCancelar;
     EditText nombreJugadorEt, numeroJugadorEt;
     String nombreDeJugador="", numeroDeJugador="";
-
     Intent recibir;
     String uideEquipo;
     @Override
@@ -45,17 +45,14 @@ public class AgregarJugadoresDosActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agregar_jugadores_dos);
-
-
         //jorge
         recibir = getIntent();
         uideEquipo = recibir.getStringExtra("UUID");
-        Toast.makeText(AgregarJugadoresDosActivity.this, uideEquipo, Toast.LENGTH_SHORT).show();
-
 
         drawerLayout = findViewById(R.id.drawerLayout);
         navigationView = findViewById(R.id.navView);
@@ -68,7 +65,7 @@ public class AgregarJugadoresDosActivity extends AppCompatActivity {
         btnCancelar = findViewById(R.id.btnCancelar);
         btnRegistrarJugador = findViewById(R.id.btnRegistrarJugador);
         nombreJugadorEt = findViewById(R.id.nombreJugador);
-        numeroJugadorEt = findViewById(R.id.nomDeleEquipo);
+        numeroJugadorEt = findViewById(R.id.numDeJugador);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -118,7 +115,6 @@ public class AgregarJugadoresDosActivity extends AppCompatActivity {
             }
         });
     }
-
     private void validarDatos() {
         nombreDeJugador = nombreJugadorEt.getText().toString();
         numeroDeJugador = numeroJugadorEt.getText().toString();
@@ -136,10 +132,7 @@ public class AgregarJugadoresDosActivity extends AppCompatActivity {
         datosJugador.setUid(UUID.randomUUID().toString());
         datosJugador.setNombre(nombreDeJugador);
         datosJugador.setNumero(numeroDeJugador);
-
-        // jorge
         datosJugador.setIdEquipo(uideEquipo);
-
 
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Jugadores");
         databaseReference.child(datosJugador.getUid())
@@ -148,13 +141,15 @@ public class AgregarJugadoresDosActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void unused) {
                         Toast.makeText(AgregarJugadoresDosActivity.this, "Jugador registrado", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(AgregarJugadoresDosActivity.this, AgregarJugadoresActivity.class));
+                        Intent intent = new Intent(AgregarJugadoresDosActivity.this, AgregarJugadoresActivity.class );
+                        intent.putExtra("UUID",uideEquipo);
+                        startActivity(intent);
                         finish();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(AgregarJugadoresDosActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AgregarJugadoresDosActivity.this, "Error"+e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }

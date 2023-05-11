@@ -8,6 +8,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -35,17 +36,15 @@ public class AgregarJugadoresActivity extends AppCompatActivity {
     NavigationView navigationView;
     ActionBarDrawerToggle drawerToggle;
     FirebaseAuth firebaseAuth;
-
     // Jorge
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
     private List<Jugador> jugadorList = new ArrayList<>();
     ArrayAdapter<Jugador> jugadorArrayAdapter;
     ListView listv_jugadores;
-
     Button btnAgregarJugadores;
     Intent recibir;
-    String uideEquipo;
+    String uideEquipo="";
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(drawerToggle.onOptionsItemSelected(item)){
@@ -58,11 +57,6 @@ public class AgregarJugadoresActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agregar_jugadores);
 
-        //jorge
-        recibir = getIntent();
-        uideEquipo = recibir.getStringExtra("UUID");
-        Toast.makeText(AgregarJugadoresActivity.this, uideEquipo, Toast.LENGTH_SHORT).show();
-
         drawerLayout = findViewById(R.id.drawerLayout);
         navigationView = findViewById(R.id.navView);
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.abrirNav, R.string.cerrarNav);
@@ -70,13 +64,12 @@ public class AgregarJugadoresActivity extends AppCompatActivity {
         drawerToggle.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         navigationView.bringToFront();
+        btnAgregarJugadores = findViewById(R.id.btnAgregarJugadores);
 
         // Jorge
         listv_jugadores = findViewById(R.id.listaJugadores);
         inicializarFirebase();
         listarDatos();
-
-        btnAgregarJugadores = findViewById(R.id.btnAgregarJugadores);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -117,43 +110,40 @@ public class AgregarJugadoresActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 Intent intent = new Intent(AgregarJugadoresActivity.this, AgregarJugadoresDosActivity.class );
-                //startActivity(new Intent  (RegistrarEquiposActivity.this, AgregarJugadoresActivity.class));
                 intent.putExtra("UUID",uideEquipo);
                 startActivity(intent);
-                //startActivity(new Intent(AgregarJugadoresActivity.this, AgregarJugadoresDosActivity.class));
             }
         });
     }
-
     private void inicializarFirebase() {
         FirebaseApp.initializeApp(this);
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
     }
-
     private void listarDatos() {
+        //jorge
+        recibir = getIntent();
+        uideEquipo = recibir.getStringExtra("UUID");
         databaseReference.child("Jugadores").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 jugadorList.clear();
                 for (DataSnapshot objSnapshot : snapshot.getChildren()){
                     Jugador jugador = objSnapshot.getValue(Jugador.class);
-                    if (uideEquipo.equals(jugador.getIdEquipo())){
-                        jugadorList.add(jugador);
-                    }
-
+                    System.out.println(uideEquipo);
+                    System.out.println(jugador.getIdEquipo());
+                        if (uideEquipo.equals(jugador.getIdEquipo())){
+                            jugadorList.add(jugador);
+                        }
                     jugadorArrayAdapter = new ArrayAdapter<Jugador>(AgregarJugadoresActivity.this, android.R.layout.simple_list_item_activated_1, jugadorList);
                     listv_jugadores.setAdapter(jugadorArrayAdapter);
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
             }
         });
     }
-
     @Override
     public void onBackPressed() {
         if(drawerLayout.isDrawerOpen(GravityCompat.START)){

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/drawerLayout"
-    tools:context=".Admin.RegistrarEquiposActivity"
+    tools:context=".Admin.AgregarJugadoresDosActivity"
     android:background="@drawable/fondo_principal">
 
     <FrameLayout
@@ -88,7 +88,7 @@
                         android:layout_marginTop="50dp">
 
                         <EditText
-                            android:id="@+id/nomDeleEquipo"
+                            android:id="@+id/numDeJugador"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@drawable/rounded_edittext"
