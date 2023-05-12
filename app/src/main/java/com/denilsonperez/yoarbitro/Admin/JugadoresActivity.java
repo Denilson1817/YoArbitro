@@ -37,9 +37,9 @@ public class JugadoresActivity extends AppCompatActivity {
     Button btnRegistrarJugador, btnCancelar;
     EditText nombreJugadorEt, numeroJugadorEt;
     String nombreDeJugador="", numeroDeJugador="";
+    //Variables para recibir datos
     Intent recibir;
-    String uideEquipo;
-
+    String nombreDeEquipo="", nombreDeDelegado, numDeContacto, idEquipo;
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(drawerToggle.onOptionsItemSelected(item)){
@@ -54,8 +54,12 @@ public class JugadoresActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_jugadores);
 
+        //Recibir id para agregar jugador
         recibir = getIntent();
-        uideEquipo = recibir.getStringExtra("UUID");
+        idEquipo = recibir.getStringExtra("idEquipo");
+        nombreDeEquipo = recibir.getStringExtra("nombreEquipo");
+        nombreDeDelegado = recibir.getStringExtra("nombreDelegado");
+        numDeContacto = recibir.getStringExtra("numDeContacto");
 
         drawerLayout = findViewById(R.id.drawerLayout);
         navigationView = findViewById(R.id.navView);
@@ -136,7 +140,7 @@ public class JugadoresActivity extends AppCompatActivity {
         datosJugador.setUid(UUID.randomUUID().toString());
         datosJugador.setNombre(nombreDeJugador);
         datosJugador.setNumero(numeroDeJugador);
-        datosJugador.setIdEquipo(uideEquipo);
+        datosJugador.setIdEquipo(idEquipo);
 
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Jugadores");
         databaseReference.child(datosJugador.getUid())
@@ -146,7 +150,11 @@ public class JugadoresActivity extends AppCompatActivity {
                     public void onSuccess(Void unused) {
                         Toast.makeText(JugadoresActivity.this, "Jugador registrado", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(JugadoresActivity.this, InformacionEquiposActivity.class );
-                        intent.putExtra("UUID",uideEquipo);
+                        //Enviar datos del equipo
+                        intent.putExtra("nombreEquipo",nombreDeEquipo);
+                        intent.putExtra("nombreDelegado",nombreDeDelegado);
+                        intent.putExtra("numDeContacto",numDeContacto);
+                        intent.putExtra("idEquipo",idEquipo);
                         startActivity(intent);
                         finish();
                     }

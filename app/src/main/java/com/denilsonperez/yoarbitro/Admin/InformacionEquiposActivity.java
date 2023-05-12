@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -45,9 +46,11 @@ public class InformacionEquiposActivity extends AppCompatActivity {
     ListView listv_jugadores;
     EditText txtNombreEquipo, txtNombreDelegado, txtNumeroDeContacto;
     Button btnAgregarJugadores;
-    Intent recibir, enviar;
+    private int selectedItemPosition = -1;
+    Jugador jugadorSeleccionado;
+    //Variables para pasar y recibir datos del equipo
+    Intent recibir;
     String nombreDeEquipo="", nombreDeDelegado, numDeContacto, idEquipo;
-   //String uideEquipo="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,12 +68,7 @@ public class InformacionEquiposActivity extends AppCompatActivity {
         txtNumeroDeContacto = findViewById(R.id.txtNumeroDeContacto);
         listv_jugadores = findViewById(R.id.listaJugadores);
         btnAgregarJugadores = findViewById(R.id.btnAgregarJugadores);
-        //Para el manejo de datos en firebase
-        FirebaseDatabase firebaseDataBase;
-        DatabaseReference databaseReference;
-        Equipo equipoSeleccionado;
         inicializarFirebase();
-        listarDatos();
 
         //Recibir datos del equipo en los EditText
         recibir = getIntent();
@@ -82,8 +80,28 @@ public class InformacionEquiposActivity extends AppCompatActivity {
         txtNumeroDeContacto.setText(numDeContacto);
         idEquipo = recibir.getStringExtra("idEquipo");
 
-        Toast.makeText(InformacionEquiposActivity.this, idEquipo, Toast.LENGTH_SHORT).show();
+        listarDatos();
+        listv_jugadores.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                selectedItemPosition = i;
+                jugadorSeleccionado = (Jugador) adapterView.getItemAtPosition(i);
+                //Datos recuperados de Firebase
+                String nombreDeJugador = jugadorSeleccionado.getNombre();
+                String numeroDeJugador = jugadorSeleccionado.getNumero();
+                String idJugador = jugadorSeleccionado.getUid();
+                String idEquipo = jugadorSeleccionado.getIdEquipo();
 
+                Intent intent = new Intent(InformacionEquiposActivity.this, InformacionJugadoresActivity.class);
+
+                //Enviar datos del jugador a la pantalla para editar
+                intent.putExtra("nombreDeJugador",nombreDeJugador);
+                intent.putExtra("numeroDeJugador",numeroDeJugador);
+                intent.putExtra("idJugador",idJugador);
+                intent.putExtra("idEquipo",idEquipo);
+                startActivity(intent);
+            }
+        });
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -123,8 +141,11 @@ public class InformacionEquiposActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(InformacionEquiposActivity.this, JugadoresActivity.class );
-                // Jorge
-                intent.putExtra("UUID",idEquipo);
+                //Enviar datos del equipo
+                intent.putExtra("nombreEquipo",nombreDeEquipo);
+                intent.putExtra("nombreDelegado",nombreDeDelegado);
+                intent.putExtra("numDeContacto",numDeContacto);
+                intent.putExtra("idEquipo",idEquipo);
                 startActivity(intent);
             }
         });
@@ -136,8 +157,6 @@ public class InformacionEquiposActivity extends AppCompatActivity {
                 jugadorList.clear();
                 for (DataSnapshot objSnapshot : snapshot.getChildren()){
                     Jugador jugador = objSnapshot.getValue(Jugador.class);
-                    System.out.println(idEquipo);
-                    System.out.println(jugador.getIdEquipo());
                     if (idEquipo.equals(jugador.getIdEquipo())){
                         jugadorList.add(jugador);
                     }
@@ -172,7 +191,6 @@ public class InformacionEquiposActivity extends AppCompatActivity {
                 break;
             }
             case R.id.icon_delete:{
-                Equipo equipo = new Equipo();
                 databaseReference.child("Equipos").child(idEquipo).removeValue();
                 Toast.makeText(this, "Eliminado", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(InformacionEquiposActivity.this, MenuPrincipalAdminActivity.class));
@@ -181,7 +199,6 @@ public class InformacionEquiposActivity extends AppCompatActivity {
             }
             default:break;
         }
-        //return true;
         return super.onOptionsItemSelected(item);
     }
     @Override

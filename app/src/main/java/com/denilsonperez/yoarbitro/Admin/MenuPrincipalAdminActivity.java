@@ -76,13 +76,11 @@ public class MenuPrincipalAdminActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 selectedItemPosition = i;
                 equipoSeleccionado = (Equipo) adapterView.getItemAtPosition(i);
-                Toast.makeText(MenuPrincipalAdminActivity.this, "id del elemento:" +i, Toast.LENGTH_SHORT).show();
                 //Datos recuperados de Firebase
                 String nombreEquipo = equipoSeleccionado.getNombre();
                 String nombreDelegado = equipoSeleccionado.getDelegado();
                 String numDeContacto = equipoSeleccionado.getNumContacto();
                 String idEquipo = equipoSeleccionado.getUid();
-
 
                 Intent intent = new Intent(MenuPrincipalAdminActivity.this, InformacionEquiposActivity.class);
 

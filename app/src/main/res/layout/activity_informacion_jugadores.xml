@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/drawerLayout"
-    tools:context=".Admin.InformacionEquiposActivity"
+    tools:context=".Admin.InformacionJugadoresActivity"
     android:background="@drawable/fondo_principal">
 
     <com.google.android.material.navigation.NavigationView
@@ -22,23 +22,20 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_gravity="center">
 
             <androidx.cardview.widget.CardView
-                android:layout_width="342dp"
-                android:layout_height="600dp"
-                android:layout_marginTop="80dp"
-                app:cardCornerRadius="20dp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_width="340dp"
+                android:layout_height="350dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.198">
+                tools:ignore="MissingConstraints">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
-                    
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -48,12 +45,13 @@
                         <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:hint=""
+                            android:layout_gravity="center_horizontal"
                             android:layout_marginTop="120sp"
-                            android:layout_gravity="center_horizontal"
+                            android:hint=""
                             tools:ignore="MissingConstraints">
+
                             <EditText
-                                android:id="@+id/txtNombreEquipo"
+                                android:id="@+id/txtNombreJugador"
                                 android:layout_width="250sp"
                                 android:layout_height="wrap_content"
                                 android:inputType="textPersonName" />
@@ -62,51 +60,18 @@
                         <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:hint=""
-                            android:layout_marginTop="15sp"
                             android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="45sp"
+                            android:hint=""
                             tools:ignore="MissingConstraints">
+
                             <EditText
-                                android:id="@+id/txtNombreDelegado"
+                                android:id="@+id/txtNumeroJugador"
                                 android:layout_width="250sp"
                                 android:layout_height="wrap_content"
-                                android:inputType="textPersonName" />
+                                android:inputType="number" />
                         </com.google.android.material.textfield.TextInputLayout>
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:hint=""
-                            android:layout_marginTop="15sp"
-                            android:layout_gravity="center_horizontal"
-                            tools:ignore="MissingConstraints">
-                            <EditText
-                                android:id="@+id/txtNumeroDeContacto"
-                                android:layout_width="250sp"
-                                android:layout_height="wrap_content"
-                                android:inputType="textPersonName" />
-                        </com.google.android.material.textfield.TextInputLayout>
-
-                        <ListView
-                            android:layout_marginTop="20dp"
-                            android:layout_gravity="center_horizontal"
-                            android:id="@+id/listaJugadores"
-                            android:layout_width="250dp"
-                            android:layout_height="wrap_content"/>
-
                     </LinearLayout>
-
-                    <Button
-                        android:id="@+id/btnAgregarJugadores"
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:background="@drawable/rounded_button"
-                        android:text="+"
-                        android:layout_margin="30sp"
-                        android:textSize="45sp"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -129,7 +94,7 @@
                                 android:id="@+id/textView2"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/tituloInformacionEquipos"
+                                android:text="@string/tituloInformacionJugadores"
                                 android:textColor="@color/white"
                                 android:textSize="24sp"
                                 android:textStyle="bold"
@@ -143,5 +108,5 @@
 
             </androidx.cardview.widget.CardView>
         </androidx.constraintlayout.widget.ConstraintLayout>
-     </ScrollView>
+    </ScrollView>
 </androidx.drawerlayout.widget.DrawerLayout>
