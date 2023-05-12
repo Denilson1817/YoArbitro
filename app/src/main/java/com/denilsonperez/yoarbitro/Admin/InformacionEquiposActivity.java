@@ -45,8 +45,9 @@ public class InformacionEquiposActivity extends AppCompatActivity {
     ListView listv_jugadores;
     EditText txtNombreEquipo, txtNombreDelegado, txtNumeroDeContacto;
     Button btnAgregarJugadores;
-    Intent recibir;
+    Intent recibir, enviar;
     String nombreDeEquipo="", nombreDeDelegado, numDeContacto, idEquipo;
+   //String uideEquipo="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -121,7 +122,9 @@ public class InformacionEquiposActivity extends AppCompatActivity {
         btnAgregarJugadores.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(InformacionEquiposActivity.this, AgregarJugadoresDosActivity.class );
+                Intent intent = new Intent(InformacionEquiposActivity.this, JugadoresActivity.class );
+                // Jorge
+                intent.putExtra("UUID",idEquipo);
                 startActivity(intent);
             }
         });
