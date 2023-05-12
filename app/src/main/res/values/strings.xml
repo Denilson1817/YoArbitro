@@ -65,7 +65,7 @@
     <string name="nombreDeJugador">Nombre de jugador</string>
     <string name="numeroDeJugador">Numero de jugador</string>
 
-
-
+    <!-- InformacionEquiposActivity -->
+    <string name="tituloInformacionEquipos">Información de equipo</string>
 
 </resources>

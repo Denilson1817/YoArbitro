@@ -6,10 +6,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -17,6 +21,7 @@ import com.denilsonperez.yoarbitro.CedulasGuardadasActivity;
 import com.denilsonperez.yoarbitro.Inicio.IniciarSesionActivity;
 import com.denilsonperez.yoarbitro.R;
 import com.denilsonperez.yoarbitro.modelo.Equipo;
+import com.denilsonperez.yoarbitro.modelo.Jugador;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
@@ -41,6 +46,7 @@ public class MenuPrincipalAdminActivity extends AppCompatActivity {
     private int selectedItemPosition = -1;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
+    Equipo equipoSeleccionado;
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(drawerToggle.onOptionsItemSelected(item)){
@@ -48,6 +54,7 @@ public class MenuPrincipalAdminActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +71,29 @@ public class MenuPrincipalAdminActivity extends AppCompatActivity {
         lvDatosEquipos = findViewById(R.id.lv_datosEquipos);
         inicializarFirebase();
         listarDatos();
+        lvDatosEquipos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                selectedItemPosition = i;
+                equipoSeleccionado = (Equipo) adapterView.getItemAtPosition(i);
+                Toast.makeText(MenuPrincipalAdminActivity.this, "id del elemento:" +i, Toast.LENGTH_SHORT).show();
+                //Datos recuperados de Firebase
+                String nombreEquipo = equipoSeleccionado.getNombre();
+                String nombreDelegado = equipoSeleccionado.getDelegado();
+                String numDeContacto = equipoSeleccionado.getNumContacto();
+                String idEquipo = equipoSeleccionado.getUid();
+
+
+                Intent intent = new Intent(MenuPrincipalAdminActivity.this, InformacionEquiposActivity.class);
+
+                //Enviar datos del equipo
+                intent.putExtra("nombreEquipo",nombreEquipo);
+                intent.putExtra("nombreDelegado",nombreDelegado);
+                intent.putExtra("numDeContacto",numDeContacto);
+                intent.putExtra("idEquipo",idEquipo);
+                startActivity(intent);
+            }
+        });
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -101,13 +131,11 @@ public class MenuPrincipalAdminActivity extends AppCompatActivity {
         });
 
     }
-
     private void inicializarFirebase() {
         FirebaseApp.initializeApp(this);
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
     }
-
     private void listarDatos(){
         databaseReference.child("Equipos").addValueEventListener(new ValueEventListener() {
             @Override
@@ -116,12 +144,10 @@ public class MenuPrincipalAdminActivity extends AppCompatActivity {
                 for (DataSnapshot snapshot1 : snapshot.getChildren()){
                     Equipo eq = snapshot1.getValue(Equipo.class);
                     listaDatosEquipos.add(eq);
-
                     arrayAdapterEquipo = new ArrayAdapter<Equipo>(MenuPrincipalAdminActivity.this, android.R.layout.simple_list_item_1, listaDatosEquipos);
                     lvDatosEquipos.setAdapter(arrayAdapterEquipo);
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
