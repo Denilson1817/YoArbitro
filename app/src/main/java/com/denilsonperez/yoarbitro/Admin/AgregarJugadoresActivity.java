@@ -36,7 +36,6 @@ public class AgregarJugadoresActivity extends AppCompatActivity {
     NavigationView navigationView;
     ActionBarDrawerToggle drawerToggle;
     FirebaseAuth firebaseAuth;
-    // Jorge
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
     private List<Jugador> jugadorList = new ArrayList<>();
@@ -65,7 +64,6 @@ public class AgregarJugadoresActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         navigationView.bringToFront();
         btnAgregarJugadores = findViewById(R.id.btnAgregarJugadores);
-
         // Jorge
         listv_jugadores = findViewById(R.id.listaJugadores);
         inicializarFirebase();
