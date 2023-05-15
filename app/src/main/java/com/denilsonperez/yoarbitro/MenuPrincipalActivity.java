@@ -1,19 +1,19 @@
 package com.denilsonperez.yoarbitro;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,11 +21,10 @@ import com.denilsonperez.yoarbitro.Inicio.IniciarSesionActivity;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+
+import java.util.HashSet;
 
 public class MenuPrincipalActivity extends AppCompatActivity{
     DrawerLayout drawerLayout;
@@ -33,10 +32,12 @@ public class MenuPrincipalActivity extends AppCompatActivity{
     ActionBarDrawerToggle drawerToggle;
     FirebaseAuth firebaseAuth;
     DatabaseReference Arbitros;
-    String username1;
     Button cbtnSeleccionEquipoUno;
-    String laPrueba;
-    private boolean activityRestarted = false;
+    Button cbtnSeleccionEquipoDos;
+    Button cbtncrearJuego;
+    public String textoEquipo1;
+    public String textoEquipo2;
+    private HashSet<String> equiposSeleccionados;
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -46,6 +47,7 @@ public class MenuPrincipalActivity extends AppCompatActivity{
         return super.onOptionsItemSelected(item);
     }
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,33 +62,66 @@ public class MenuPrincipalActivity extends AppCompatActivity{
         Arbitros = FirebaseDatabase.getInstance().getReference("Arbitros");
         firebaseAuth = FirebaseAuth.getInstance();
         cbtnSeleccionEquipoUno = findViewById(R.id.btnSeleccionEquipoUno);
-        if (savedInstanceState != null) {
-            activityRestarted = savedInstanceState.getBoolean("activityRestarted");
-        }
+        cbtnSeleccionEquipoDos= findViewById(R.id.btnSeleccionEquipoDos);
+        equiposSeleccionados = new HashSet<>();
+        cbtncrearJuego = findViewById(R.id.btnContiuar);
+
+
+
 
         NavigationView navigationView = findViewById(R.id.navView);
         View headerView = navigationView.getHeaderView(0);
         TextView usernameTextView = headerView.findViewById(R.id.txtUserName);
-
-
-
 
         FirebaseUser currentUser = firebaseAuth.getCurrentUser();
         if (currentUser != null) {
             String username = currentUser.getEmail();
             usernameTextView.setText(username);
         }
-        // Recuperar el texto seleccionado del extra del Intent
-        String selectedText = getIntent().getStringExtra("selectedText");
 
+        //actividades de los botones principales
         cbtnSeleccionEquipoUno.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MenuPrincipalActivity.this, SeleccionEquiposActivity.class));
-                cbtnSeleccionEquipoUno.setText(selectedText);
-
+                Intent intent = new Intent(MenuPrincipalActivity.this, SeleccionEquiposActivity.class);
+                startActivityForResult(intent, 1);
             }
         });
+
+        cbtnSeleccionEquipoDos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MenuPrincipalActivity.this, SeleccionEquiposActivity.class);
+                startActivityForResult(intent, 2);
+            }
+        });
+
+        cbtncrearJuego.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (textoEquipo1==null&&textoEquipo2==null){
+                    Toast.makeText(MenuPrincipalActivity.this, "Debes seleccionar equipos para comenzar un nuevo juego", Toast.LENGTH_SHORT).show();
+
+                }else{
+                    new AlertDialog.Builder(MenuPrincipalActivity.this)
+                            .setTitle("Confirmación")
+                            .setMessage("Estas a punto de crear el siguiente juego:\n"+textoEquipo1+" VS "+textoEquipo2+ " ¿Estas seguro de continuar?")
+                            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    startActivity(new Intent(MenuPrincipalActivity.this, JugadoresEquipo1Activity.class));
+                                }
+                            })
+                            .setNegativeButton(android.R.string.cancel, null)
+                            .show();
+                }
+            }
+        });
+
+
+
+
 
 
 
@@ -129,8 +164,27 @@ public class MenuPrincipalActivity extends AppCompatActivity{
     }
 
     @Override
-    protected void onRestart() {
-        super.onRestart();
-        activityRestarted = false;
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            String selectedText = data.getStringExtra("SELECTED_TEXT");
+            if (!equiposSeleccionados.contains(selectedText)) {
+                if (requestCode == 1) {
+                    textoEquipo1=selectedText;
+                    cbtnSeleccionEquipoUno.setText(textoEquipo1);
+                    cbtnSeleccionEquipoUno.setBackgroundColor(getResources().getColor(R.color.verde));
+                } else if (requestCode == 2) {
+                    textoEquipo2=selectedText;
+                    cbtnSeleccionEquipoDos.setText(textoEquipo2);
+                    cbtnSeleccionEquipoDos.setBackgroundColor(getResources().getColor(R.color.verde));
+
+                }
+                equiposSeleccionados.add(selectedText);
+            } else {
+                Toast.makeText(this, "No puedes elegir el mismo equipo", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
+
 }

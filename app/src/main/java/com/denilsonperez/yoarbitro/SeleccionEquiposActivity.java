@@ -5,23 +5,15 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
-
-import com.denilsonperez.yoarbitro.Admin.ConsultarArbitrosActivity;
-import com.denilsonperez.yoarbitro.Admin.ConsultarCedulasActivity;
-import com.denilsonperez.yoarbitro.Admin.MenuPrincipalAdminActivity;
-import com.denilsonperez.yoarbitro.Admin.RegistrarEquiposActivity;
 import com.denilsonperez.yoarbitro.Inicio.IniciarSesionActivity;
-import com.denilsonperez.yoarbitro.Inicio.RegistrarUnoActivity;
 import com.denilsonperez.yoarbitro.modelo.Equipo;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
@@ -36,7 +28,6 @@ import java.util.List;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.denilsonperez.yoarbitro.Inicio.IniciarSesionActivity;
 import com.google.android.material.navigation.NavigationView;
 
 public class SeleccionEquiposActivity extends AppCompatActivity {
@@ -44,17 +35,10 @@ public class SeleccionEquiposActivity extends AppCompatActivity {
     NavigationView navigationView;
     ActionBarDrawerToggle drawerToggle;
     FirebaseAuth firebaseAuth;
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(drawerToggle.onOptionsItemSelected(item)){
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
     private List<Equipo> listaEquipos = new ArrayList<Equipo>();
-    private int selectedItemPosition = -1;
-    ArrayAdapter<Equipo> arrayAdapterEquipo;
+    MyAdapter myAdapter;
     ListView lvDatosEquipos;
+    RecyclerView rvDatosEquipos;
     //Para el manejo de datos en firebase
     FirebaseDatabase firebaseDataBase;
     DatabaseReference databaseReference;
@@ -64,6 +48,7 @@ public class SeleccionEquiposActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seleccion_equipos);
         lvDatosEquipos = findViewById(R.id.listaEquipos);
+        rvDatosEquipos= findViewById(R.id.rvDatosEquipos);
         drawerLayout = findViewById(R.id.drawerLayout);
         navigationView = findViewById(R.id.navView);
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.abrirNav, R.string.cerrarNav);
@@ -99,40 +84,36 @@ public class SeleccionEquiposActivity extends AppCompatActivity {
                 return false;
             }
         });
-
-        lvDatosEquipos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                // Obtener el texto del elemento seleccionado
-                String selectedText = adapterView.getItemAtPosition(i).toString();
-                // Crear un Intent y agregar el texto seleccionado como un extra
-                Intent intent = new Intent(SeleccionEquiposActivity.this, MenuPrincipalActivity.class);
-                intent.putExtra("selectedText", selectedText);
-                // Iniciar la segunda actividad
-                startActivity(intent);
-            }
-        });
     }
 
-    private void ListarDatos() {
-        databaseReference.child("Equipos").addValueEventListener(new ValueEventListener() {
+    public void ListarDatos(){
+        //List<Equipo> myList = new ArrayList<>();
+
+        databaseReference.child("Equipos").addValueEventListener(new ValueEventListener()  {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 listaEquipos.clear();
-                for(DataSnapshot objSnapShot : snapshot.getChildren()){
-                    Equipo p = objSnapShot.getValue(Equipo.class);
-                    listaEquipos.add(p);
-                    arrayAdapterEquipo = new ArrayAdapter<Equipo>(SeleccionEquiposActivity.this, android.R.layout.simple_list_item_1, listaEquipos);
-                    lvDatosEquipos.setAdapter(arrayAdapterEquipo);
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    Equipo myObject = dataSnapshot.getValue(Equipo.class);
+                    listaEquipos.add(myObject);
+
+                     myAdapter = new MyAdapter(listaEquipos,SeleccionEquiposActivity.this,SeleccionEquiposActivity.this);
+                    rvDatosEquipos.setAdapter(myAdapter);
+
+
+
                 }
+
+                // Llena el RecyclerView con los datos obtenidos
+
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                System.out.println("no hay datos");
             }
-
         });
+
     }
 
     private void inicializarFirebase() {
@@ -140,6 +121,7 @@ public class SeleccionEquiposActivity extends AppCompatActivity {
         firebaseDataBase = FirebaseDatabase.getInstance();
         //firebaseDataBase.setPersistenceEnabled(true); --> Esto es una mala practica para la persistencia de la BD.
         databaseReference =  firebaseDataBase.getReference();
+
     }
     @Override
     public void onBackPressed() {

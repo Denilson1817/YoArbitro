@@ -19,6 +19,9 @@
             android:name=".Admin.InformacionEquiposActivity"
             android:exported="false" />
         <activity
+            android:name=".JugadoresEquipo1Activity"
+            android:exported="false" />
+        <activity
             android:name=".Admin.AgregarJugadoresDosActivity"
             android:exported="false" />
         <activity

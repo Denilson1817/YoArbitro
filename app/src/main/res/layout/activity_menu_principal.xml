@@ -62,15 +62,15 @@
 
                 <Button
                     android:id="@+id/btnSeleccionEquipoUno"
-                    android:layout_width="match_parent"
+                    android:layout_width="250dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="80dp"
                     android:backgroundTint="@color/gris"
                     android:checkable="false"
                     android:gravity="center"
+                    android:text="@string/btnSeleccionEquipoUno"
                     android:visibility="visible"
-                    app:cornerRadius="15dp"
-                    tools:text="@string/btnSeleccionEquipoUno" />
+                    app:cornerRadius="15dp" />
 
 
                 <TextView
@@ -98,30 +98,19 @@
         </androidx.cardview.widget.CardView>
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/btnContiuar"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:text="@string/btnSiguiente"
+            android:layout_marginTop="40sp"
+            android:backgroundTint="@color/verde"
+            android:text="@string/btnNuevoJuego"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:layout_marginTop="40sp"
             app:cornerRadius="15dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
-        <Button
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20sp"
-            android:text="@string/btnCancelar"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:cornerRadius="15dp"
-            android:backgroundTint="@color/rojo"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button" />
     </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </androidx.drawerlayout.widget.DrawerLayout>

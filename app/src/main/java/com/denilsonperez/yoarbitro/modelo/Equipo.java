@@ -1,5 +1,9 @@
 package com.denilsonperez.yoarbitro.modelo;
 
+import static android.app.Activity.RESULT_OK;
+
+import android.content.Intent;
+
 public class Equipo {
 
     private  String uid;
@@ -52,5 +56,6 @@ public class Equipo {
     @Override
     public String toString() {
         return nombre;
+
     }
 }

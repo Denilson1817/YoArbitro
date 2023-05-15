@@ -30,6 +30,8 @@
     <!-- MenuPrincipalActivity -->
     <string name="btnSeleccionEquipoUno">Clic para seleccionar equipo 1</string>
     <string name="btnSeleccionEquipoDos">Clic para seleccionar equipo 2</string>
+        <string name="btnNuevoJuego">Comenzar juego</string>
+
 
     <!-- MenuPrincipalAdminActivity -->
     <string name="bienvenidoAdminPrincipal">Bienvenido(a)</string>
