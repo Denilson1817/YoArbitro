@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import com.denilsonperez.yoarbitro.Inicio.IniciarSesionActivity;
@@ -32,8 +33,6 @@ import com.google.android.material.navigation.NavigationView;
 
 public class SeleccionEquiposActivity extends AppCompatActivity {
     DrawerLayout drawerLayout;
-    NavigationView navigationView;
-    ActionBarDrawerToggle drawerToggle;
     FirebaseAuth firebaseAuth;
     private List<Equipo> listaEquipos = new ArrayList<Equipo>();
     MyAdapter myAdapter;
@@ -50,40 +49,10 @@ public class SeleccionEquiposActivity extends AppCompatActivity {
         lvDatosEquipos = findViewById(R.id.listaEquipos);
         rvDatosEquipos= findViewById(R.id.rvDatosEquipos);
         drawerLayout = findViewById(R.id.drawerLayout);
-        navigationView = findViewById(R.id.navView);
-        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.abrirNav, R.string.cerrarNav);
-        drawerLayout.addDrawerListener(drawerToggle);
-        drawerToggle.syncState();
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        navigationView.bringToFront();
         firebaseAuth = FirebaseAuth.getInstance();
         inicializarFirebase();
         ListarDatos();
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()){
-                    case R.id.home: {
-                        startActivity(new Intent(SeleccionEquiposActivity.this, MenuPrincipalActivity.class));
-                        finish();
-                        break;
-                    }
-                    case R.id.consultarCedulas:{
-                        startActivity(new Intent(SeleccionEquiposActivity.this, CedulasGuardadasActivity.class));
-                        finish();
-                        break;
-                    }
-                    case R.id.cerrarSesion:{
-                        firebaseAuth.signOut();
-                        startActivity(new Intent(SeleccionEquiposActivity.this, IniciarSesionActivity.class));
-                        Toast.makeText(SeleccionEquiposActivity.this, "Sesión finalizada", Toast.LENGTH_SHORT).show();
-                        finish();
-                        break;
-                    }
-                }
-                return false;
-            }
-        });
+
     }
 
     public void ListarDatos(){
@@ -115,20 +84,11 @@ public class SeleccionEquiposActivity extends AppCompatActivity {
         });
 
     }
-
     private void inicializarFirebase() {
         FirebaseApp.initializeApp(this);
         firebaseDataBase = FirebaseDatabase.getInstance();
         //firebaseDataBase.setPersistenceEnabled(true); --> Esto es una mala practica para la persistencia de la BD.
         databaseReference =  firebaseDataBase.getReference();
 
-    }
-    @Override
-    public void onBackPressed() {
-        if(drawerLayout.isDrawerOpen(GravityCompat.START)){
-            drawerLayout.closeDrawer(GravityCompat.START);
-        }else{
-            super.onBackPressed();
-        }
     }
 }

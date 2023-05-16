@@ -17,6 +17,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.denilsonperez.yoarbitro.Admin.InformacionEquiposActivity;
+import com.denilsonperez.yoarbitro.Admin.InformacionJugadoresActivity;
 import com.denilsonperez.yoarbitro.Inicio.IniciarSesionActivity;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -38,7 +40,10 @@ public class MenuPrincipalActivity extends AppCompatActivity{
     public String textoEquipo1;
     public String textoEquipo2;
     private HashSet<String> equiposSeleccionados;
-
+    //Variables para pasar y recibir datos del equipo
+    Intent recibir;
+    String idEquipo;
+    String idPrimerEquipo,idSegundoEquipo="";
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(drawerToggle.onOptionsItemSelected(item)){
@@ -65,9 +70,6 @@ public class MenuPrincipalActivity extends AppCompatActivity{
         cbtnSeleccionEquipoDos= findViewById(R.id.btnSeleccionEquipoDos);
         equiposSeleccionados = new HashSet<>();
         cbtncrearJuego = findViewById(R.id.btnContiuar);
-
-
-
 
         NavigationView navigationView = findViewById(R.id.navView);
         View headerView = navigationView.getHeaderView(0);
@@ -110,7 +112,10 @@ public class MenuPrincipalActivity extends AppCompatActivity{
                             .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    startActivity(new Intent(MenuPrincipalActivity.this, JugadoresEquipo1Activity.class));
+                                    //startActivity(new Intent(MenuPrincipalActivity.this, JugadoresEquipo1Activity.class));
+                                    Intent intent = new Intent(MenuPrincipalActivity.this, JugadoresEquipo1Activity.class);
+                                    intent.putExtra("idPrimerEquipo", idPrimerEquipo);
+                                    startActivity(intent);
                                 }
                             })
                             .setNegativeButton(android.R.string.cancel, null)
@@ -118,15 +123,6 @@ public class MenuPrincipalActivity extends AppCompatActivity{
                 }
             }
         });
-
-
-
-
-
-
-
-
-
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -153,7 +149,6 @@ public class MenuPrincipalActivity extends AppCompatActivity{
             }
         });
     }
-
     @Override
     public void onBackPressed() {
         if(drawerLayout.isDrawerOpen(GravityCompat.START)){
@@ -162,21 +157,27 @@ public class MenuPrincipalActivity extends AppCompatActivity{
             super.onBackPressed();
         }
     }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == RESULT_OK) {
+            //Recuperar nombre e id de los equipos seleccionados
             String selectedText = data.getStringExtra("SELECTED_TEXT");
+            idEquipo = data.getStringExtra("idEquipo");
             if (!equiposSeleccionados.contains(selectedText)) {
                 if (requestCode == 1) {
                     textoEquipo1=selectedText;
+                    //Se obtiene el id del primer equipo
+                    idPrimerEquipo=idEquipo;
                     cbtnSeleccionEquipoUno.setText(textoEquipo1);
                     cbtnSeleccionEquipoUno.setBackgroundColor(getResources().getColor(R.color.verde));
                 } else if (requestCode == 2) {
                     textoEquipo2=selectedText;
+                    //Se obtiene el id del segundo equipo
+                    idSegundoEquipo=idEquipo;
                     cbtnSeleccionEquipoDos.setText(textoEquipo2);
+                    idEquipo = idSegundoEquipo;
                     cbtnSeleccionEquipoDos.setBackgroundColor(getResources().getColor(R.color.verde));
 
                 }

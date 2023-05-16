@@ -28,7 +28,7 @@
                 android:layout_gravity="center"
                 android:paddingLeft="14dp"
                 android:paddingRight="14dp"
-                app:srcCompat="@drawable/balon"
+                app:srcCompat="@drawable/baseline_sports_soccer_24"
                 android:layout_alignParentLeft="true"/>
             <LinearLayout
                 android:id="@+id/linearLayout"
