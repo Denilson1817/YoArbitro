@@ -91,9 +91,12 @@ Intent recibir;
                             itemSelected += listvJugadoresP.getItemAtPosition(i) + "\n";
                         }
                     }
-                    Toast.makeText(JugadoresEquipo1Activity.this, itemSelected, Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(JugadoresEquipo1Activity.this, JugadoresSeleccionadosActivity.class);
+                    //Enviar la lista de jugadores que asistieron al partido
+                    intent.putExtra("jugadoresSeleccionados", itemSelected);
+                    startActivity(intent);
                 }else {
-                    Toast.makeText(JugadoresEquipo1Activity.this, "Selecciona un elemento", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(JugadoresEquipo1Activity.this, "Selecciona más elementos", Toast.LENGTH_SHORT).show();
                 }
             }
         });
