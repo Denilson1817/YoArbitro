@@ -7,6 +7,7 @@
     tools:context=".JugadoresEquipo1Activity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/contriLayaoutJugadoresSeleccionados"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/fondo_principal">
@@ -20,6 +21,11 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
+
+            <FrameLayout
+                android:id="@+id/JugadoresPreliminarContent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
             <ListView
                 android:id="@+id/listaDeJugadoresPreliminar"
@@ -67,6 +73,7 @@
                     </androidx.cardview.widget.CardView>
                 </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
+            </FrameLayout>
         </androidx.cardview.widget.CardView>
 
         <Button

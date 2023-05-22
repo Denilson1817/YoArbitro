@@ -4,6 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -12,16 +15,12 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.denilsonperez.yoarbitro.modelo.Jugador;
-
-import java.util.ArrayList;
-import java.util.List;
-
 public class JugadoresSeleccionadosActivity extends AppCompatActivity {
     ListView listaDeJugadoresPreliminar;
     Button btnSiguiente, btnCancelar;
     Intent recibir;
-    String jugadoresSeleccionados;
+    String jugadoresSeleccionados, jugadorSeleccionado, fueAmonestado="0";
+    String[] dataArray;
     private int selectedItemPosition = -1;
     @SuppressLint("MissingInflatedId")
     @Override
@@ -30,13 +29,19 @@ public class JugadoresSeleccionadosActivity extends AppCompatActivity {
         setContentView(R.layout.activity_jugadores_seleccionados);
         listaDeJugadoresPreliminar = findViewById(R.id.listaDeJugadoresPreliminar);
         btnCancelar = findViewById(R.id.btnCancelar);
+        btnSiguiente = findViewById(R.id.btnSiguiente);
+        //Instacia de la BD
+        DatosJugadoresHelper datosJugadoresHelper = new DatosJugadoresHelper(getApplicationContext());
+        SQLiteDatabase database = datosJugadoresHelper.getReadableDatabase();
 
         //Recibir la lista de jugadores que asistieron al partido
         recibir = getIntent();
         jugadoresSeleccionados = recibir.getStringExtra("jugadoresSeleccionados");
+        fueAmonestado = recibir.getStringExtra("amonestado");
+        System.out.println("FUE AMONESTADO: "+fueAmonestado);
 
         //Pasar la lista de jugadores a un Array
-        String[] dataArray = jugadoresSeleccionados.split("\n"); // --> Separa los elementos cada que se encuentre un salto de linea
+        dataArray = jugadoresSeleccionados.split("\n"); // --> Separa los elementos cada que se encuentre un salto de linea
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, dataArray);
         listaDeJugadoresPreliminar.setAdapter(adapter);
 
@@ -46,8 +51,9 @@ public class JugadoresSeleccionadosActivity extends AppCompatActivity {
                 //Codigo para saber que jugadores se seleccionan
                 selectedItemPosition=i;
                 jugadoresSeleccionados = (String) adapterView.getItemAtPosition(i);
-                String jugadorSeleccionado = dataArray[i];
+                jugadorSeleccionado = dataArray[i];
                 Toast.makeText(JugadoresSeleccionadosActivity.this, jugadorSeleccionado, Toast.LENGTH_SHORT).show();
+                mostrarDialogo();
             }
         });
 
@@ -55,8 +61,33 @@ public class JugadoresSeleccionadosActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(JugadoresSeleccionadosActivity.this, MenuPrincipalActivity.class));
+                //Si se cancela el juego creado se eliminará la información de la base de datos local y se cierra la conexión
+                database.execSQL("DELETE FROM " + DatosJugadoresContract.DatosJugadoresTab.TABLE_NAME);
+                database.close();
                 finish();
             }
         });
+        btnSiguiente.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Estas lineas hacen que se imprima la base de datos completa. El metodo Cursor funciona como un for para recorrer toda la BD
+                Cursor cursor = database.query(DatosJugadoresContract.DatosJugadoresTab.TABLE_NAME, null, null, null, null, null, null);
+                while (cursor.moveToNext()){
+                    String datosJugadores = cursor.getString(cursor.getColumnIndexOrThrow(DatosJugadoresContract.DatosJugadoresTab._ID))+" "+
+                            cursor.getString(cursor.getColumnIndexOrThrow(DatosJugadoresContract.DatosJugadoresTab.COLUMN_Amonestado))+" "+
+                            cursor.getString(cursor.getColumnIndexOrThrow(DatosJugadoresContract.DatosJugadoresTab.COLUMN_ID));
+                    System.out.println(datosJugadores);
+                }
+            }
+        });
+    }
+    private void mostrarDialogo(){
+        //Crear el dialogo para meter datos
+        DialogDatosJugadores dialogDatosJugadores = new DialogDatosJugadores();
+        Bundle bundle = new Bundle();
+        bundle.putStringArray("jugadoresSeleccionados",dataArray);
+        bundle.putString("jugadorSeleccionado",jugadorSeleccionado);
+        dialogDatosJugadores.setArguments(bundle);
+        dialogDatosJugadores.show(getSupportFragmentManager(),"datosJugadores");
     }
 }
