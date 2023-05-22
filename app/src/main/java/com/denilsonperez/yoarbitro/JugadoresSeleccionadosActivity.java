@@ -3,6 +3,7 @@ package com.denilsonperez.yoarbitro;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -33,6 +34,7 @@ public class JugadoresSeleccionadosActivity extends AppCompatActivity {
         //Instacia de la BD
         DatosJugadoresHelper datosJugadoresHelper = new DatosJugadoresHelper(getApplicationContext());
         SQLiteDatabase database = datosJugadoresHelper.getReadableDatabase();
+        Context context = getApplicationContext();
 
         //Recibir la lista de jugadores que asistieron al partido
         recibir = getIntent();
@@ -63,6 +65,7 @@ public class JugadoresSeleccionadosActivity extends AppCompatActivity {
                 startActivity(new Intent(JugadoresSeleccionadosActivity.this, MenuPrincipalActivity.class));
                 //Si se cancela el juego creado se eliminará la información de la base de datos local y se cierra la conexión
                 database.execSQL("DELETE FROM " + DatosJugadoresContract.DatosJugadoresTab.TABLE_NAME);
+                context.deleteDatabase("DatosJugadores.db");
                 database.close();
                 finish();
             }
@@ -72,12 +75,14 @@ public class JugadoresSeleccionadosActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //Estas lineas hacen que se imprima la base de datos completa. El metodo Cursor funciona como un for para recorrer toda la BD
                 Cursor cursor = database.query(DatosJugadoresContract.DatosJugadoresTab.TABLE_NAME, null, null, null, null, null, null);
+                String datosJugadores="";
                 while (cursor.moveToNext()){
-                    String datosJugadores = cursor.getString(cursor.getColumnIndexOrThrow(DatosJugadoresContract.DatosJugadoresTab._ID))+" "+
+                    datosJugadores = cursor.getString(cursor.getColumnIndexOrThrow(DatosJugadoresContract.DatosJugadoresTab._ID))+" "+
                             cursor.getString(cursor.getColumnIndexOrThrow(DatosJugadoresContract.DatosJugadoresTab.COLUMN_Amonestado))+" "+
+                            //cursor.getString(cursor.getColumnIndexOrThrow(DatosJugadoresContract.DatosJugadoresTab.COLUMN_Expulsado))+ " "+
                             cursor.getString(cursor.getColumnIndexOrThrow(DatosJugadoresContract.DatosJugadoresTab.COLUMN_ID));
-                    System.out.println(datosJugadores);
                 }
+                System.out.println(datosJugadores);
             }
         });
     }

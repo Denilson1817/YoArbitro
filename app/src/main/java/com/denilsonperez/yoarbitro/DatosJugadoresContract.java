@@ -10,8 +10,8 @@ public class DatosJugadoresContract {
         public static final String TABLE_NAME = "DatosJugadores";
         public static final String COLUMN_ID = "ID";
         public static final String COLUMN_Amonestado = "Amonestado";
-        //DATOS A AGREGAR EN UN FUTURO
         //public static final String COLUMN_Expulsado = "Expulsado";
+        //DATOS A AGREGAR EN UN FUTURO
         //public static final String COLUMN_Goles = "Goles";
     }
 }

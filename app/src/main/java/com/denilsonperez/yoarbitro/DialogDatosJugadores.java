@@ -23,9 +23,10 @@ import com.denilsonperez.yoarbitro.Admin.AgregarJugadoresDosActivity;
 import java.util.Arrays;
 
 public class DialogDatosJugadores extends DialogFragment {
-    CheckBox amonestado;
+    CheckBox amonestado, expulsado;
     String[] jugadoresSeleccionados;
-    String jugadorSeleccionado, fueAmonestado;
+    String jugadorSeleccionado, fueAmonestado, fueExpulsado;
+    int goles;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +41,16 @@ public class DialogDatosJugadores extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
+        //Para pasar la lista de jugadores de nuevo al JugadoresSeleccionados. Ya que al abrir el Dialog la info se pierde
+        StringBuilder stringBuilder = new StringBuilder();
+        for(int j=0;j<jugadoresSeleccionados.length;j++){
+            stringBuilder.append(jugadoresSeleccionados[j]);
+            if(j< jugadoresSeleccionados.length-1){
+                stringBuilder.append("\n");
+            }
+        }
+        //Se pasan los datos a la clase anterior. El array de jugadores seleccionados se pasa como cadena
+        String cadena = stringBuilder.toString();
         builder.setView(getActivity().getLayoutInflater().inflate(R.layout.datos_jugadores,null))
                 .setTitle("Datos de jugadores")
                 .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
@@ -49,19 +59,36 @@ public class DialogDatosJugadores extends DialogFragment {
                         switch (i){
                             case DialogInterface.BUTTON_POSITIVE:
                                 Intent intent = new Intent(getContext(), JugadoresSeleccionadosActivity.class);
-                                if(amonestado.isChecked()==true){
+                                if(amonestado.isChecked()==true && expulsado.isChecked()==true){
                                     fueAmonestado = "1";
-                                    //Para pasar la lista de jugadores de nuevo al JugadoresSeleccionados. Ya que al abrir el Dialog la info se pierde
-                                    StringBuilder stringBuilder = new StringBuilder();
-                                    for(int j=0;j<jugadoresSeleccionados.length;j++){
-                                        stringBuilder.append(jugadoresSeleccionados[j]);
-                                        if(j< jugadoresSeleccionados.length-1){
-                                            stringBuilder.append("\n");
-                                        }
-                                    }
-                                    //Se pasan los datos a la clase anterior. El array de jugadores seleccionados se pasa como cadena.
-                                    String cadena = stringBuilder.toString();
+                                    fueExpulsado = "1";
                                     intent.putExtra("amonestado",fueAmonestado);
+                                    intent.putExtra("expulsado",fueExpulsado);
+                                    intent.putExtra("jugadoresSeleccionados",cadena);
+                                    guardarDatosDelJugador();
+                                    startActivity(intent);
+                                }
+                                if(amonestado.isChecked()==true && expulsado.isChecked()==false){
+                                    fueAmonestado = "1";
+                                    fueExpulsado = "0";
+                                    intent.putExtra("amonestado",fueAmonestado);
+                                    intent.putExtra("expulsado",fueExpulsado);
+                                    intent.putExtra("jugadoresSeleccionados",cadena);
+                                    guardarDatosDelJugador();
+                                    startActivity(intent);
+                                }if(expulsado.isChecked()==true && amonestado.isChecked()==false || amonestado.isChecked() == true){
+                                fueAmonestado = "1";
+                                fueExpulsado = "1";
+                                intent.putExtra("amonestado",fueAmonestado);
+                                intent.putExtra("expulsado",fueExpulsado);
+                                intent.putExtra("jugadoresSeleccionados",cadena);
+                                guardarDatosDelJugador();
+                                startActivity(intent);
+                                }else{
+                                    fueAmonestado = "0";
+                                    fueExpulsado = "0";
+                                    intent.putExtra("amonestado",fueAmonestado);
+                                    intent.putExtra("expulsado",fueExpulsado);
                                     intent.putExtra("jugadoresSeleccionados",cadena);
                                     guardarDatosDelJugador();
                                     startActivity(intent);
@@ -72,14 +99,6 @@ public class DialogDatosJugadores extends DialogFragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         Intent intent = new Intent(getContext(), JugadoresSeleccionadosActivity.class);
-                        StringBuilder stringBuilder = new StringBuilder();
-                        for(int j=0;j<jugadoresSeleccionados.length;j++){
-                            stringBuilder.append(jugadoresSeleccionados[j]);
-                            if(j< jugadoresSeleccionados.length-1){
-                                stringBuilder.append("\n");
-                            }
-                        }
-                        String cadena = stringBuilder.toString();
                         intent.putExtra("jugadoresSeleccionados",cadena);
                         startActivity(intent);
                     }
@@ -94,6 +113,7 @@ public class DialogDatosJugadores extends DialogFragment {
         ContentValues valores = new ContentValues();
         valores.put(DatosJugadoresContract.DatosJugadoresTab.COLUMN_ID, jugadorSeleccionado);
         valores.put(DatosJugadoresContract.DatosJugadoresTab.COLUMN_Amonestado, fueAmonestado);
+        //valores.put(DatosJugadoresContract.DatosJugadoresTab.COLUMN_Expulsado,fueExpulsado);
         //NI IDEA PARA QUE SIRVE PERO LO HIZO LA PROFE Y SI YA SIRVE MEJOR NI LE MUEVAN
         long idNuevoDJ = database.insert(DatosJugadoresContract.DatosJugadoresTab.TABLE_NAME, null,valores);
         String idDJ = Long.toString(idNuevoDJ);
@@ -102,5 +122,6 @@ public class DialogDatosJugadores extends DialogFragment {
     public void onStart() {
         super.onStart();
         amonestado = (CheckBox) getDialog().findViewById(R.id.checkboxAmonestado);
+        expulsado = (CheckBox) getDialog().findViewById(R.id.checkboxExpulsado);
     }
 }

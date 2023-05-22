@@ -14,7 +14,8 @@ public class DatosJugadoresHelper extends SQLiteOpenHelper {
             DatosJugadoresContract.DatosJugadoresTab.TABLE_NAME+
             " (" + BaseColumns._ID + " INTEGER PRIMARY KEY," +
             DatosJugadoresContract.DatosJugadoresTab.COLUMN_Amonestado+ " INTEGER," +
-            DatosJugadoresContract.DatosJugadoresTab.COLUMN_ID + " INTEGER)";
+            //DatosJugadoresContract.DatosJugadoresTab.COLUMN_Expulsado+ " INTEGER," +
+            DatosJugadoresContract.DatosJugadoresTab.COLUMN_ID+ " INTEGER)";
     public static final String SQL_DELETE_DATOSJUGADORES = "DROP TABLE IF EXISTS "+
             DatosJugadoresContract.DatosJugadoresTab.TABLE_NAME;
 
