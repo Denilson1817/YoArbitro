@@ -83,6 +83,7 @@ public class JugadoresSeleccionadosActivity extends AppCompatActivity {
                             cursor.getString(cursor.getColumnIndexOrThrow(DatosJugadoresContract.DatosJugadoresTab.COLUMN_ID));
                 }
                 System.out.println(datosJugadores);
+
             }
         });
     }

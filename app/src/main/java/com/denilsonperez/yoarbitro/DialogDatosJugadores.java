@@ -19,6 +19,8 @@ import androidx.fragment.app.DialogFragment;
 
 import com.denilsonperez.yoarbitro.Admin.AgregarJugadoresActivity;
 import com.denilsonperez.yoarbitro.Admin.AgregarJugadoresDosActivity;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Arrays;
 
@@ -27,6 +29,9 @@ public class DialogDatosJugadores extends DialogFragment {
     String[] jugadoresSeleccionados;
     String jugadorSeleccionado, fueAmonestado, fueExpulsado;
     int goles;
+    FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+    DatabaseReference parentRef = firebaseDatabase.getReference("Cedulas");
+    DatabaseReference subRef = parentRef.push(); //Se crea un nodo con un idUnico
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,10 +111,10 @@ public class DialogDatosJugadores extends DialogFragment {
         return builder.create();
     }
     private void guardarDatosDelJugador() {
-        //Instancia de la BD
+        //Instancia de la BD local
         DatosJugadoresHelper datosJugadoresHelper = new DatosJugadoresHelper(getContext().getApplicationContext());
         SQLiteDatabase database = datosJugadoresHelper.getWritableDatabase();
-        //Pasar los valres recolectados del Dialog a la BD
+        //Pasar los valres recolectados del Dialog a la BD local
         ContentValues valores = new ContentValues();
         valores.put(DatosJugadoresContract.DatosJugadoresTab.COLUMN_ID, jugadorSeleccionado);
         valores.put(DatosJugadoresContract.DatosJugadoresTab.COLUMN_Amonestado, fueAmonestado);
@@ -117,6 +122,10 @@ public class DialogDatosJugadores extends DialogFragment {
         //NI IDEA PARA QUE SIRVE PERO LO HIZO LA PROFE Y SI YA SIRVE MEJOR NI LE MUEVAN
         long idNuevoDJ = database.insert(DatosJugadoresContract.DatosJugadoresTab.TABLE_NAME, null,valores);
         String idDJ = Long.toString(idNuevoDJ);
+
+        //Guardar dato en firebase
+        parentRef.child(jugadorSeleccionado).child("amonestado").setValue(fueAmonestado);
+        parentRef.child(jugadorSeleccionado).child("expulsado").setValue(fueExpulsado);
     }
     @Override
     public void onStart() {
