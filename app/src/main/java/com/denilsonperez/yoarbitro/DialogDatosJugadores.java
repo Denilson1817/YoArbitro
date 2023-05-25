@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,20 +27,24 @@ import java.util.Arrays;
 
 public class DialogDatosJugadores extends DialogFragment {
     CheckBox amonestado, expulsado;
+    EditText golesJugador;
     String[] jugadoresSeleccionados;
-    String jugadorSeleccionado, fueAmonestado, fueExpulsado;
-    int goles;
+    String jugadorSeleccionado, fueAmonestado, fueExpulsado, idJuego, nombre, numeroDeJugador, goles;
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     DatabaseReference parentRef = firebaseDatabase.getReference("Cedulas");
-    DatabaseReference subRef = parentRef.push(); //Se crea un nodo con un idUnico
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle args = getArguments();
         if(args != null){
+            //Recibir las variables de la clase anterior
             jugadoresSeleccionados = args.getStringArray("jugadoresSeleccionados");
             jugadorSeleccionado = args.getString("jugadorSeleccionado");
-            System.out.println("ESTE ES EL ID DEL JUGADOR SELECCIONADO"+ jugadorSeleccionado);
+            idJuego = args.getString("idJuego");
+            //Separar el nombre del jugador y el numero que vienen juntos
+            String[] jugadorPartes = jugadorSeleccionado.split(",");
+            nombre = jugadorPartes[0];
+            numeroDeJugador = jugadorPartes[1];
         }
     }
     @NonNull
@@ -64,37 +69,28 @@ public class DialogDatosJugadores extends DialogFragment {
                         switch (i){
                             case DialogInterface.BUTTON_POSITIVE:
                                 Intent intent = new Intent(getContext(), JugadoresSeleccionadosActivity.class);
-                                if(amonestado.isChecked()==true && expulsado.isChecked()==true){
+                                if(expulsado.isChecked()==true){
                                     fueAmonestado = "1";
                                     fueExpulsado = "1";
-                                    intent.putExtra("amonestado",fueAmonestado);
-                                    intent.putExtra("expulsado",fueExpulsado);
+                                    goles = golesJugador.getText().toString();
                                     intent.putExtra("jugadoresSeleccionados",cadena);
+                                    intent.putExtra("idJuego",idJuego);
                                     guardarDatosDelJugador();
                                     startActivity(intent);
-                                }
-                                if(amonestado.isChecked()==true && expulsado.isChecked()==false){
+                                } else if (amonestado.isChecked()==true && expulsado.isChecked()==false) {
                                     fueAmonestado = "1";
                                     fueExpulsado = "0";
-                                    intent.putExtra("amonestado",fueAmonestado);
-                                    intent.putExtra("expulsado",fueExpulsado);
+                                    goles = golesJugador.getText().toString();
                                     intent.putExtra("jugadoresSeleccionados",cadena);
+                                    intent.putExtra("idJuego",idJuego);
                                     guardarDatosDelJugador();
                                     startActivity(intent);
-                                }if(expulsado.isChecked()==true && amonestado.isChecked()==false || amonestado.isChecked() == true){
-                                fueAmonestado = "1";
-                                fueExpulsado = "1";
-                                intent.putExtra("amonestado",fueAmonestado);
-                                intent.putExtra("expulsado",fueExpulsado);
-                                intent.putExtra("jugadoresSeleccionados",cadena);
-                                guardarDatosDelJugador();
-                                startActivity(intent);
-                                }else{
+                                } else if (amonestado.isChecked()==false &&  expulsado.isChecked()==false) {
                                     fueAmonestado = "0";
                                     fueExpulsado = "0";
-                                    intent.putExtra("amonestado",fueAmonestado);
-                                    intent.putExtra("expulsado",fueExpulsado);
+                                    goles = golesJugador.getText().toString();
                                     intent.putExtra("jugadoresSeleccionados",cadena);
+                                    intent.putExtra("idJuego",idJuego);
                                     guardarDatosDelJugador();
                                     startActivity(intent);
                                 }
@@ -105,32 +101,26 @@ public class DialogDatosJugadores extends DialogFragment {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         Intent intent = new Intent(getContext(), JugadoresSeleccionadosActivity.class);
                         intent.putExtra("jugadoresSeleccionados",cadena);
+                        intent.putExtra("idJuego",idJuego);
                         startActivity(intent);
                     }
                 });
         return builder.create();
     }
     private void guardarDatosDelJugador() {
-        //Instancia de la BD local
-        DatosJugadoresHelper datosJugadoresHelper = new DatosJugadoresHelper(getContext().getApplicationContext());
-        SQLiteDatabase database = datosJugadoresHelper.getWritableDatabase();
-        //Pasar los valres recolectados del Dialog a la BD local
-        ContentValues valores = new ContentValues();
-        valores.put(DatosJugadoresContract.DatosJugadoresTab.COLUMN_ID, jugadorSeleccionado);
-        valores.put(DatosJugadoresContract.DatosJugadoresTab.COLUMN_Amonestado, fueAmonestado);
-        //valores.put(DatosJugadoresContract.DatosJugadoresTab.COLUMN_Expulsado,fueExpulsado);
-        //NI IDEA PARA QUE SIRVE PERO LO HIZO LA PROFE Y SI YA SIRVE MEJOR NI LE MUEVAN
-        long idNuevoDJ = database.insert(DatosJugadoresContract.DatosJugadoresTab.TABLE_NAME, null,valores);
-        String idDJ = Long.toString(idNuevoDJ);
-
         //Guardar dato en firebase
-        parentRef.child(jugadorSeleccionado).child("amonestado").setValue(fueAmonestado);
-        parentRef.child(jugadorSeleccionado).child("expulsado").setValue(fueExpulsado);
+        parentRef.child(idJuego).child(nombre).child("amonestado").setValue(fueAmonestado);
+        parentRef.child(idJuego).child(nombre).child("numeroDeJugador").setValue(numeroDeJugador);
+        parentRef.child(idJuego).child(nombre).child("goles").setValue(goles);
+        parentRef.child(idJuego).child(nombre).child("expulsado").setValue(fueExpulsado);
+
     }
     @Override
     public void onStart() {
         super.onStart();
         amonestado = (CheckBox) getDialog().findViewById(R.id.checkboxAmonestado);
         expulsado = (CheckBox) getDialog().findViewById(R.id.checkboxExpulsado);
+        golesJugador = (EditText) getDialog().findViewById(R.id.golesJugador);
+
     }
 }

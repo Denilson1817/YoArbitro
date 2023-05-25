@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JugadoresEquipo1Activity extends AppCompatActivity {
-String equipoEnviado1, equipoEnviado2,idPrimerEquipo;
+String equipoEnviado1, equipoEnviado2,idPrimerEquipo, idJuego;
 TextView tituloEquipo1, tituloEquipo2;
 Button btnSiguiente, btnCancelar;
 //Conectar con firebase
@@ -59,6 +59,9 @@ Intent recibir;
         //Recibir id's del equipo 1 para el if y poder recuperar los jugadores pertenecientes a ese id
         recibir = getIntent();
         idPrimerEquipo = recibir.getStringExtra("idPrimerEquipo");
+        //Recibimos el id del juego creado por firebase para crear un nodo nuevo cada que se haga una nueva cedula
+        //Este id se usará para asirgnar los amonestados y goles de jugadores en las siguientes clases.
+        idJuego = recibir.getStringExtra("idJuego");
 
         btnCancelar = findViewById(R.id.btnCancelar);
         btnSiguiente = findViewById(R.id.btnSiguiente);
@@ -85,7 +88,7 @@ Intent recibir;
             public void onClick(View view) {
                 //Se imprime la lista de jugadores seleccionados
                 if(selectedItemPosition != 1){
-                    String itemSelected = "Jugadores seleccionados: \n";
+                    String itemSelected ="";
                     for(int i=0;i<listvJugadoresP.getCount();i++){
                         if(listvJugadoresP.isItemChecked(i)){
                             itemSelected += listvJugadoresP.getItemAtPosition(i) + "\n";
@@ -94,6 +97,8 @@ Intent recibir;
                     Intent intent = new Intent(JugadoresEquipo1Activity.this, JugadoresSeleccionadosActivity.class);
                     //Enviar la lista de jugadores que asistieron al partido
                     intent.putExtra("jugadoresSeleccionados", itemSelected);
+                    //Enviar el id del juego
+                    intent.putExtra("idJuego",idJuego);
                     startActivity(intent);
                 }else {
                     Toast.makeText(JugadoresEquipo1Activity.this, "Selecciona más elementos", Toast.LENGTH_SHORT).show();

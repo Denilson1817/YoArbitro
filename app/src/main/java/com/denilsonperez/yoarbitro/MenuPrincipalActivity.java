@@ -44,6 +44,9 @@ public class MenuPrincipalActivity extends AppCompatActivity{
     Intent recibir;
     String idEquipo;
     String idPrimerEquipo,idSegundoEquipo="";
+    FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+    DatabaseReference parentRef = firebaseDatabase.getReference("Cedulas");
+    DatabaseReference subRef = parentRef.push(); //Se crea un nodo con un idUnico
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(drawerToggle.onOptionsItemSelected(item)){
@@ -112,9 +115,10 @@ public class MenuPrincipalActivity extends AppCompatActivity{
                             .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    //startActivity(new Intent(MenuPrincipalActivity.this, JugadoresEquipo1Activity.class));
+                                    String idJuego = subRef.getKey();
                                     Intent intent = new Intent(MenuPrincipalActivity.this, JugadoresEquipo1Activity.class);
                                     intent.putExtra("idPrimerEquipo", idPrimerEquipo);
+                                    intent.putExtra("idJuego",idJuego);
                                     startActivity(intent);
                                 }
                             })
