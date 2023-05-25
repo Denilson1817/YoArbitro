@@ -43,7 +43,7 @@ public class MenuPrincipalActivity extends AppCompatActivity{
     //Variables para pasar y recibir datos del equipo
     Intent recibir;
     String idEquipo;
-    String idPrimerEquipo,idSegundoEquipo="";
+    String idPrimerEquipo,idSegundoEquipo;
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     DatabaseReference parentRef = firebaseDatabase.getReference("Cedulas");
     DatabaseReference subRef = parentRef.push(); //Se crea un nodo con un idUnico
@@ -118,6 +118,7 @@ public class MenuPrincipalActivity extends AppCompatActivity{
                                     String idJuego = subRef.getKey();
                                     Intent intent = new Intent(MenuPrincipalActivity.this, JugadoresEquipo1Activity.class);
                                     intent.putExtra("idPrimerEquipo", idPrimerEquipo);
+                                    intent.putExtra("idSegundoEquipo", idSegundoEquipo);
                                     intent.putExtra("idJuego",idJuego);
                                     startActivity(intent);
                                 }

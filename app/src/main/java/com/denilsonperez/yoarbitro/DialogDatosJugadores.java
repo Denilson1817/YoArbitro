@@ -29,7 +29,7 @@ public class DialogDatosJugadores extends DialogFragment {
     CheckBox amonestado, expulsado;
     EditText golesJugador;
     String[] jugadoresSeleccionados;
-    String jugadorSeleccionado, fueAmonestado, fueExpulsado, idJuego, nombre, numeroDeJugador, goles;
+    String jugadorSeleccionado, fueAmonestado, fueExpulsado, idJuego, nombre, numeroDeJugador, goles, idSegundoEquipo;
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     DatabaseReference parentRef = firebaseDatabase.getReference("Cedulas");
     @Override
@@ -41,6 +41,7 @@ public class DialogDatosJugadores extends DialogFragment {
             jugadoresSeleccionados = args.getStringArray("jugadoresSeleccionados");
             jugadorSeleccionado = args.getString("jugadorSeleccionado");
             idJuego = args.getString("idJuego");
+            idSegundoEquipo = args.getString("idSegundoEquipo");
             //Separar el nombre del jugador y el numero que vienen juntos
             String[] jugadorPartes = jugadorSeleccionado.split(",");
             nombre = jugadorPartes[0];
@@ -75,6 +76,7 @@ public class DialogDatosJugadores extends DialogFragment {
                                     goles = golesJugador.getText().toString();
                                     intent.putExtra("jugadoresSeleccionados",cadena);
                                     intent.putExtra("idJuego",idJuego);
+                                    intent.putExtra("idSegundoEquipo", idSegundoEquipo);
                                     guardarDatosDelJugador();
                                     startActivity(intent);
                                 } else if (amonestado.isChecked()==true && expulsado.isChecked()==false) {
@@ -83,6 +85,7 @@ public class DialogDatosJugadores extends DialogFragment {
                                     goles = golesJugador.getText().toString();
                                     intent.putExtra("jugadoresSeleccionados",cadena);
                                     intent.putExtra("idJuego",idJuego);
+                                    intent.putExtra("idSegundoEquipo", idSegundoEquipo);
                                     guardarDatosDelJugador();
                                     startActivity(intent);
                                 } else if (amonestado.isChecked()==false &&  expulsado.isChecked()==false) {
@@ -91,6 +94,7 @@ public class DialogDatosJugadores extends DialogFragment {
                                     goles = golesJugador.getText().toString();
                                     intent.putExtra("jugadoresSeleccionados",cadena);
                                     intent.putExtra("idJuego",idJuego);
+                                    intent.putExtra("idSegundoEquipo", idSegundoEquipo);
                                     guardarDatosDelJugador();
                                     startActivity(intent);
                                 }
@@ -102,6 +106,7 @@ public class DialogDatosJugadores extends DialogFragment {
                         Intent intent = new Intent(getContext(), JugadoresSeleccionadosActivity.class);
                         intent.putExtra("jugadoresSeleccionados",cadena);
                         intent.putExtra("idJuego",idJuego);
+                        intent.putExtra("idSegundoEquipo", idSegundoEquipo);
                         startActivity(intent);
                     }
                 });

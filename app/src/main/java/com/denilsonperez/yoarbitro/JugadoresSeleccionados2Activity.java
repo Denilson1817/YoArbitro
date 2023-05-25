@@ -2,12 +2,7 @@ package com.denilsonperez.yoarbitro;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -16,18 +11,17 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
-public class JugadoresSeleccionadosActivity extends AppCompatActivity {
+public class JugadoresSeleccionados2Activity extends AppCompatActivity {
     ListView listaDeJugadoresPreliminar;
     Button btnSiguiente, btnCancelar;
     Intent recibir;
     String jugadoresSeleccionados, jugadorSeleccionado, idJuego, idSegundoEquipo;
     String[] dataArray;
     private int selectedItemPosition = -1;
-    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_jugadores_seleccionados);
+        setContentView(R.layout.activity_jugadores_seleccionados2);
         listaDeJugadoresPreliminar = findViewById(R.id.listaDeJugadoresPreliminar);
         btnCancelar = findViewById(R.id.btnCancelar);
         btnSiguiente = findViewById(R.id.btnSiguiente);
@@ -50,25 +44,21 @@ public class JugadoresSeleccionadosActivity extends AppCompatActivity {
                 selectedItemPosition=i;
                 jugadoresSeleccionados = (String) adapterView.getItemAtPosition(i);
                 jugadorSeleccionado = dataArray[i];
-                Toast.makeText(JugadoresSeleccionadosActivity.this, jugadorSeleccionado, Toast.LENGTH_SHORT).show();
+                Toast.makeText(JugadoresSeleccionados2Activity.this, jugadorSeleccionado, Toast.LENGTH_SHORT).show();
                 mostrarDialogo();
             }
         });
-
         btnCancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(JugadoresSeleccionadosActivity.this, MenuPrincipalActivity.class));
+                startActivity(new Intent(JugadoresSeleccionados2Activity.this, MenuPrincipalActivity.class));
                 finish();
             }
         });
         btnSiguiente.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(JugadoresSeleccionadosActivity.this, JugadoresEquipo2Activity.class);
-                intent.putExtra("idSegundoEquipo", idSegundoEquipo);
-                intent.putExtra("idJuego",idJuego);
-                startActivity(intent);
+               //aquí se agrega la siguiente parte de la cedula
             }
         });
     }
