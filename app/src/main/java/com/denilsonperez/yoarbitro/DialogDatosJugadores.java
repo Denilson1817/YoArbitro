@@ -30,6 +30,7 @@ public class DialogDatosJugadores extends DialogFragment {
     EditText golesJugador;
     String[] jugadoresSeleccionados;
     String jugadorSeleccionado, fueAmonestado, fueExpulsado, idJuego, nombre, numeroDeJugador, goles, idSegundoEquipo;
+    boolean pantallaDos;
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     DatabaseReference parentRef = firebaseDatabase.getReference("Cedulas");
     @Override
@@ -42,6 +43,10 @@ public class DialogDatosJugadores extends DialogFragment {
             jugadorSeleccionado = args.getString("jugadorSeleccionado");
             idJuego = args.getString("idJuego");
             idSegundoEquipo = args.getString("idSegundoEquipo");
+            //Esta variable es para poder reutilizar el mismo dialog en ambas pantallas de jugadores del equipo 1 y 2.
+            //lo que se hace es que si vienes de la pantalla de jugadores 2 es true, entonces cuando se finalice el uso de la pantalla y
+            //Se presione "siguiente" te manda a la actividad de arbitros. Mientras que si estas en la pantalla del equipo 1 te mando a la del equipo 2.
+            pantallaDos = args.getBoolean("pantallaDos",false);
             //Separar el nombre del jugador y el numero que vienen juntos
             String[] jugadorPartes = jugadorSeleccionado.split(",");
             nombre = jugadorPartes[0];
@@ -69,7 +74,13 @@ public class DialogDatosJugadores extends DialogFragment {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         switch (i){
                             case DialogInterface.BUTTON_POSITIVE:
-                                Intent intent = new Intent(getContext(), JugadoresSeleccionadosActivity.class);
+                                //Aquí se define el intent a donde serás enviado según de donde vengas. Del equipo 1 o del equipo 2
+                                Intent intent;
+                                if(pantallaDos == true){
+                                    intent = new Intent(getContext(), JugadoresSeleccionados2Activity.class);
+                                }else {
+                                    intent = new Intent(getContext(), JugadoresSeleccionadosActivity.class);
+                                }
                                 if(expulsado.isChecked()==true){
                                     fueAmonestado = "1";
                                     fueExpulsado = "1";

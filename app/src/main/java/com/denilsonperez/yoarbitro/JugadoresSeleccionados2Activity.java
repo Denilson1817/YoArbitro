@@ -16,6 +16,7 @@ public class JugadoresSeleccionados2Activity extends AppCompatActivity {
     Button btnSiguiente, btnCancelar;
     Intent recibir;
     String jugadoresSeleccionados, jugadorSeleccionado, idJuego, idSegundoEquipo;
+    Boolean pantallaDos=true;
     String[] dataArray;
     private int selectedItemPosition = -1;
     @Override
@@ -58,7 +59,10 @@ public class JugadoresSeleccionados2Activity extends AppCompatActivity {
         btnSiguiente.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               //aquí se agrega la siguiente parte de la cedula
+                Intent intent = new Intent(JugadoresSeleccionados2Activity.this, DatosArbitrosActivity.class);
+                //Enviar el id del juego
+                intent.putExtra("idJuego",idJuego);
+                startActivity(intent);
             }
         });
     }
@@ -71,6 +75,7 @@ public class JugadoresSeleccionados2Activity extends AppCompatActivity {
         bundle.putString("jugadorSeleccionado",jugadorSeleccionado);
         bundle.putString("idJuego",idJuego);
         bundle.putString("idSegundoEquipo",idSegundoEquipo);
+        bundle.putBoolean("pantallaDos",pantallaDos);
         dialogDatosJugadores.setArguments(bundle);
         dialogDatosJugadores.show(getSupportFragmentManager(),"datosJugadores");
     }
