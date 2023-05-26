@@ -37,14 +37,14 @@ public class DatosArbitrosActivity extends AppCompatActivity {
         recibir = getIntent();
         idJuego = recibir.getStringExtra("idJuego");
 
-        System.out.println("ID DE LA CEDULA: "+idJuego);
-
-
-
         btnSiguiente.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 validarDatos();
+                Intent intent = new Intent(DatosArbitrosActivity.this, DatosDelPartidoActivity.class);
+                intent.putExtra("idJuego",idJuego);
+                startActivity(intent);
+                finish();
             }
         });
 
@@ -67,15 +67,15 @@ public class DatosArbitrosActivity extends AppCompatActivity {
     }
 
     private void subirdatos() {
-        parentRef.child(idJuego).child("Arbitros").child(nombreCentral).setValue("Central");
+        parentRef.child(idJuego).child("Arbitros").child("Central").setValue(nombreCentral);
 
         nombreAsistente1 = nombreArbitroAsistente1.getText().toString();
         nombreAsistente2 = nombreArbitroAsistente2.getText().toString();
         if(TextUtils.isEmpty(nombreAsistente1) && TextUtils.isEmpty(nombreAsistente2)){
 
         } else{
-            parentRef.child(idJuego).child("Arbitros").child(nombreAsistente1).setValue("Asistente 1");
-            parentRef.child(idJuego).child("Arbitros").child(nombreAsistente2).setValue("Asistente 2");
+            parentRef.child(idJuego).child("Arbitros").child("Asistente 1").setValue(nombreAsistente1);
+            parentRef.child(idJuego).child("Arbitros").child("Asistente 2").setValue(nombreAsistente2);
         }
 
     }

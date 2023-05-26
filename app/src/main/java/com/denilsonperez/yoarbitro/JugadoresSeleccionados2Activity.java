@@ -63,6 +63,7 @@ public class JugadoresSeleccionados2Activity extends AppCompatActivity {
                 //Enviar el id del juego
                 intent.putExtra("idJuego",idJuego);
                 startActivity(intent);
+                finish();
             }
         });
     }
