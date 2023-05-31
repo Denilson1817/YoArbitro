@@ -42,6 +42,10 @@ public class DatosDelPartidoActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 validarDatos();
+                Intent intent = new Intent(DatosDelPartidoActivity.this, PdfActivity.class);
+                intent.putExtra("idJuego",idJuego);
+                startActivity(intent);
+                finish();
             }
         });
 
