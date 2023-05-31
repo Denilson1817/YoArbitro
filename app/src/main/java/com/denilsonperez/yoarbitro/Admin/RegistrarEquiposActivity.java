@@ -10,6 +10,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -38,13 +39,7 @@ public class RegistrarEquiposActivity extends AppCompatActivity {
     Button btnSiguiente, btnCancelar;
     FirebaseAuth firebaseAuth;
     String nombre = "", delegado ="", numero="";
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(drawerToggle.onOptionsItemSelected(item)){
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +56,7 @@ public class RegistrarEquiposActivity extends AppCompatActivity {
         nombreEqui = findViewById(R.id.nombreEquipo);
         nomDeleg = findViewById(R.id.nomDeleEquipo);
         numeroCont = findViewById(R.id.numDelContacto);
-        btnSiguiente = findViewById(R.id.btnRegistrarEquipos);
+        //btnSiguiente = findViewById(R.id.btnRegistrarEquipos);
         btnCancelar = findViewById(R.id.btnCancelar);
         firebaseAuth = FirebaseAuth.getInstance();
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -99,21 +94,38 @@ public class RegistrarEquiposActivity extends AppCompatActivity {
                 return false;
             }
         });
-        btnCancelar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+
+
+
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(drawerToggle.onOptionsItemSelected(item)){
+            return true;
+        }
+        switch (item.getItemId()){
+            case R.id.icon_agregar:{
+                validarDatos();
+
+                break;
+            }
+
+            case R.id.icon_cancelar:{
                 startActivity(new Intent(RegistrarEquiposActivity.this, MenuPrincipalAdminActivity.class));
                 finish();
             }
-        });
+            default:break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
-        btnSiguiente.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                validarDatos();
-                }
 
-        });
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_agregar_jugador,menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
         public void validarDatos(){

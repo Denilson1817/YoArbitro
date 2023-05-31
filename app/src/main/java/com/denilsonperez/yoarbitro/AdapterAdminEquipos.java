@@ -2,23 +2,31 @@ package com.denilsonperez.yoarbitro;
 
 import static android.app.Activity.RESULT_OK;
 
-
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.denilsonperez.yoarbitro.Admin.InformacionEquiposActivity;
+import com.denilsonperez.yoarbitro.Admin.MenuPrincipalAdminActivity;
 import com.denilsonperez.yoarbitro.modelo.Equipo;
+
 import java.util.List;
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
+
+public class AdapterAdminEquipos extends RecyclerView.Adapter<AdapterAdminEquipos.ViewHolder> {
      List<Equipo> myList;
-    private SeleccionEquiposActivity mActivity;
+    //Equipo equipoSeleccionado;
+
+    private MenuPrincipalAdminActivity mActivity;
     private Context context;
     private LayoutInflater inflater;
-    public MyAdapter(List<Equipo> myList, Context context, SeleccionEquiposActivity activity) {
+    public AdapterAdminEquipos(List<Equipo> myList, Context context,MenuPrincipalAdminActivity activity) {
         this.inflater=LayoutInflater.from(context);
         this.myList = myList;
         this.context=context;
@@ -27,26 +35,31 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     }
     @NonNull
     @Override
-    public MyAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public AdapterAdminEquipos.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.lista_elementos_equipo, parent, false);
         return new ViewHolder(view);
     }
     @Override
-    public void onBindViewHolder(final MyAdapter.ViewHolder holder,final int position) {
+    public void onBindViewHolder(final AdapterAdminEquipos.ViewHolder holder, final int position) {
         holder.binData(myList.get(position));
-        Equipo equipo = myList.get(position);
+        Equipo equipoSeleccionado = myList.get(position);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Crear un Intent para iniciar la nueva actividad
-                Intent intent = new Intent(view.getContext(), MenuPrincipalActivity.class);
-                // Agregar el texto del nombre del equipo como extra del Intent
-                intent.putExtra("SELECTED_TEXT", equipo.getNombre());
-                //Agregar id del equipo para recuperar los jugadores pertenecientes al equipo seleccionado
-                intent.putExtra("idEquipo", equipo.getUid());
-                // Iniciar la nueva actividad
-                mActivity.setResult(RESULT_OK, intent);
-                mActivity.finish();
+                //Datos recuperados de Firebase
+                String nombreEquipo = equipoSeleccionado.getNombre();
+                String nombreDelegado = equipoSeleccionado.getDelegado();
+                String numDeContacto = equipoSeleccionado.getNumContacto();
+                String idEquipo = equipoSeleccionado.getUid();
+
+                Intent intent = new Intent(view.getContext(), InformacionEquiposActivity.class);
+
+                //Enviar datos del equipo
+                intent.putExtra("nombreEquipo",nombreEquipo);
+                intent.putExtra("nombreDelegado",nombreDelegado);
+                intent.putExtra("numDeContacto",numDeContacto);
+                intent.putExtra("idEquipo",idEquipo);
+                mActivity.startActivity(intent);
             }
 
         });
