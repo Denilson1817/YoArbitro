@@ -32,7 +32,7 @@
                 android:layout_gravity="center"
                 android:paddingLeft="14dp"
                 android:paddingRight="14dp"
-                app:srcCompat="@drawable/baseline_sports_soccer_24" />
+                app:srcCompat="@drawable/jugador_de_futbol" />
 
             <LinearLayout
                 android:id="@+id/linearLayout"

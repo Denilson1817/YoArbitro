@@ -15,7 +15,7 @@
             android:title="Consultar cedulas"/>
         <item android:id="@+id/cerrarSesion"
             android:icon="@drawable/cerrar_sesion"
-            android:title="Cerrar Sesion"/>
+            android:title="Cerrar sesión"/>
     </group>
 
 </menu>

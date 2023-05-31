@@ -55,7 +55,7 @@
 
                         <TextView
                             android:id="@+id/txtNombreEquipo1"
-                            android:text="Jugadores del equipo 1"
+                            android:text="Jugadores del equipo"
                             android:textSize="25sp"
                             android:textColor="@color/white"
                             android:textStyle="bold"

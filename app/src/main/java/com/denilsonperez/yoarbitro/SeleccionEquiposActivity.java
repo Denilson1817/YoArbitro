@@ -65,18 +65,11 @@ public class SeleccionEquiposActivity extends AppCompatActivity {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Equipo myObject = dataSnapshot.getValue(Equipo.class);
                     listaEquipos.add(myObject);
-
                      myAdapter = new MyAdapter(listaEquipos,SeleccionEquiposActivity.this,SeleccionEquiposActivity.this);
                     rvDatosEquipos.setAdapter(myAdapter);
-
-
-
                 }
-
                 // Llena el RecyclerView con los datos obtenidos
-
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 System.out.println("no hay datos");

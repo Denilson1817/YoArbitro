@@ -40,7 +40,7 @@
     <string name="btnVerArbitros">Consultar Árbitros</string>
     <string name="btnRegistrarEquipos">Registrar Equipos</string>
     <string name="btnCerrarSesionAdmin">Cerrar Sesión</string>
-    <string name="txtListaEquipos">Lista de equipos</string>
+    <string name="txtListaEquipos">Tus equipos</string>
 
     <!-- activity_registrar_equiposs -->
     <string name="tituloRegistrarEquipos">Registrar Equipos</string>
@@ -68,7 +68,7 @@
     <string name="numeroDeJugador">Numero de jugador</string>
 
     <!-- InformacionEquiposActivity -->
-    <string name="tituloInformacionEquipos">Información de equipo</string>
+    <string name="tituloInformacionEquipos">Editar información de mi equipo</string>
 
     <!-- InformacionJugadoresActivity -->
     <string name="tituloInformacionJugadores">Información de Jugador</string>

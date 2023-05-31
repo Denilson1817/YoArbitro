@@ -5,23 +5,19 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.Toast;
 
-import com.denilsonperez.yoarbitro.CedulasGuardadasActivity;
+import com.denilsonperez.yoarbitro.AdapterAdminEquipos;
 import com.denilsonperez.yoarbitro.Inicio.IniciarSesionActivity;
 import com.denilsonperez.yoarbitro.R;
 import com.denilsonperez.yoarbitro.modelo.Equipo;
-import com.denilsonperez.yoarbitro.modelo.Jugador;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
@@ -36,13 +32,15 @@ import java.util.List;
 
 public class MenuPrincipalAdminActivity extends AppCompatActivity {
     DrawerLayout drawerLayout;
+    AdapterAdminEquipos myAdapter;
+
     NavigationView navigationView;
     ActionBarDrawerToggle drawerToggle;
     FirebaseAuth firebaseAuth;
     DatabaseReference Equipos;
-    private List<Equipo> listaDatosEquipos = new ArrayList<>();
+    private List<Equipo> listaEquipos = new ArrayList<Equipo>();
     ArrayAdapter<Equipo> arrayAdapterEquipo;
-    ListView lvDatosEquipos;
+    RecyclerView rvDatosEquipos;
     private int selectedItemPosition = -1;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
@@ -68,30 +66,10 @@ public class MenuPrincipalAdminActivity extends AppCompatActivity {
         navigationView.bringToFront();
         Equipos = FirebaseDatabase.getInstance().getReference("Equipos");
         firebaseAuth = FirebaseAuth.getInstance();
-        lvDatosEquipos = findViewById(R.id.lv_datosEquipos);
+        rvDatosEquipos = findViewById(R.id.rv_datosEquiposAdmin);
         inicializarFirebase();
         listarDatos();
-        lvDatosEquipos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                selectedItemPosition = i;
-                equipoSeleccionado = (Equipo) adapterView.getItemAtPosition(i);
-                //Datos recuperados de Firebase
-                String nombreEquipo = equipoSeleccionado.getNombre();
-                String nombreDelegado = equipoSeleccionado.getDelegado();
-                String numDeContacto = equipoSeleccionado.getNumContacto();
-                String idEquipo = equipoSeleccionado.getUid();
 
-                Intent intent = new Intent(MenuPrincipalAdminActivity.this, InformacionEquiposActivity.class);
-
-                //Enviar datos del equipo
-                intent.putExtra("nombreEquipo",nombreEquipo);
-                intent.putExtra("nombreDelegado",nombreDelegado);
-                intent.putExtra("numDeContacto",numDeContacto);
-                intent.putExtra("idEquipo",idEquipo);
-                startActivity(intent);
-            }
-        });
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -134,23 +112,25 @@ public class MenuPrincipalAdminActivity extends AppCompatActivity {
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
     }
-    private void listarDatos(){
-        databaseReference.child("Equipos").addValueEventListener(new ValueEventListener() {
+    public void listarDatos(){
+        databaseReference.child("Equipos").addValueEventListener(new ValueEventListener()  {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                listaDatosEquipos.clear();
-                for (DataSnapshot snapshot1 : snapshot.getChildren()){
-                    Equipo eq = snapshot1.getValue(Equipo.class);
-                    listaDatosEquipos.add(eq);
-                    arrayAdapterEquipo = new ArrayAdapter<Equipo>(MenuPrincipalAdminActivity.this, android.R.layout.simple_list_item_1, listaDatosEquipos);
-                    lvDatosEquipos.setAdapter(arrayAdapterEquipo);
+                listaEquipos.clear();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    Equipo myObject = dataSnapshot.getValue(Equipo.class);
+                    listaEquipos.add(myObject);
+                    myAdapter = new AdapterAdminEquipos(listaEquipos, MenuPrincipalAdminActivity.this,MenuPrincipalAdminActivity.this);
+                    rvDatosEquipos.setAdapter(myAdapter);
                 }
+                // Llena el RecyclerView con los datos obtenidos
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                System.out.println("no hay datos");
             }
         });
+
     }
     @Override
     public void onBackPressed() {

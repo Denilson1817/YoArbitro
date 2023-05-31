@@ -109,22 +109,7 @@ public class MenuPrincipalActivity extends AppCompatActivity{
                     Toast.makeText(MenuPrincipalActivity.this, "Debes seleccionar equipos para comenzar un nuevo juego", Toast.LENGTH_SHORT).show();
 
                 }else{
-                    new AlertDialog.Builder(MenuPrincipalActivity.this)
-                            .setTitle("Confirmación")
-                            .setMessage("Estas a punto de crear el siguiente juego:\n"+textoEquipo1+" VS "+textoEquipo2+ " ¿Estas seguro de continuar?")
-                            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    String idJuego = subRef.getKey();
-                                    Intent intent = new Intent(MenuPrincipalActivity.this, JugadoresEquipo1Activity.class);
-                                    intent.putExtra("idPrimerEquipo", idPrimerEquipo);
-                                    intent.putExtra("idSegundoEquipo", idSegundoEquipo);
-                                    intent.putExtra("idJuego",idJuego);
-                                    startActivity(intent);
-                                }
-                            })
-                            .setNegativeButton(android.R.string.cancel, null)
-                            .show();
+                    mostrarAlertaEquipoCreado();
                 }
             }
         });
@@ -191,6 +176,25 @@ public class MenuPrincipalActivity extends AppCompatActivity{
                 Toast.makeText(this, "No puedes elegir el mismo equipo", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    public void mostrarAlertaEquipoCreado(){
+        new AlertDialog.Builder(MenuPrincipalActivity.this)
+                .setTitle("Confirmación")
+                .setMessage("Estas a punto de crear el siguiente juego:\n"+textoEquipo1+" VS "+textoEquipo2+ " ¿Estas seguro de continuar?")
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String idJuego = subRef.getKey();
+                        Intent intent = new Intent(MenuPrincipalActivity.this, JugadoresEquipo1Activity.class);
+                        intent.putExtra("idPrimerEquipo", idPrimerEquipo);
+                        intent.putExtra("idSegundoEquipo", idSegundoEquipo);
+                        intent.putExtra("idJuego",idJuego);
+                        startActivity(intent);
+                    }
+                })
+                .setNegativeButton(android.R.string.cancel, null)
+                .show();
     }
 
 }
