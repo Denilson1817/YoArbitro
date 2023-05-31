@@ -120,14 +120,14 @@ public class RegistrarseDosActivity extends AppCompatActivity {
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        progressDialog.dismiss();
+                        //progressDialog.dismiss();
                         Toast.makeText(RegistrarseDosActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
     private void guardarInformacion() {
-        progressDialog.setMessage("Guardando su información");
-        progressDialog.dismiss();
+        //progressDialog.setMessage("Guardando su información");
+        ///progressDialog.dismiss();
 
         //Obtener la identificación de usuario actual
         String uid = firebaseAuth.getUid();
@@ -148,7 +148,7 @@ public class RegistrarseDosActivity extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        progressDialog.dismiss();
+                        //progressDialog.dismiss();
                         Toast.makeText(RegistrarseDosActivity.this, "Cuenta creada", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(RegistrarseDosActivity.this, MenuPrincipalActivity.class));
                         finish();
@@ -156,7 +156,7 @@ public class RegistrarseDosActivity extends AppCompatActivity {
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        progressDialog.dismiss();
+                        //progressDialog.dismiss();
                         Toast.makeText(RegistrarseDosActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });

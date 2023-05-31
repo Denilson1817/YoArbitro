@@ -74,8 +74,8 @@ public class DatosArbitrosActivity extends AppCompatActivity {
         if(TextUtils.isEmpty(nombreAsistente1) && TextUtils.isEmpty(nombreAsistente2)){
 
         } else{
-            parentRef.child(idJuego).child("Arbitros").child("Asistente 1").setValue(nombreAsistente1);
-            parentRef.child(idJuego).child("Arbitros").child("Asistente 2").setValue(nombreAsistente2);
+            parentRef.child(idJuego).child("Arbitros").child("Asistente1").setValue(nombreAsistente1);
+            parentRef.child(idJuego).child("Arbitros").child("Asistente2").setValue(nombreAsistente2);
         }
 
     }

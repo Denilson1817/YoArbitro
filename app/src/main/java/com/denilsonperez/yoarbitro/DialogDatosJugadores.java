@@ -29,7 +29,7 @@ public class DialogDatosJugadores extends DialogFragment {
     CheckBox amonestado, expulsado;
     EditText golesJugador;
     String[] jugadoresSeleccionados;
-    String jugadorSeleccionado, fueAmonestado, fueExpulsado, idJuego, nombre, numeroDeJugador, goles, idSegundoEquipo;
+    String jugadorSeleccionado, fueAmonestado, fueExpulsado, idJuego, nombre, numeroDeJugador, goles, idSegundoEquipo, cadena;
     boolean pantallaDos;
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     DatabaseReference parentRef = firebaseDatabase.getReference("Cedulas");
@@ -66,7 +66,7 @@ public class DialogDatosJugadores extends DialogFragment {
             }
         }
         //Se pasan los datos a la clase anterior. El array de jugadores seleccionados se pasa como cadena
-        String cadena = stringBuilder.toString();
+        cadena = stringBuilder.toString();
         builder.setView(getActivity().getLayoutInflater().inflate(R.layout.datos_jugadores,null))
                 .setTitle("Datos de jugadores")
                 .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
@@ -124,11 +124,25 @@ public class DialogDatosJugadores extends DialogFragment {
         return builder.create();
     }
     private void guardarDatosDelJugador() {
-        //Guardar dato en firebase
-        parentRef.child(idJuego).child(nombre).child("amonestado").setValue(fueAmonestado);
-        parentRef.child(idJuego).child(nombre).child("numeroDeJugador").setValue(numeroDeJugador);
-        parentRef.child(idJuego).child(nombre).child("goles").setValue(goles);
-        parentRef.child(idJuego).child(nombre).child("expulsado").setValue(fueExpulsado);
+        String jugadorId = parentRef.child(idJuego).child("Equipo1").push().getKey();
+        if(pantallaDos == false){
+            //Guardar dato en firebase
+
+            parentRef.child(idJuego).child("Equipo1").child(jugadorId).child("nombre").setValue(nombre);
+            parentRef.child(idJuego).child("Equipo1").child(jugadorId).child("amonestado").setValue(fueAmonestado);
+            parentRef.child(idJuego).child("Equipo1").child(jugadorId).child("numeroDeJugador").setValue(numeroDeJugador);
+            parentRef.child(idJuego).child("Equipo1").child(jugadorId).child("goles").setValue(goles);
+            parentRef.child(idJuego).child("Equipo1").child(jugadorId).child("expulsado").setValue(fueExpulsado);
+        }else{
+            //Guardar dato en firebase
+            parentRef.child(idJuego).child("Equipo2").child(jugadorId).child("nombre").setValue(nombre);
+            parentRef.child(idJuego).child("Equipo2").child(jugadorId).child("amonestado").setValue(fueAmonestado);
+            parentRef.child(idJuego).child("Equipo2").child(jugadorId).child("numeroDeJugador").setValue(numeroDeJugador);
+            parentRef.child(idJuego).child("Equipo2").child(jugadorId).child("goles").setValue(goles);
+            parentRef.child(idJuego).child("Equipo2").child(jugadorId).child("expulsado").setValue(fueExpulsado);
+        }
+
+
 
     }
     @Override
