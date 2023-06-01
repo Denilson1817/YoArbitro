@@ -2,8 +2,13 @@ package com.denilsonperez.yoarbitro;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -55,8 +60,32 @@ public class JugadoresSeleccionados2Activity extends AppCompatActivity {
         btnCancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(JugadoresSeleccionados2Activity.this, MenuPrincipalActivity.class));
-                finish();
+                SpannableString tituloAdvertencia = new SpannableString("Advertencia");
+                tituloAdvertencia.setSpan(new ForegroundColorSpan(Color.RED), 0, tituloAdvertencia.length(), 0);
+                AlertDialog.Builder builder = new AlertDialog.Builder(JugadoresSeleccionados2Activity.this);
+                builder.setTitle(tituloAdvertencia)
+                        .setMessage("Al confirmar tu cancelación se perderá todo el progreso hasta el momento. ¿Desea continuar?")
+                        .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Acciones a realizar cuando se hace clic en el botón Aceptar
+                                Toast.makeText(JugadoresSeleccionados2Activity.this, "Ya vendran mejores momentos para crear una cédula arbitral", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(JugadoresSeleccionados2Activity.this, MenuPrincipalActivity.class));
+                                finish();
+                            }
+                        })
+                        .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Toast.makeText(JugadoresSeleccionados2Activity.this, "Siempre es buena idea no dejar las cosas para otro momento", Toast.LENGTH_SHORT).show();
+                                dialog.dismiss();
+                            }
+                        });
+
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+
+
             }
         });
         btnSiguiente.setOnClickListener(new View.OnClickListener() {

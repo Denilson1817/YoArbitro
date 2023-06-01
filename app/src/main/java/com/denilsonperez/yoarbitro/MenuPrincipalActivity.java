@@ -189,6 +189,8 @@ public class MenuPrincipalActivity extends AppCompatActivity{
                         Intent intent = new Intent(MenuPrincipalActivity.this, JugadoresEquipo1Activity.class);
                         intent.putExtra("idPrimerEquipo", idPrimerEquipo);
                         intent.putExtra("idSegundoEquipo", idSegundoEquipo);
+                        intent.putExtra("nombreEquipo1", textoEquipo1);
+                        intent.putExtra("nombreEquipo2", textoEquipo2);
                         intent.putExtra("idJuego",idJuego);
                         startActivity(intent);
                     }

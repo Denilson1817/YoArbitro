@@ -137,6 +137,8 @@ public class InformacionEquiposActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
     }
     public void listarDatos(){
         //List<Equipo> myList = new ArrayList<>();

@@ -51,9 +51,15 @@ public class DialogDatosJugadores extends DialogFragment {
             pantallaDos = args.getBoolean("pantallaDos",false);
             //Separar el nombre del jugador y el numero que vienen juntos
             String[] jugadorPartes = jugadorSeleccionado.split(",");
-            nombre = jugadorPartes[0];
-            numeroDeJugador = jugadorPartes[1];
-            System.out.println("conteo dialog: "+conteoElementos);
+            //nombre = jugadorPartes[0];
+
+            if (jugadorPartes.length >= 2) {
+                nombre = jugadorPartes[0];
+                numeroDeJugador = jugadorPartes[1];
+            } else {
+                System.out.println("conteo dialog: "+conteoElementos);
+                // Manejar el caso en el que el array no tenga suficientes elementos
+            }
         }
     }
     @NonNull
