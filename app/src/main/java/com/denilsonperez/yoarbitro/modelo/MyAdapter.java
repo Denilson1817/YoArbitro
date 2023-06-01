@@ -1,4 +1,4 @@
-package com.denilsonperez.yoarbitro;
+package com.denilsonperez.yoarbitro.modelo;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -11,7 +11,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import com.denilsonperez.yoarbitro.modelo.Equipo;
+
+import com.denilsonperez.yoarbitro.MenuPrincipalActivity;
+import com.denilsonperez.yoarbitro.R;
+import com.denilsonperez.yoarbitro.SeleccionEquiposActivity;
+
 import java.util.List;
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
      List<Equipo> myList;
