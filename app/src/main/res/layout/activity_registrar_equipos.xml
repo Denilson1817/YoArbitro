@@ -81,7 +81,7 @@
                         android:orientation="vertical"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.596"
+                        app:layout_constraintVertical_bias="0.661"
                         tools:ignore="MissingConstraints"
                         tools:layout_editor_absoluteX="0dp">
 
@@ -91,16 +91,16 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="120sp"
-                            android:drawableStart="@drawable/baseline_person_pin_24"
-                            android:hint="   Nombre del equipo"
+                            android:hint="Nombre del equipo"
+                            app:startIconDrawable="@drawable/baseline_sports_soccer_24"
+                            app:helperText="Campo obligatorio*"
+                            app:helperTextTextColor="@color/rojo"
                             tools:ignore="MissingConstraints">
 
                             <EditText
                                 android:id="@+id/nombreEquipo"
-                                android:drawableStart="@drawable/baseline_sports_soccer_24"
                                 android:layout_width="300sp"
-                                android:layout_height="wrap_content"
-                                android:inputType="textPersonName" />
+                                android:layout_height="wrap_content" android:inputType="textPersonName" />
 
                         </com.google.android.material.textfield.TextInputLayout>
 
@@ -110,13 +110,15 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="15sp"
-                            android:hint="   Nombre del delegado"
+                            android:hint="Nombre del delegado"
+                            app:startIconDrawable="@drawable/baseline_person_pin_24"
+                            app:helperText="Campo obligatorio*"
+                            app:helperTextTextColor="@color/rojo"
                             tools:ignore="MissingConstraints">
 
                             <EditText
                                 android:id="@+id/nomDeleEquipo"
                                 android:layout_width="300sp"
-                                android:drawableStart="@drawable/baseline_person_pin_24"
                                 android:layout_height="wrap_content"
                                 android:inputType="textPersonName" />
                         </com.google.android.material.textfield.TextInputLayout>
@@ -127,17 +129,25 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="15sp"
-                            android:hint="   Número de contacto"
                             android:drawableStart="@drawable/baseline_contact_phone_24"
+                            android:hint="Número de contacto"
+                            app:startIconDrawable="@drawable/baseline_contact_phone_24"
+                            app:counterEnabled="true"
+                            app:counterMaxLength="10"
+                            app:helperText="Campo obligatorio*"
+                            app:helperTextTextColor="@color/rojo"
+                            app:prefixText="+55 "
+                            app:prefixTextColor="@color/verde"
                             tools:ignore="MissingConstraints">
 
                             <EditText
                                 android:id="@+id/numDelContacto"
-                                android:drawableStart="@drawable/baseline_contact_phone_24"
-
                                 android:layout_width="300sp"
                                 android:layout_height="wrap_content"
-                                android:inputType="number" />
+
+                                android:drawableStart="@drawable/baseline_contact_phone_24"
+                                android:inputType="number"
+                                android:maxLength="11" />
                         </com.google.android.material.textfield.TextInputLayout>
 
 

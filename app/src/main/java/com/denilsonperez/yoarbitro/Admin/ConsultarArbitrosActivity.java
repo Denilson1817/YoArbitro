@@ -5,10 +5,12 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -35,21 +37,16 @@ public class ConsultarArbitrosActivity extends AppCompatActivity {
     NavigationView navigationView;
     ActionBarDrawerToggle drawerToggle;
     FirebaseAuth firebaseAuth;
+    AdapterArbitros myAdapter;
     DatabaseReference Arbitros;
     private List<Arbitro> listaDatosArbitros = new ArrayList<>();
     ArrayAdapter<Arbitro> arrayAdapterArbitro;
-    ListView lvDatosArbitros;
+    RecyclerView rvDatosArbitros;
     private int selectedItemPosition = -1;
     //Para el manejo de datos en firebase
     FirebaseDatabase firebaseDataBase;
     DatabaseReference databaseReference;
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(drawerToggle.onOptionsItemSelected(item)){
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +61,7 @@ public class ConsultarArbitrosActivity extends AppCompatActivity {
         navigationView.bringToFront();
         Arbitros = FirebaseDatabase.getInstance().getReference("Arbitros");
         firebaseAuth = FirebaseAuth.getInstance();
-        lvDatosArbitros = findViewById(R.id.listaArbitros);
+        rvDatosArbitros = findViewById(R.id.rvArbitros);
         inicializarFirebase();
         ListarDatos();
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -103,6 +100,32 @@ public class ConsultarArbitrosActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(drawerToggle.onOptionsItemSelected(item)){
+            return true;
+        }
+        switch (item.getItemId()){
+            case R.id.icon_agregar:{
+
+                startActivity(new Intent(ConsultarArbitrosActivity.this, MenuPrincipalAdminActivity.class));
+                Toast.makeText(ConsultarArbitrosActivity.this, "Explora nuestra lista de árbitros disponibles cuando quieras", Toast.LENGTH_SHORT).show();
+                finish();
+                break;
+            }
+
+            default:break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_agregar_equipo,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
     private void inicializarFirebase() {
         FirebaseApp.initializeApp(this);
         firebaseDataBase = FirebaseDatabase.getInstance();
@@ -118,8 +141,8 @@ public class ConsultarArbitrosActivity extends AppCompatActivity {
                     Arbitro ar = objSnapShot.getValue(Arbitro.class);
                     listaDatosArbitros.add(ar);
 
-                    arrayAdapterArbitro = new ArrayAdapter<Arbitro>(ConsultarArbitrosActivity.this, android.R.layout.simple_list_item_1, listaDatosArbitros);
-                    lvDatosArbitros.setAdapter(arrayAdapterArbitro);
+                    myAdapter = new AdapterArbitros(listaDatosArbitros, ConsultarArbitrosActivity.this,ConsultarArbitrosActivity.this);
+                    rvDatosArbitros.setAdapter(myAdapter);
                 }
             }
             @Override

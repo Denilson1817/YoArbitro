@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.RecyclerView;
-import java.util.Objects;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -24,10 +24,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.denilsonperez.yoarbitro.Inicio.IniciarSesionActivity;
-import com.denilsonperez.yoarbitro.JugadoresEquipo1Activity;
-import com.denilsonperez.yoarbitro.MenuPrincipalActivity;
 import com.denilsonperez.yoarbitro.R;
-import com.denilsonperez.yoarbitro.modelo.Arbitro;
 import com.denilsonperez.yoarbitro.modelo.Equipo;
 import com.denilsonperez.yoarbitro.modelo.Jugador;
 import com.google.android.material.navigation.NavigationView;
@@ -78,7 +75,7 @@ public class InformacionEquiposActivity extends AppCompatActivity {
         txtNombreDelegado = findViewById(R.id.txtNombreDelegado);
         txtNumeroDeContacto = findViewById(R.id.txtNumeroDeContacto);
         //listv_jugadores = findViewById(R.id.listaJugadores);
-        btnAgregarJugadores = findViewById(R.id.btnAgregarJugadores);
+        btnAgregarJugadores = findViewById(R.id.btnAgregarJgador);
         inicializarFirebase();
 
         //Recibir datos del equipo en los EditText

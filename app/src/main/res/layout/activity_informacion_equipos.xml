@@ -57,6 +57,8 @@
                                 android:layout_gravity="center_horizontal"
                                 android:layout_marginTop="120sp"
                                 android:hint="Nombre del equipo"
+
+                                app:startIconDrawable="@drawable/baseline_sports_soccer_24"
                                 tools:ignore="MissingConstraints">
 
                                 <EditText
@@ -74,6 +76,7 @@
                                 android:layout_gravity="center_horizontal"
                                 android:layout_marginTop="15sp"
                                 android:hint="Delegado"
+                                app:startIconDrawable="@drawable/baseline_person_pin_24"
                                 tools:ignore="MissingConstraints">
 
                                 <EditText
@@ -90,13 +93,20 @@
                                 android:layout_gravity="center_horizontal"
                                 android:layout_marginTop="15sp"
                                 android:hint="Número de contacto"
+                                app:startIconDrawable="@drawable/baseline_contact_phone_24"
+                                app:counterEnabled="true"
+                                app:counterMaxLength="10"
+                                app:helperTextTextColor="@color/rojo"
+                                app:prefixText="+55 "
+                                app:prefixTextColor="@color/verde"
                                 tools:ignore="MissingConstraints">
 
                                 <EditText
                                     android:id="@+id/txtNumeroDeContacto"
                                     android:layout_width="300sp"
                                     android:layout_height="wrap_content"
-                                    android:inputType="textPersonName" />
+                                    android:maxLength="11"
+                                    android:inputType="number" />
                             </com.google.android.material.textfield.TextInputLayout>
 
                         </LinearLayout>
@@ -125,7 +135,7 @@
                             app:layout_constraintVertical_bias="0.778" />
 
                         <Button
-                            android:id="@+id/btnAgregarJugadores"
+                            android:id="@+id/btnAgregarJgador"
                             android:layout_width="50dp"
                             android:layout_height="50dp"
                             android:layout_margin="30sp"
