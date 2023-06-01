@@ -21,6 +21,7 @@ public class JugadoresSeleccionadosActivity extends AppCompatActivity {
     Button btnSiguiente, btnCancelar;
     Intent recibir;
     String jugadoresSeleccionados, jugadorSeleccionado, idJuego, idSegundoEquipo;
+    int conteoElementos;
     String[] dataArray;
     private int selectedItemPosition = -1;
     @SuppressLint("MissingInflatedId")
@@ -38,10 +39,15 @@ public class JugadoresSeleccionadosActivity extends AppCompatActivity {
         idJuego = recibir.getStringExtra("idJuego");
         //Recibir el id del segundo equipo para listar en la siguiente ventana
         idSegundoEquipo = recibir.getStringExtra("idSegundoEquipo");
+        //Recibir el contreo de elementos
+        conteoElementos = recibir.getIntExtra("conteoElementos",0);
         //Pasar la lista de jugadores a un Array
         dataArray = jugadoresSeleccionados.split("\n"); // --> Separa los elementos cada que se encuentre un salto de linea
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, dataArray);
         listaDeJugadoresPreliminar.setAdapter(adapter);
+        //Contar el numero de elementos del array
+        int numElementos = dataArray.length;
+        System.out.println("Conteo jugadores seleccionados "+ conteoElementos);
 
         listaDeJugadoresPreliminar.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -50,7 +56,6 @@ public class JugadoresSeleccionadosActivity extends AppCompatActivity {
                 selectedItemPosition=i;
                 jugadoresSeleccionados = (String) adapterView.getItemAtPosition(i);
                 jugadorSeleccionado = dataArray[i];
-                Toast.makeText(JugadoresSeleccionadosActivity.this, jugadorSeleccionado, Toast.LENGTH_SHORT).show();
                 mostrarDialogo();
             }
         });
@@ -65,10 +70,14 @@ public class JugadoresSeleccionadosActivity extends AppCompatActivity {
         btnSiguiente.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(JugadoresSeleccionadosActivity.this, JugadoresEquipo2Activity.class);
-                intent.putExtra("idSegundoEquipo", idSegundoEquipo);
-                intent.putExtra("idJuego",idJuego);
-                startActivity(intent);
+                if(conteoElementos < numElementos){
+                    Toast.makeText(JugadoresSeleccionadosActivity.this, "Introduce la información completa de tus jugadores", Toast.LENGTH_SHORT).show();
+                }else{
+                    Intent intent = new Intent(JugadoresSeleccionadosActivity.this, JugadoresEquipo2Activity.class);
+                    intent.putExtra("idSegundoEquipo", idSegundoEquipo);
+                    intent.putExtra("idJuego",idJuego);
+                    startActivity(intent);
+                }
             }
         });
     }
@@ -76,11 +85,13 @@ public class JugadoresSeleccionadosActivity extends AppCompatActivity {
         //Crear el dialogo para meter datos
         DialogDatosJugadores dialogDatosJugadores = new DialogDatosJugadores();
         Bundle bundle = new Bundle();
+        conteoElementos = conteoElementos+1;
         //Pasar las variables al diaglo
         bundle.putStringArray("jugadoresSeleccionados",dataArray);
         bundle.putString("jugadorSeleccionado",jugadorSeleccionado);
         bundle.putString("idJuego",idJuego);
         bundle.putString("idSegundoEquipo",idSegundoEquipo);
+        bundle.putInt("conteoElementos",conteoElementos);
         dialogDatosJugadores.setArguments(bundle);
         dialogDatosJugadores.show(getSupportFragmentManager(),"datosJugadores");
     }
