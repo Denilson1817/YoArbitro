@@ -17,7 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.denilsonperez.yoarbitro.CedulasGuardadasActivity;
+import com.denilsonperez.yoarbitro.Admin.ConsultarCedulasActivity;
 import com.denilsonperez.yoarbitro.Inicio.IniciarSesionActivity;
 import com.denilsonperez.yoarbitro.R;
 import com.google.android.gms.tasks.OnFailureListener;
