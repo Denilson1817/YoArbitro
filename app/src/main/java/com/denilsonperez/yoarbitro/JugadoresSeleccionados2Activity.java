@@ -17,6 +17,7 @@ public class JugadoresSeleccionados2Activity extends AppCompatActivity {
     Intent recibir;
     String jugadoresSeleccionados, jugadorSeleccionado, idJuego, idSegundoEquipo;
     Boolean pantallaDos=true;
+    int conteoElementos;
     String[] dataArray;
     private int selectedItemPosition = -1;
     @Override
@@ -33,11 +34,14 @@ public class JugadoresSeleccionados2Activity extends AppCompatActivity {
         idJuego = recibir.getStringExtra("idJuego");
         //Recibir el id del segundo equipo para listar en la siguiente ventana
         idSegundoEquipo = recibir.getStringExtra("idSegundoEquipo");
+        //Recibir el contreo de elementos
+        conteoElementos = recibir.getIntExtra("conteoElementos",0);
         //Pasar la lista de jugadores a un Array
         dataArray = jugadoresSeleccionados.split("\n"); // --> Separa los elementos cada que se encuentre un salto de linea
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, dataArray);
         listaDeJugadoresPreliminar.setAdapter(adapter);
-
+        //Contar el numero de elementos del array
+        int numElementos = dataArray.length;
         listaDeJugadoresPreliminar.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -45,7 +49,6 @@ public class JugadoresSeleccionados2Activity extends AppCompatActivity {
                 selectedItemPosition=i;
                 jugadoresSeleccionados = (String) adapterView.getItemAtPosition(i);
                 jugadorSeleccionado = dataArray[i];
-                Toast.makeText(JugadoresSeleccionados2Activity.this, jugadorSeleccionado, Toast.LENGTH_SHORT).show();
                 mostrarDialogo();
             }
         });
@@ -71,12 +74,14 @@ public class JugadoresSeleccionados2Activity extends AppCompatActivity {
         //Crear el dialogo para meter datos
         DialogDatosJugadores dialogDatosJugadores = new DialogDatosJugadores();
         Bundle bundle = new Bundle();
+        conteoElementos = conteoElementos+1;
         //Pasar las variables al diaglo
         bundle.putStringArray("jugadoresSeleccionados",dataArray);
         bundle.putString("jugadorSeleccionado",jugadorSeleccionado);
         bundle.putString("idJuego",idJuego);
         bundle.putString("idSegundoEquipo",idSegundoEquipo);
         bundle.putBoolean("pantallaDos",pantallaDos);
+        bundle.putInt("conteoElementos",conteoElementos);
         dialogDatosJugadores.setArguments(bundle);
         dialogDatosJugadores.show(getSupportFragmentManager(),"datosJugadores");
     }

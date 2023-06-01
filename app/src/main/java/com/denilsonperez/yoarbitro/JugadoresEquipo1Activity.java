@@ -25,7 +25,7 @@ import java.util.List;
 
 public class JugadoresEquipo1Activity extends AppCompatActivity {
 String equipoEnviado1, equipoEnviado2,idPrimerEquipo, idJuego,idSegundoEquipo;
-TextView tituloEquipo1, tituloEquipo2;
+//TextView tituloEquipo1, tituloEquipo2;
 Button btnSiguiente, btnCancelar;
 //Conectar con firebase
  FirebaseDatabase firebaseDatabase;
@@ -44,8 +44,8 @@ Intent recibir;
         setContentView(R.layout.activity_jugadores_equipo1);
         //recuperamos el texto para mostrar el nombre del equipo a traves de un intent
        String nombreEquipoUno = getIntent().getStringExtra("nombreEquipo1");
-        tituloEquipo1 = findViewById(R.id.txtNombreEquipo1);
-        tituloEquipo1.setText("Equipo "+nombreEquipoUno);
+        //tituloEquipo1 = findViewById(R.id.txtNombreEquipo1);
+        //tituloEquipo1.setText("Equipo "+nombreEquipoUno);
         //System.out.println(equipoEnviado1);
 
         //Recibir id's del equipo 1 y 2 para el if y poder recuperar los jugadores pertenecientes a ese id

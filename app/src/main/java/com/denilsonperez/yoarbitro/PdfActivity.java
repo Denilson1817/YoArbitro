@@ -47,7 +47,7 @@ public class PdfActivity extends AppCompatActivity {
     //String para arbitros
     String central, asistente1=" ", asistente2=" ";
     //Strings para jugadores
-    String nombre, nombresJugadores1;
+    String nombre, nombre2, nombresJugadores1, nombresJugadores2, amonestado, expulsado, goles,numero,amonestado2, expulsado2, goles2,numero2;
     Intent recibir;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +81,7 @@ public class PdfActivity extends AppCompatActivity {
         TextPaint datosPartido = new TextPaint();
         TextPaint arbitrosPartido = new TextPaint();
         TextPaint equipo1Partido = new TextPaint();
+        TextPaint equipo2Partido = new TextPaint();
         Bitmap bitmap, bitmapEscala;
 
         //Crear el pdf con las medidas
@@ -95,8 +96,8 @@ public class PdfActivity extends AppCompatActivity {
         canvas.drawBitmap(bitmapEscala,368, 20, paint);
         //Se pasa el titulo al pdf
         titulo.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
-        titulo.setTextSize(20);
-        canvas.drawText(tituloCedula, 10, 150, titulo);
+        titulo.setTextSize(25);
+        canvas.drawText(tituloCedula, 230, 150, titulo);
         //Se pasa los datos del partido al pdf
         datosPartido.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
         datosPartido.setTextSize(15);
@@ -105,14 +106,24 @@ public class PdfActivity extends AppCompatActivity {
         arbitrosPartido.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
         arbitrosPartido.setTextSize(15);
         canvas.drawText(arbitrosDelPartido,10, 250, arbitrosPartido);
+
         //Datos del equipo1
         equipo1Partido.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
-        equipo1Partido.setTextSize(15);
+        equipo1Partido.setTextSize(13);
         int y=300;
         String[] arrEquipo1 = nombresJugadores1.split("\n");
         for (int i=0;i<arrEquipo1.length;i++){
             canvas.drawText(arrEquipo1[i],10,y,equipo1Partido);
-            y += 15;
+            y += 25;
+        }
+        //Datos del equipo2
+        equipo2Partido.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+        equipo2Partido.setTextSize(13);
+        int x=300;
+        String[] arrEquipo2 = nombresJugadores2.split("\n");
+        for (int i=0;i<arrEquipo2.length;i++){
+            canvas.drawText(arrEquipo2[i],500,x,equipo2Partido);
+            x += 25;
         }
 
         pdfDocument.finishPage(page);
@@ -185,7 +196,7 @@ public class PdfActivity extends AppCompatActivity {
     public void arbitrosDelPartido(){
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference parentRef = firebaseDatabase.getReference("Cedulas").child(idJuego);
-        parentRef.child("Equipo1").addValueEventListener(new ValueEventListener() {
+        parentRef.child("Arbitros").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
@@ -193,7 +204,7 @@ public class PdfActivity extends AppCompatActivity {
                     asistente1 =""+snapshot.child("Asistente1").getValue();
                     asistente2 =""+snapshot.child("Asistente2").getValue();
 
-                    arbitrosDelPartido = "Central: "+central+ "     Asistente 1 : "+ asistente1+ "    Asistente 2 :"+ asistente2;
+                    arbitrosDelPartido = "Central : "+central+ "     Asistente 1 : "+ asistente1+ "    Asistente 2 : "+ asistente2;
                     equipo1DelPartido();
                 }else {
                     System.out.println("NO EXISTE");
@@ -219,13 +230,18 @@ public class PdfActivity extends AppCompatActivity {
                 for (DataSnapshot childSnapshot : snapshot.getChildren()){
                     // Obtener el valor del campo "nombre" de cada nodo hijo
                     nombre = childSnapshot.child("nombre").getValue(String.class);
+                    amonestado = childSnapshot.child("amonestado").getValue(String.class);
+                    goles = childSnapshot.child("goles").getValue(String.class);
+                    expulsado = childSnapshot.child("expulsado").getValue(String.class);
+                    numero = childSnapshot.child("numeroDeJugador").getValue(String.class);
 
                     if (nombre != null) {
-                        nombresB.append(nombre).append("\n");
+                        nombresB.append(nombre+" Numero: "+ numero +" Amonestado: "+amonestado+ " Goles: "+goles+ " Expulsado: "+ expulsado).append("\n");
                     }
                 }
                 // Obtener la cadena final con los nombres separados por saltos de línea
                 nombresJugadores1 = nombresB.toString();
+                equipo2DelPartido();
 
                 // Utilizar la variable 'nombres' en tu lógica
                 System.out.println("Lista de nombres:\n" + nombresJugadores1);
@@ -237,8 +253,38 @@ public class PdfActivity extends AppCompatActivity {
             }
         };
         equipo1Ref.addListenerForSingleValueEvent(valueEventListener);
+    }
 
+    private void equipo2DelPartido() {
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference parentRef = firebaseDatabase.getReference("Cedulas").child(idJuego);
+        DatabaseReference equipo2Ref = parentRef.child("Equipo2");
+        ValueEventListener valueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                StringBuilder nombresB = new StringBuilder();
 
+                for (DataSnapshot childSnapshot : snapshot.getChildren()){
+                    // Obtener el valor del campo "nombre" de cada nodo hijo
+                    nombre2 = childSnapshot.child("nombre").getValue(String.class);
+
+                    if (nombre2 != null) {
+                        nombresB.append(nombre2).append("\n");
+                    }
+                }
+                // Obtener la cadena final con los nombres separados por saltos de línea
+                nombresJugadores2 = nombresB.toString();
+
+                // Utilizar la variable 'nombres' en tu lógica
+                System.out.println("Lista de nombres:\n" + nombresJugadores2);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        };
+        equipo2Ref.addListenerForSingleValueEvent(valueEventListener);
     }
 
 }

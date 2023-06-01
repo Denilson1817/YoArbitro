@@ -38,4 +38,11 @@
         android:layout_height="wrap_content"
         android:text="Expulsado" />
 
+    <CheckBox
+        android:id="@+id/checkboxJugadorDeInicio"
+        android:layout_marginTop="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Jugador de inicio" />
+
 </LinearLayout>
