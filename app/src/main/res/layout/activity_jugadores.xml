@@ -32,7 +32,7 @@
                     android:id="@+id/textView3"
                     android:layout_width="333dp"
                     android:layout_height="38dp"
-                    android:text="Ingresa los datos del nuevo jugador para agregarlos a este equipo"
+                    android:text="Ingresa los datos del nuevo jugador para agregarlo a este equipo"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.609"
@@ -91,6 +91,8 @@
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="120sp"
                             android:hint="Nombre del jugador"
+                            app:helperText="Campo obligatorio*"
+                            app:helperTextTextColor="@color/rojo"
                             app:startIconDrawable="@drawable/baseline_person_pin_24"
                             tools:ignore="MissingConstraints">
 
@@ -109,6 +111,9 @@
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="15sp"
                             android:hint="Número del jugador"
+                            app:helperText="Campo obligatorio*"
+                            app:helperTextTextColor="@color/rojo"
+                            app:counterEnabled="true"
                             app:startIconDrawable="@drawable/baseline_numbers_24"
                             tools:ignore="MissingConstraints">
 

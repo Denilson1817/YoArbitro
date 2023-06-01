@@ -60,7 +60,7 @@
     <string name="tituloConsultarCedulas">Cedulas guardadas</string>
 
     <!-- AgregarJugadoresActivity-->
-    <string name="tituloAgregarJugadores">Lista de jugadores</string>
+    <string name="tituloAgregarJugadores">Agrega jugadores</string>
 
     <!-- AgregarJugadoresDos (Formulario) -->
     <string name="tituloRegistrarJugadores">Datos del jugador</string>
@@ -74,5 +74,11 @@
     <string name="tituloInformacionJugadores">Información de Jugador</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- InformacionArbitrosActivity -->
+    <string name="tituloInformacioArbitros">Árbitros registrados</string>
+
+
+
 
 </resources>

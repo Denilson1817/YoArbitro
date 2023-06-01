@@ -73,7 +73,7 @@ public class JugadoresActivity extends AppCompatActivity {
         navigationView.bringToFront();
         firebaseAuth = FirebaseAuth.getInstance();
         btnCancelar = findViewById(R.id.btnCancelar);
-        btnRegistrarJugador = findViewById(R.id.btnRegistrarJugador);
+        //btnRegistrarJugador = findViewById(R.id.btnRegistrarJugador);
         nombreJugadorEt = findViewById(R.id.nombreJugador);
         numeroJugadorEt = findViewById(R.id.numDeJugador);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {

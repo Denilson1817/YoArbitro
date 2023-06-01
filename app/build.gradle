@@ -50,4 +50,5 @@ dependencies {
     //Para saber cuantos usuarios usan nuestra app
     implementation 'com.google.firebase:firebase-analytics:21.2.0'
 
+
 }
