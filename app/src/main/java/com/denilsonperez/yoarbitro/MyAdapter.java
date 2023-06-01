@@ -18,11 +18,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     private SeleccionEquiposActivity mActivity;
     private Context context;
     private LayoutInflater inflater;
-    public MyAdapter(List<Equipo> myList, Context context,SeleccionEquiposActivity activity) {
+    public MyAdapter(List<Equipo> myList, Context context, SeleccionEquiposActivity activity) {
         this.inflater=LayoutInflater.from(context);
         this.myList = myList;
         this.context=context;
-        this.mActivity= activity;
+       this.mActivity= activity;
 
     }
     @NonNull

@@ -16,18 +16,16 @@
         android:id="@+id/navView"
         android:layout_gravity="start"/>
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <androidx.cardview.widget.CardView
-                android:layout_width="342dp"
-                android:layout_height="600dp"
-                android:layout_marginTop="80dp"
+                android:layout_width="374dp"
+                android:layout_height="751dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
                 app:cardCornerRadius="20dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -38,75 +36,126 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
-                    
-                    <LinearLayout
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        tools:ignore="MissingConstraints">
+                        android:layout_height="match_parent"
+                        tools:layout_editor_absoluteX="-2dp"
+                        tools:layout_editor_absoluteY="0dp">
 
-                        <com.google.android.material.textfield.TextInputLayout
+                        <LinearLayout
+                            android:id="@+id/linearLayout2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            tools:ignore="MissingConstraints">
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginTop="120sp"
+                                android:hint="Nombre del equipo"
+
+                                app:startIconDrawable="@drawable/baseline_sports_soccer_24"
+                                tools:ignore="MissingConstraints">
+
+                                <EditText
+                                    android:id="@+id/txtNombreEquipo"
+                                    android:layout_width="300dp"
+                                    android:layout_height="wrap_content"
+                                    android:inputType="textPersonName" />
+
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginTop="15sp"
+                                android:hint="Delegado"
+                                app:startIconDrawable="@drawable/baseline_person_pin_24"
+                                tools:ignore="MissingConstraints">
+
+                                <EditText
+                                    android:id="@+id/txtNombreDelegado"
+                                    android:layout_width="300sp"
+                                    android:layout_height="wrap_content"
+                                    android:inputType="textPersonName" />
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginTop="15sp"
+                                android:hint="Número de contacto"
+                                app:startIconDrawable="@drawable/baseline_contact_phone_24"
+                                app:counterEnabled="true"
+                                app:counterMaxLength="10"
+                                app:helperTextTextColor="@color/rojo"
+                                app:prefixText="+55 "
+                                app:prefixTextColor="@color/verde"
+                                tools:ignore="MissingConstraints">
+
+                                <EditText
+                                    android:id="@+id/txtNumeroDeContacto"
+                                    android:layout_width="300sp"
+                                    android:layout_height="wrap_content"
+                                    android:maxLength="11"
+                                    android:inputType="number" />
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/textView4"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:hint=""
-                            android:layout_marginTop="120sp"
-                            android:layout_gravity="center_horizontal"
-                            tools:ignore="MissingConstraints">
-                            <EditText
-                                android:id="@+id/txtNombreEquipo"
-                                android:layout_width="250sp"
-                                android:layout_height="wrap_content"
-                                android:inputType="textPersonName" />
-                        </com.google.android.material.textfield.TextInputLayout>
+                            android:text="Jugadores pertenecientes a este equipo"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.3"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintVertical_bias="0.484" />
 
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:hint=""
-                            android:layout_marginTop="15sp"
-                            android:layout_gravity="center_horizontal"
-                            tools:ignore="MissingConstraints">
-                            <EditText
-                                android:id="@+id/txtNombreDelegado"
-                                android:layout_width="250sp"
-                                android:layout_height="wrap_content"
-                                android:inputType="textPersonName" />
-                        </com.google.android.material.textfield.TextInputLayout>
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rv_DatosJugadores"
+                            android:layout_width="318dp"
+                            android:layout_height="259dp"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/linearLayout2"
+                            app:layout_constraintVertical_bias="0.778" />
 
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:hint=""
-                            android:layout_marginTop="15sp"
-                            android:layout_gravity="center_horizontal"
-                            tools:ignore="MissingConstraints">
-                            <EditText
-                                android:id="@+id/txtNumeroDeContacto"
-                                android:layout_width="250sp"
-                                android:layout_height="wrap_content"
-                                android:inputType="textPersonName" />
-                        </com.google.android.material.textfield.TextInputLayout>
+                        <Button
+                            android:id="@+id/btnAgregarJgador"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_margin="30sp"
+                            android:background="@drawable/rounded_button"
+                            android:drawableLeft="@drawable/baseline_person_add_alt_1_24"
+                            android:textSize="45sp"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="1.0"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintVertical_bias="1.0" />
 
-                        <ListView
-                            android:layout_marginTop="20dp"
-                            android:layout_gravity="center_horizontal"
-                            android:id="@+id/listaJugadores"
-                            android:layout_width="250dp"
-                            android:layout_height="wrap_content"/>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    </LinearLayout>
-
-                    <Button
-                        android:id="@+id/btnAgregarJugadores"
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:background="@drawable/rounded_button"
-                        android:text="+"
-                        android:layout_margin="30sp"
-                        android:textSize="45sp"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"/>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -118,7 +167,7 @@
                     <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        app:cardBackgroundColor="@color/verdePasto"
+                        app:cardBackgroundColor="@color/verde"
                         app:cardCornerRadius="20dp">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
@@ -131,7 +180,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="@string/tituloInformacionEquipos"
                                 android:textColor="@color/white"
-                                android:textSize="24sp"
+                                android:textSize="20sp"
                                 android:textStyle="bold"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
@@ -143,5 +192,4 @@
 
             </androidx.cardview.widget.CardView>
         </androidx.constraintlayout.widget.ConstraintLayout>
-     </ScrollView>
 </androidx.drawerlayout.widget.DrawerLayout>

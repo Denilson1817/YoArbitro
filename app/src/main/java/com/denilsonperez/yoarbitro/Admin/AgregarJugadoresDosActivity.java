@@ -10,6 +10,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -33,18 +34,12 @@ public class AgregarJugadoresDosActivity extends AppCompatActivity {
     NavigationView navigationView;
     ActionBarDrawerToggle drawerToggle;
     FirebaseAuth firebaseAuth;
-    Button btnRegistrarJugador, btnCancelar;
+    //Button btnRegistrarJugador, btnCancelar;
     EditText nombreJugadorEt, numeroJugadorEt;
     String nombreDeJugador="", numeroDeJugador="";
     Intent recibir;
     String uideEquipo;
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(drawerToggle.onOptionsItemSelected(item)){
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,8 +57,8 @@ public class AgregarJugadoresDosActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         navigationView.bringToFront();
         firebaseAuth = FirebaseAuth.getInstance();
-        btnCancelar = findViewById(R.id.btnCancelar);
-        btnRegistrarJugador = findViewById(R.id.btnRegistrarJugador);
+        //btnCancelar = findViewById(R.id.btnCancelar);
+        //btnRegistrarJugador = findViewById(R.id.btnRegistrarJugador);
         nombreJugadorEt = findViewById(R.id.nombreJugador);
         numeroJugadorEt = findViewById(R.id.numDeJugador);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -101,19 +96,38 @@ public class AgregarJugadoresDosActivity extends AppCompatActivity {
                 return false;
             }
         });
-        btnCancelar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(AgregarJugadoresDosActivity.this, MenuPrincipalAdminActivity.class));
-                finish();
-            }
-        });
-        btnRegistrarJugador.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(drawerToggle.onOptionsItemSelected(item)){
+            return true;
+        }
+        switch (item.getItemId()){
+            case R.id.icon_agregar:{
                 validarDatos();
+
+                break;
             }
-        });
+
+            case R.id.icon_cancelar:{
+                Toast.makeText(AgregarJugadoresDosActivity.this, "No se registro ningún jugador", Toast.LENGTH_SHORT).show();
+                finish();
+
+
+            }
+            default:break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_agregar_jugador,menu);
+        return super.onCreateOptionsMenu(menu);
     }
     private void validarDatos() {
         nombreDeJugador = nombreJugadorEt.getText().toString();

@@ -7,9 +7,15 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.SpannableString;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -23,8 +29,11 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.UUID;
 
@@ -40,13 +49,7 @@ public class JugadoresActivity extends AppCompatActivity {
     //Variables para recibir datos
     Intent recibir;
     String nombreDeEquipo="", nombreDeDelegado, numDeContacto, idEquipo;
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(drawerToggle.onOptionsItemSelected(item)){
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -70,7 +73,7 @@ public class JugadoresActivity extends AppCompatActivity {
         navigationView.bringToFront();
         firebaseAuth = FirebaseAuth.getInstance();
         btnCancelar = findViewById(R.id.btnCancelar);
-        btnRegistrarJugador = findViewById(R.id.btnRegistrarJugador);
+        //btnRegistrarJugador = findViewById(R.id.btnRegistrarJugador);
         nombreJugadorEt = findViewById(R.id.nombreJugador);
         numeroJugadorEt = findViewById(R.id.numDeJugador);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -108,20 +111,42 @@ public class JugadoresActivity extends AppCompatActivity {
                 return false;
             }
         });
-        btnCancelar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(JugadoresActivity.this, InformacionEquiposActivity.class));
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(drawerToggle.onOptionsItemSelected(item)){
+            return true;
+        }
+        switch (item.getItemId()){
+            case R.id.icon_agregar:{
+                validarDatos();
+
+                break;
+            }
+
+            case R.id.icon_cancelar:{
+                Intent intent = new Intent(JugadoresActivity.this, InformacionEquiposActivity.class );
+                intent.putExtra("nombreEquipo",nombreDeEquipo);
+                intent.putExtra("nombreDelegado",nombreDeDelegado);
+                intent.putExtra("numDeContacto",numDeContacto);
+                intent.putExtra("idEquipo",idEquipo);
+                startActivity(intent);
                 finish();
             }
-        });
-        btnRegistrarJugador.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                validarDatos();
-            }
-        });
+            default:break;
+        }
+        return super.onOptionsItemSelected(item);
     }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_agregar_jugador,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
 
     private void validarDatos() {
         nombreDeJugador = nombreJugadorEt.getText().toString();

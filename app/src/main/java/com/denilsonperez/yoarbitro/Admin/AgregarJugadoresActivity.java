@@ -5,10 +5,17 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -34,23 +41,18 @@ import java.util.List;
 public class AgregarJugadoresActivity extends AppCompatActivity {
     DrawerLayout drawerLayout;
     NavigationView navigationView;
+    AdapterAgregarJugadores myAdapter;
     ActionBarDrawerToggle drawerToggle;
     FirebaseAuth firebaseAuth;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
     private List<Jugador> jugadorList = new ArrayList<>();
     ArrayAdapter<Jugador> jugadorArrayAdapter;
-    ListView listv_jugadores;
+    RecyclerView listv_jugadores;
     Button btnAgregarJugadores;
     Intent recibir;
     String uideEquipo="";
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(drawerToggle.onOptionsItemSelected(item)){
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,7 +66,6 @@ public class AgregarJugadoresActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         navigationView.bringToFront();
         btnAgregarJugadores = findViewById(R.id.btnAgregarJugadores);
-        // Jorge
         listv_jugadores = findViewById(R.id.listaJugadores);
         inicializarFirebase();
         listarDatos();
@@ -113,6 +114,55 @@ public class AgregarJugadoresActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(drawerToggle.onOptionsItemSelected(item)){
+            return true;
+        }
+        switch (item.getItemId()){
+            case R.id.icon_agregar:{
+                SpannableString tituloAdvertencia = new SpannableString("El equipo se creo correctamente");
+                tituloAdvertencia.setSpan(new ForegroundColorSpan(Color.BLUE), 0, tituloAdvertencia.length(), 0);
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle(tituloAdvertencia)
+                        .setMessage("Sino terminaste de registrar todos los jugadores, en el menu principal puedes seguir agregando mas jugadores . ¿Desea continuar?")
+                        .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Acciones a realizar cuando se hace clic en el botón Aceptar
+                                Intent intent = new Intent(AgregarJugadoresActivity.this, MenuPrincipalAdminActivity.class );
+                                Toast.makeText(AgregarJugadoresActivity.this, "El equipo a sido registrado", Toast.LENGTH_SHORT).show();
+                                startActivity(intent);
+                                finish();
+                            }
+                        })
+                        .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Toast.makeText(AgregarJugadoresActivity.this, "Acción cancelada", Toast.LENGTH_SHORT).show();
+                                dialog.dismiss();
+                            }
+                        });
+
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+
+
+                break;
+            }
+            
+            default:break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_agregar_equipo,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
     private void inicializarFirebase() {
         FirebaseApp.initializeApp(this);
         firebaseDatabase = FirebaseDatabase.getInstance();
@@ -128,13 +178,11 @@ public class AgregarJugadoresActivity extends AppCompatActivity {
                 jugadorList.clear();
                 for (DataSnapshot objSnapshot : snapshot.getChildren()){
                     Jugador jugador = objSnapshot.getValue(Jugador.class);
-                    System.out.println(uideEquipo);
-                    System.out.println(jugador.getIdEquipo());
-                        if (uideEquipo.equals(jugador.getIdEquipo())){
-                            jugadorList.add(jugador);
-                        }
-                    jugadorArrayAdapter = new ArrayAdapter<Jugador>(AgregarJugadoresActivity.this, android.R.layout.simple_list_item_activated_1, jugadorList);
-                    listv_jugadores.setAdapter(jugadorArrayAdapter);
+                    if (uideEquipo.equals(jugador.getIdEquipo())){
+                        jugadorList.add(jugador);
+                    }
+                    myAdapter = new AdapterAgregarJugadores(jugadorList, AgregarJugadoresActivity.this,AgregarJugadoresActivity.this);
+                    listv_jugadores.setAdapter(myAdapter);
                 }
             }
             @Override

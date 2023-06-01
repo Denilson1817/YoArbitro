@@ -40,7 +40,7 @@
     <string name="btnVerArbitros">Consultar Árbitros</string>
     <string name="btnRegistrarEquipos">Registrar Equipos</string>
     <string name="btnCerrarSesionAdmin">Cerrar Sesión</string>
-    <string name="txtListaEquipos">Lista de equipos</string>
+    <string name="txtListaEquipos">Tus equipos</string>
 
     <!-- activity_registrar_equiposs -->
     <string name="tituloRegistrarEquipos">Registrar Equipos</string>
@@ -60,7 +60,7 @@
     <string name="tituloConsultarCedulas">Cedulas guardadas</string>
 
     <!-- AgregarJugadoresActivity-->
-    <string name="tituloAgregarJugadores">Lista de jugadores</string>
+    <string name="tituloAgregarJugadores">Agrega jugadores</string>
 
     <!-- AgregarJugadoresDos (Formulario) -->
     <string name="tituloRegistrarJugadores">Datos del jugador</string>
@@ -68,11 +68,17 @@
     <string name="numeroDeJugador">Numero de jugador</string>
 
     <!-- InformacionEquiposActivity -->
-    <string name="tituloInformacionEquipos">Información de equipo</string>
+    <string name="tituloInformacionEquipos">Editar información de mi equipo</string>
 
     <!-- InformacionJugadoresActivity -->
     <string name="tituloInformacionJugadores">Información de Jugador</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- InformacionArbitrosActivity -->
+    <string name="tituloInformacioArbitros">Árbitros registrados</string>
+
+
+
 
 </resources>

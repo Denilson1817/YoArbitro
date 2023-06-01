@@ -3,12 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item android:id="@+id/icon_actualizar"
-        android:icon="@drawable/baseline_refresh_24"
+        android:icon="@drawable/baseline_done_24"
         android:title="Edit Done"
         app:showAsAction="always"/>
 
     <item android:id="@+id/icon_delete"
         android:icon="@drawable/baseline_delete_24"
+        android:title="Edit Done"
+        app:showAsAction="always"/>
+
+    <item android:id="@+id/icon_cancel"
+        android:icon="@drawable/baseline_cancel_24"
         android:title="Edit Done"
         app:showAsAction="always"/>
 </menu>

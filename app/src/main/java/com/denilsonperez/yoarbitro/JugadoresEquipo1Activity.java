@@ -12,9 +12,6 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.denilsonperez.yoarbitro.Admin.AgregarJugadoresDosActivity;
-import com.denilsonperez.yoarbitro.Admin.ConsultarCedulasActivity;
 import com.denilsonperez.yoarbitro.modelo.Jugador;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
@@ -23,13 +20,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class JugadoresEquipo1Activity extends AppCompatActivity {
 String equipoEnviado1, equipoEnviado2,idPrimerEquipo, idJuego,idSegundoEquipo;
-TextView tituloEquipo1, tituloEquipo2;
+//TextView tituloEquipo1, tituloEquipo2;
 Button btnSiguiente, btnCancelar;
 //Conectar con firebase
  FirebaseDatabase firebaseDatabase;
@@ -46,13 +42,10 @@ Intent recibir;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_jugadores_equipo1);
-        //se recupera el texto de cada boton a traves de sus variables publicas
-        //MenuPrincipalActivity equipos = new MenuPrincipalActivity();
-        //equipoEnviado1=equipos.textoEquipo1;
-        //equipoEnviado2=equipos.textoEquipo2;
-        //recuperamos el id del texto para mostrar el nombre del equipo
+        //recuperamos el texto para mostrar el nombre del equipo a traves de un intent
+       String nombreEquipoUno = getIntent().getStringExtra("nombreEquipo1");
         //tituloEquipo1 = findViewById(R.id.txtNombreEquipo1);
-        //tituloEquipo1.setText(equipoEnviado1);
+        //tituloEquipo1.setText("Equipo "+nombreEquipoUno);
         //System.out.println(equipoEnviado1);
 
         //Recibir id's del equipo 1 y 2 para el if y poder recuperar los jugadores pertenecientes a ese id

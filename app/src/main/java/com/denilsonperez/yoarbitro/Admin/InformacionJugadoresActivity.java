@@ -6,13 +6,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.denilsonperez.yoarbitro.AdapterAdminEquipos;
 import com.denilsonperez.yoarbitro.Inicio.IniciarSesionActivity;
 import com.denilsonperez.yoarbitro.R;
 import com.denilsonperez.yoarbitro.modelo.Equipo;
@@ -20,8 +26,13 @@ import com.denilsonperez.yoarbitro.modelo.Jugador;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.HashSet;
 
 public class InformacionJugadoresActivity extends AppCompatActivity {
     DrawerLayout drawerLayout;
@@ -34,6 +45,11 @@ public class InformacionJugadoresActivity extends AppCompatActivity {
     //Variables para pasar y recibir datos del equipo
     Intent recibir;
     String nombreDeJugador, numDeJugador, idEquipo, idJugador;
+
+    private HashSet<String> numerosJugadores;
+    private boolean toastMostrado = false; // Variable para controlar si el Toast se mostró
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +64,7 @@ public class InformacionJugadoresActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         txtNombreJugador = findViewById(R.id.txtNombreJugador);
         txtNumeroJugador = findViewById(R.id.txtNumeroJugador);
+        numerosJugadores = new HashSet<>();
         inicializarFirebase();
 
         //Recibir datos del equipo en los EditText
@@ -110,23 +127,86 @@ public class InformacionJugadoresActivity extends AppCompatActivity {
                 Jugador jugador = new Jugador();
                 jugador.setUid(idJugador);
                 jugador.setIdEquipo(idEquipo);
-                jugador.setNombre(txtNombreJugador.getText().toString().trim());
-                jugador.setNumero(txtNumeroJugador.getText().toString().trim());
-                databaseReference.child("Jugadores").child(idJugador).setValue(jugador);
-                Toast.makeText(this, "Actualizado", Toast.LENGTH_SHORT).show();
+                String numeroJugador =txtNumeroJugador.getText().toString();
+                //para recuperar todos los numeros existentes
+                databaseReference.child("Jugadores").addValueEventListener(new ValueEventListener()  {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        //listaEquipos.clear();
+                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                            Jugador jugador = dataSnapshot.getValue(Jugador.class);
+                            if (idEquipo.equals(jugador.getIdEquipo())){
+                                numerosJugadores.add(jugador.getNumero().toString());
+                            }
+                        }
+                        numerosJugadores.remove(numDeJugador);
+                        if (!numerosJugadores.contains(numeroJugador)) {
+
+                            jugador.setNombre(txtNombreJugador.getText().toString().trim());
+                            jugador.setNumero(txtNumeroJugador.getText().toString().trim());
+                            databaseReference.child("Jugadores").child(idJugador).setValue(jugador);
+                            if (!toastMostrado) {
+                                Toast.makeText(InformacionJugadoresActivity.this, "Datos del jugador actualizados correctamente", Toast.LENGTH_SHORT).show();
+                                toastMostrado = true; // Marcar el Toast como mostrado
+                            }
+                            finish();
+
+                        } else {
+                            if (!toastMostrado) {
+                                Toast.makeText(InformacionJugadoresActivity.this, "El número elejido ya le pertenece a otro jugador", Toast.LENGTH_SHORT).show();
+                                toastMostrado = true; // Marcar el Toast como mostrado
+                            }
+                        }
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        System.out.println("no hay datos");
+                    }
+                });
+
                 break;
             }
             case R.id.icon_delete:{
-                databaseReference.child("Jugadores").child(idJugador).removeValue();
-                Toast.makeText(this, "Eliminado", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(InformacionJugadoresActivity.this, MenuPrincipalAdminActivity.class));
-                finish();
+
+                SpannableString tituloAdvertencia = new SpannableString("Advertencia");
+                tituloAdvertencia.setSpan(new ForegroundColorSpan(Color.RED), 0, tituloAdvertencia.length(), 0);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle(tituloAdvertencia)
+                        .setMessage("Eliminar este Jugador borrará permanentemente toda la información asociada. ¿Desea continuar?")
+                        .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Acciones a realizar cuando se hace clic en el botón Aceptar
+                                databaseReference.child("Jugadores").child(idJugador).removeValue();
+                                finish();
+                                Toast.makeText(InformacionJugadoresActivity.this, "Jugador eliminado correctamente", Toast.LENGTH_SHORT).show();
+
+                            }
+                        })
+                        .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Toast.makeText(InformacionJugadoresActivity.this, "Acción cancelada", Toast.LENGTH_SHORT).show();
+                                dialog.dismiss();
+                            }
+                        });
+
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+
                 break;
+            }
+            case R.id.icon_cancel:{
+                finish();
+
             }
             default:break;
         }
         return super.onOptionsItemSelected(item);
     }
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_crud_equipos,menu);

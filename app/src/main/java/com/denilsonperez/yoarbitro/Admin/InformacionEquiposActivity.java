@@ -5,13 +5,18 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -41,6 +46,8 @@ public class InformacionEquiposActivity extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
+    AdapterJugadores myAdapter;
+    RecyclerView rvDatosJugadores;
     private List<Jugador> jugadorList = new ArrayList<>();
     ArrayAdapter<Jugador> jugadorArrayAdapter;
     ListView listv_jugadores;
@@ -56,6 +63,7 @@ public class InformacionEquiposActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_informacion_equipos);
         drawerLayout = findViewById(R.id.drawerLayout);
+        rvDatosJugadores = findViewById(R.id.rv_DatosJugadores);
         navigationView = findViewById(R.id.navView);
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.abrirNav, R.string.cerrarNav);
         drawerLayout.addDrawerListener(drawerToggle);
@@ -66,8 +74,8 @@ public class InformacionEquiposActivity extends AppCompatActivity {
         txtNombreEquipo = findViewById(R.id.txtNombreEquipo);
         txtNombreDelegado = findViewById(R.id.txtNombreDelegado);
         txtNumeroDeContacto = findViewById(R.id.txtNumeroDeContacto);
-        listv_jugadores = findViewById(R.id.listaJugadores);
-        btnAgregarJugadores = findViewById(R.id.btnAgregarJugadores);
+        //listv_jugadores = findViewById(R.id.listaJugadores);
+        btnAgregarJugadores = findViewById(R.id.btnAgregarJgador);
         inicializarFirebase();
 
         //Recibir datos del equipo en los EditText
@@ -78,30 +86,10 @@ public class InformacionEquiposActivity extends AppCompatActivity {
         txtNombreDelegado.setText(nombreDeDelegado);
         numDeContacto = recibir.getStringExtra("numDeContacto");
         txtNumeroDeContacto.setText(numDeContacto);
-        idEquipo = recibir.getStringExtra("idEquipo");
+         idEquipo = recibir.getStringExtra("idEquipo");
 
         listarDatos();
-        listv_jugadores.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                selectedItemPosition = i;
-                jugadorSeleccionado = (Jugador) adapterView.getItemAtPosition(i);
-                //Datos recuperados de Firebase
-                String nombreDeJugador = jugadorSeleccionado.getNombre();
-                String numeroDeJugador = jugadorSeleccionado.getNumero();
-                String idJugador = jugadorSeleccionado.getUid();
-                String idEquipo = jugadorSeleccionado.getIdEquipo();
 
-                Intent intent = new Intent(InformacionEquiposActivity.this, InformacionJugadoresActivity.class);
-
-                //Enviar datos del jugador a la pantalla para editar
-                intent.putExtra("nombreDeJugador",nombreDeJugador);
-                intent.putExtra("numeroDeJugador",numeroDeJugador);
-                intent.putExtra("idJugador",idJugador);
-                intent.putExtra("idEquipo",idEquipo);
-                startActivity(intent);
-            }
-        });
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -150,30 +138,39 @@ public class InformacionEquiposActivity extends AppCompatActivity {
             }
         });
     }
-    private void listarDatos() {
-        databaseReference.child("Jugadores").addValueEventListener(new ValueEventListener() {
+    public void listarDatos(){
+        //List<Equipo> myList = new ArrayList<>();
+
+        databaseReference.child("Jugadores").addValueEventListener(new ValueEventListener()  {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 jugadorList.clear();
                 for (DataSnapshot objSnapshot : snapshot.getChildren()){
                     Jugador jugador = objSnapshot.getValue(Jugador.class);
+
                     if (idEquipo.equals(jugador.getIdEquipo())){
                         jugadorList.add(jugador);
                     }
-                    jugadorArrayAdapter = new ArrayAdapter<Jugador>(InformacionEquiposActivity.this, android.R.layout.simple_list_item_activated_1, jugadorList);
-                    listv_jugadores.setAdapter(jugadorArrayAdapter);
+                    myAdapter = new AdapterJugadores(jugadorList, InformacionEquiposActivity.this,InformacionEquiposActivity.this);
+                    rvDatosJugadores.setAdapter(myAdapter);
                 }
+                // Llena el RecyclerView con los datos obtenidos
+                //myAdapter = new AdapterJugadores(jugadorList, InformacionEquiposActivity.this,InformacionEquiposActivity.this);
+
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+                System.out.println("no hay datos");
             }
         });
+
     }
     private void inicializarFirebase() {
         FirebaseApp.initializeApp(this);
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
     }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(drawerToggle.onOptionsItemSelected(item)){
@@ -186,16 +183,66 @@ public class InformacionEquiposActivity extends AppCompatActivity {
                 equipo.setNombre(txtNombreEquipo.getText().toString().trim());
                 equipo.setDelegado(txtNombreDelegado.getText().toString().trim());
                 equipo.setNumContacto(txtNumeroDeContacto.getText().toString().trim());
-                databaseReference.child("Equipos").child(idEquipo).setValue(equipo);
-                Toast.makeText(this, "Actualizado", Toast.LENGTH_SHORT).show();
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Confirmación")
+                        .setMessage("Estas a punto de actualizar el equipo "+equipo.getNombre()+" ¿Desea continuar?")
+                        .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Acciones a realizar cuando se hace clic en el botón Aceptar
+                                databaseReference.child("Equipos").child(idEquipo).setValue(equipo);
+                                Toast.makeText(InformacionEquiposActivity.this, "¡Tu equipo se actualizo correctamente!", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(InformacionEquiposActivity.this, MenuPrincipalAdminActivity.class));
+                                finish();
+                            }
+                        })
+                        .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Toast.makeText(InformacionEquiposActivity.this, "Acción cancelada", Toast.LENGTH_SHORT).show();
+                                dialog.dismiss();
+                            }
+                        });
+
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+
                 break;
             }
             case R.id.icon_delete:{
-                databaseReference.child("Equipos").child(idEquipo).removeValue();
-                Toast.makeText(this, "Eliminado", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(InformacionEquiposActivity.this, MenuPrincipalAdminActivity.class));
-                finish();
+                SpannableString tituloAdvertencia = new SpannableString("Advertencia");
+                tituloAdvertencia.setSpan(new ForegroundColorSpan(Color.RED), 0, tituloAdvertencia.length(), 0);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle(tituloAdvertencia)
+                        .setMessage("Eliminar este equipo borrará permanentemente toda la información asociada. ¿Desea continuar?")
+                        .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Acciones a realizar cuando se hace clic en el botón Aceptar
+                                databaseReference.child("Equipos").child(idEquipo).removeValue();
+                                Toast.makeText(InformacionEquiposActivity.this, "Equipo eliminado correctamente", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(InformacionEquiposActivity.this, MenuPrincipalAdminActivity.class));
+                                finish();
+                            }
+                        })
+                        .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Toast.makeText(InformacionEquiposActivity.this, "Acción cancelada", Toast.LENGTH_SHORT).show();
+                                dialog.dismiss();
+                            }
+                        });
+
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+
                 break;
+            }
+            case R.id.icon_cancel:{
+                startActivity(new Intent(InformacionEquiposActivity.this, MenuPrincipalAdminActivity.class));
+
             }
             default:break;
         }

@@ -26,10 +26,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.Arrays;
 
 public class DialogDatosJugadores extends DialogFragment {
-    CheckBox amonestado, expulsado;
+    CheckBox amonestado, expulsado, jugadorDeInicio;
     EditText golesJugador;
     String[] jugadoresSeleccionados;
-    String jugadorSeleccionado, fueAmonestado, fueExpulsado, idJuego, nombre, numeroDeJugador, goles, idSegundoEquipo, cadena;
+    int conteoElementos;
+    String jugadorSeleccionado, fueAmonestado, fueExpulsado, idJuego, nombre, numeroDeJugador, goles, idSegundoEquipo, cadena, jugadorTitular;
     boolean pantallaDos;
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     DatabaseReference parentRef = firebaseDatabase.getReference("Cedulas");
@@ -43,6 +44,7 @@ public class DialogDatosJugadores extends DialogFragment {
             jugadorSeleccionado = args.getString("jugadorSeleccionado");
             idJuego = args.getString("idJuego");
             idSegundoEquipo = args.getString("idSegundoEquipo");
+            conteoElementos = args.getInt("conteoElementos");
             //Esta variable es para poder reutilizar el mismo dialog en ambas pantallas de jugadores del equipo 1 y 2.
             //lo que se hace es que si vienes de la pantalla de jugadores 2 es true, entonces cuando se finalice el uso de la pantalla y
             //Se presione "siguiente" te manda a la actividad de arbitros. Mientras que si estas en la pantalla del equipo 1 te mando a la del equipo 2.
@@ -51,6 +53,7 @@ public class DialogDatosJugadores extends DialogFragment {
             String[] jugadorPartes = jugadorSeleccionado.split(",");
             nombre = jugadorPartes[0];
             numeroDeJugador = jugadorPartes[1];
+            System.out.println("conteo dialog: "+conteoElementos);
         }
     }
     @NonNull
@@ -81,33 +84,93 @@ public class DialogDatosJugadores extends DialogFragment {
                                 }else {
                                     intent = new Intent(getContext(), JugadoresSeleccionadosActivity.class);
                                 }
-                                if(expulsado.isChecked()==true){
-                                    fueAmonestado = "1";
-                                    fueExpulsado = "1";
-                                    goles = golesJugador.getText().toString();
-                                    intent.putExtra("jugadoresSeleccionados",cadena);
-                                    intent.putExtra("idJuego",idJuego);
-                                    intent.putExtra("idSegundoEquipo", idSegundoEquipo);
-                                    guardarDatosDelJugador();
-                                    startActivity(intent);
-                                } else if (amonestado.isChecked()==true && expulsado.isChecked()==false) {
-                                    fueAmonestado = "1";
-                                    fueExpulsado = "0";
-                                    goles = golesJugador.getText().toString();
-                                    intent.putExtra("jugadoresSeleccionados",cadena);
-                                    intent.putExtra("idJuego",idJuego);
-                                    intent.putExtra("idSegundoEquipo", idSegundoEquipo);
-                                    guardarDatosDelJugador();
-                                    startActivity(intent);
-                                } else if (amonestado.isChecked()==false &&  expulsado.isChecked()==false) {
+
+                                if(jugadorDeInicio.isChecked()==true){
+                                    jugadorTitular = "1";
                                     fueAmonestado = "0";
                                     fueExpulsado = "0";
                                     goles = golesJugador.getText().toString();
+                                    if(expulsado.isChecked()==true){
+                                        fueAmonestado = "1";
+                                        fueExpulsado = "1";
+                                        goles = golesJugador.getText().toString();
+                                        intent.putExtra("jugadoresSeleccionados",cadena);
+                                        intent.putExtra("idJuego",idJuego);
+                                        intent.putExtra("idSegundoEquipo", idSegundoEquipo);
+                                        intent.putExtra("conteoElementos", conteoElementos);
+                                        guardarDatosDelJugador();
+                                        startActivity(intent);
+                                        break;
+                                    } else if (amonestado.isChecked()==true && expulsado.isChecked()==false) {
+                                        fueAmonestado = "1";
+                                        fueExpulsado = "0";
+                                        goles = golesJugador.getText().toString();
+                                        intent.putExtra("jugadoresSeleccionados",cadena);
+                                        intent.putExtra("idJuego",idJuego);
+                                        intent.putExtra("idSegundoEquipo", idSegundoEquipo);
+                                        intent.putExtra("conteoElementos", conteoElementos);
+                                        guardarDatosDelJugador();
+                                        startActivity(intent);
+                                        break;
+                                    } else if (amonestado.isChecked()==false &&  expulsado.isChecked()==false && jugadorTitular.equals("0")) {
+                                        fueAmonestado = "0";
+                                        fueExpulsado = "0";
+                                        goles = golesJugador.getText().toString();
+                                        intent.putExtra("jugadoresSeleccionados",cadena);
+                                        intent.putExtra("idJuego",idJuego);
+                                        intent.putExtra("idSegundoEquipo", idSegundoEquipo);
+                                        intent.putExtra("conteoElementos", conteoElementos);
+                                        guardarDatosDelJugador();
+                                        startActivity(intent);
+                                        break;
+                                    }
+                                    intent.putExtra("jugadorInicial",jugadorTitular);
                                     intent.putExtra("jugadoresSeleccionados",cadena);
                                     intent.putExtra("idJuego",idJuego);
                                     intent.putExtra("idSegundoEquipo", idSegundoEquipo);
+                                    intent.putExtra("conteoElementos", conteoElementos);
                                     guardarDatosDelJugador();
                                     startActivity(intent);
+                                    break;
+                                }else{
+                                    jugadorTitular = "0";
+                                    fueAmonestado = "0";
+                                    fueExpulsado = "0";
+                                    goles = golesJugador.getText().toString();
+                                    if(expulsado.isChecked()==true){
+                                        fueAmonestado = "1";
+                                        fueExpulsado = "1";
+                                        goles = golesJugador.getText().toString();
+                                        intent.putExtra("jugadoresSeleccionados",cadena);
+                                        intent.putExtra("idJuego",idJuego);
+                                        intent.putExtra("idSegundoEquipo", idSegundoEquipo);
+                                        intent.putExtra("conteoElementos", conteoElementos);
+                                        guardarDatosDelJugador();
+                                        startActivity(intent);
+                                        break;
+                                    } else if (amonestado.isChecked()==true && expulsado.isChecked()==false) {
+                                        fueAmonestado = "1";
+                                        fueExpulsado = "0";
+                                        goles = golesJugador.getText().toString();
+                                        intent.putExtra("jugadoresSeleccionados",cadena);
+                                        intent.putExtra("idJuego",idJuego);
+                                        intent.putExtra("idSegundoEquipo", idSegundoEquipo);
+                                        intent.putExtra("conteoElementos", conteoElementos);
+                                        guardarDatosDelJugador();
+                                        startActivity(intent);
+                                        break;
+                                    } else if (amonestado.isChecked()==false &&  expulsado.isChecked()==false && jugadorTitular.equals("0")) {
+                                        fueAmonestado = "0";
+                                        fueExpulsado = "0";
+                                        goles = golesJugador.getText().toString();
+                                        intent.putExtra("jugadoresSeleccionados",cadena);
+                                        intent.putExtra("idJuego",idJuego);
+                                        intent.putExtra("idSegundoEquipo", idSegundoEquipo);
+                                        intent.putExtra("conteoElementos", conteoElementos);
+                                        guardarDatosDelJugador();
+                                        startActivity(intent);
+                                        break;
+                                    }
                                 }
                         }
                     }
@@ -118,31 +181,33 @@ public class DialogDatosJugadores extends DialogFragment {
                         intent.putExtra("jugadoresSeleccionados",cadena);
                         intent.putExtra("idJuego",idJuego);
                         intent.putExtra("idSegundoEquipo", idSegundoEquipo);
+                        conteoElementos = conteoElementos-1;
+                        intent.putExtra("conteoElementos", conteoElementos);
                         startActivity(intent);
                     }
                 });
         return builder.create();
     }
     private void guardarDatosDelJugador() {
-        String jugadorId = parentRef.child(idJuego).child("Equipo1").push().getKey();
         if(pantallaDos == false){
+            String jugadorId = parentRef.child(idJuego).child("Equipo1").push().getKey();
             //Guardar dato en firebase
-
             parentRef.child(idJuego).child("Equipo1").child(jugadorId).child("nombre").setValue(nombre);
             parentRef.child(idJuego).child("Equipo1").child(jugadorId).child("amonestado").setValue(fueAmonestado);
             parentRef.child(idJuego).child("Equipo1").child(jugadorId).child("numeroDeJugador").setValue(numeroDeJugador);
             parentRef.child(idJuego).child("Equipo1").child(jugadorId).child("goles").setValue(goles);
             parentRef.child(idJuego).child("Equipo1").child(jugadorId).child("expulsado").setValue(fueExpulsado);
+            parentRef.child(idJuego).child("Equipo1").child(jugadorId).child("Titular").setValue(jugadorTitular);
         }else{
+            String jugadorId = parentRef.child(idJuego).child("Equipo2").push().getKey();
             //Guardar dato en firebase
             parentRef.child(idJuego).child("Equipo2").child(jugadorId).child("nombre").setValue(nombre);
             parentRef.child(idJuego).child("Equipo2").child(jugadorId).child("amonestado").setValue(fueAmonestado);
             parentRef.child(idJuego).child("Equipo2").child(jugadorId).child("numeroDeJugador").setValue(numeroDeJugador);
             parentRef.child(idJuego).child("Equipo2").child(jugadorId).child("goles").setValue(goles);
             parentRef.child(idJuego).child("Equipo2").child(jugadorId).child("expulsado").setValue(fueExpulsado);
+            parentRef.child(idJuego).child("Equipo2").child(jugadorId).child("Titular").setValue(jugadorTitular);
         }
-
-
 
     }
     @Override
@@ -151,6 +216,7 @@ public class DialogDatosJugadores extends DialogFragment {
         amonestado = (CheckBox) getDialog().findViewById(R.id.checkboxAmonestado);
         expulsado = (CheckBox) getDialog().findViewById(R.id.checkboxExpulsado);
         golesJugador = (EditText) getDialog().findViewById(R.id.golesJugador);
+        jugadorDeInicio = (CheckBox) getDialog().findViewById(R.id.checkboxJugadorDeInicio);
 
     }
 }
