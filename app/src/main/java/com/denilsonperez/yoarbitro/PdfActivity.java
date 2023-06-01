@@ -138,7 +138,6 @@ public class PdfActivity extends AppCompatActivity {
 
         pdfDocument.close();
     }
-
     private boolean checkPermission() {
         int permission1 = ContextCompat.checkSelfPermission(getApplicationContext(),WRITE_EXTERNAL_STORAGE);
         int permission2 = ContextCompat.checkSelfPermission(getApplicationContext(),READ_EXTERNAL_STORAGE);
