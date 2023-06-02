@@ -54,12 +54,14 @@ import java.util.List;
 
 public class PdfActivity extends AppCompatActivity {
     Button btnGenerarCedula;
-    String tituloCedula = "Benemerita Escuela Normal Veracruzana", equioposTitulo = "Equipos del encuentro";
+    String tituloCedula = "Benemerita Escuela Normal Veracruzana", equioposTitulo = "Equipos del encuentro", cambiosTitulo="Cambios", expulsadoTitulo="Expulsados";
     String fecha, hora, campo, idJuego, datosDelPartido, arbitrosDelPartido;
     //String para arbitros
     String central, asistente1 = " ", asistente2 = " ";
     //Strings para jugadores
-    String nombre, nombre2, nombresJugadores1, nombresJugadores1Cambios, nombresJugadores2, amonestado, expulsado, goles, numero, amonestado2, expulsado2, goles2, numero2, titular, titular2;
+    String nombre, nombre2, nombresJugadores1, nombresJugadores1Cambios, nombresJugadores2, nombresJugadores2Cambios, amonestado, expulsado, goles, numero, amonestado2, expulsado2, goles2, numero2, titular, titular2;
+    int golesTotal, golesEquipo1, golesEquipo2;
+    String golesCambio;
     Intent recibir;
     private static final int PERMISSION_REQUEST_CODE = 200;
     @Override
@@ -95,9 +97,12 @@ public class PdfActivity extends AppCompatActivity {
         TextPaint datosPartido = new TextPaint();
         TextPaint arbitrosPartido = new TextPaint();
         TextPaint equipo1Partido = new TextPaint();
+        TextPaint tituloCambios = new TextPaint();
         TextPaint equipo1PartidoCambios = new TextPaint();
+        TextPaint equipo2PartidoCambios = new TextPaint();
         TextPaint equipo2Partido = new TextPaint();
         TextPaint tituloEquipos = new TextPaint();
+        TextPaint totalGoles = new TextPaint();
         Bitmap bitmap, bitmapEscala;
 
         //Crear el pdf con las medidas
@@ -128,31 +133,49 @@ public class PdfActivity extends AppCompatActivity {
         canvas.drawText(equioposTitulo, 270, 300, arbitrosPartido);
         //Datos del equipo1
         equipo1Partido.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
-        equipo1Partido.setTextSize(12);
+        equipo1Partido.setTextSize(11);
         int y = 350;
         String[] arrEquipo1 = nombresJugadores1.split("\n");
         for (int i = 0; i < arrEquipo1.length; i++) {
             canvas.drawText(arrEquipo1[i], 10, y, equipo1Partido);
-            y += 25;
+            y += 18;
         }
-        //Datos del equipo1 Cambios
-        //equipo1PartidoCambios.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
-        //equipo1PartidoCambios.setTextSize(12);
-        //int j=350;
-        //String[] arrEquipo1Cambios = nombresJugadores1Cambios.split("\n");
-        //for (int i=0;i<arrEquipo1.length;i++){
-        //canvas.drawText(arrEquipo1[i],10,j,equipo1Partido);
-        //j += 25;
-        //}
         //Datos del equipo2
         equipo2Partido.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
-        equipo2Partido.setTextSize(12);
+        equipo2Partido.setTextSize(11);
         int x = 350;
         String[] arrEquipo2 = nombresJugadores2.split("\n");
         for (int i = 0; i < arrEquipo2.length; i++) {
-            canvas.drawText(arrEquipo2[i], 480, x, equipo2Partido);
-            x += 25;
+            canvas.drawText(arrEquipo2[i], 450, x, equipo2Partido);
+            x += 18;
         }
+        //Titulo para los cambios
+        tituloCambios.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+        tituloCambios.setTextSize(20);
+        canvas.drawText(cambiosTitulo, 340, 665, tituloCambios);
+        //Datos del equipo1 Cambios
+        equipo1PartidoCambios.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+        equipo1PartidoCambios.setTextSize(11);
+        int j=700;
+        String[] arrEquipo1Cambios = nombresJugadores1Cambios.split("\n");
+        for (int i=0;i<arrEquipo1Cambios.length;i++){
+        canvas.drawText(arrEquipo1Cambios[i],10,j,equipo1PartidoCambios);
+        j += 18;
+        }
+        //Datos del equipo2 Cambios
+        equipo2PartidoCambios.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+        equipo2PartidoCambios.setTextSize(11);
+        int g=700;
+        String[] arrEquipo2Cambios = nombresJugadores2Cambios.split("\n");
+        for (int i=0;i<arrEquipo2Cambios.length;i++){
+            canvas.drawText(arrEquipo2Cambios[i],450,g,equipo2PartidoCambios);
+            g +=18;
+        }
+        //Titulo total goles
+        totalGoles.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+        totalGoles.setTextSize(20);
+        canvas.drawText(String.valueOf("Total de goles: "+golesTotal), 10, 880, totalGoles);
+
         pdfDocument.finishPage(page);
         FirebaseStorage storage = FirebaseStorage.getInstance();
         // Obtén una referencia al directorio en el que deseas almacenar los archivos PDF
@@ -294,23 +317,30 @@ public class PdfActivity extends AppCompatActivity {
                         } else {
                             amonestado = "No";
                         }
-                        //if (titular.equals("1")) {
-                            nombresB.append("#" + numero + "  " + nombre + "   Goles: " + goles + "     Amon. " + amonestado).append("\n");
+                        if(expulsado.equals("1")){
+                            expulsado = "Si";
+                        }else{
+                            expulsado = "No";
+                        }
+                        if(goles.isEmpty() || goles.equals("0")){
+                            goles = "0";
+                        }else{
+                            golesEquipo1 = Integer.parseInt(goles);
+                            golesTotal= golesEquipo1+golesTotal;
+                        }
+                        if (titular.equals("1")){
+                            nombresB.append("#"+numero + "  " + nombre + "   Goles: " +goles + "     Amon. " + amonestado+ "     Exp. "+expulsado).append("\n");
+
                             // Obtener la cadena final con los nombres separados por saltos de línea
                             nombresJugadores1 = nombresB.toString();
-                        //}
-                        /*
-                        else{
-                            nombresBCambios.append("#"+numero+"  "+nombre+ "   Goles: "+goles+ "     Amon. "+ amonestado).append("\n");
+                        }else{
+                            nombresBCambios.append("#"+numero+"  "+nombre+ "   Goles: "+goles + "     Amon. "+ amonestado+ "     Exp. "+expulsado).append("\n");
                             // Obtener la cadena final con los nombres separados por saltos de línea
                             nombresJugadores1Cambios = nombresBCambios.toString();
-                        }*/
+                        }
                     }
                 }
                 equipo2DelPartido();
-
-                // Utilizar la variable 'nombres' en tu lógica
-                System.out.println("Lista de nombres:\n" + nombresJugadores1);
             }
 
             @Override
@@ -329,6 +359,7 @@ public class PdfActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 StringBuilder nombresB = new StringBuilder();
+                StringBuilder nombresB2Cambios = new StringBuilder();
 
                 for (DataSnapshot childSnapshot : snapshot.getChildren()) {
                     // Obtener el valor del campo "nombre" de cada nodo hijo
@@ -336,21 +367,40 @@ public class PdfActivity extends AppCompatActivity {
                     numero2 = childSnapshot.child("numeroDeJugador").getValue(String.class);
                     goles2 = childSnapshot.child("goles").getValue(String.class);
                     amonestado2 = childSnapshot.child("amonestado").getValue(String.class);
+                    titular2 = childSnapshot.child("Titular").getValue(String.class);
+                    expulsado2 = childSnapshot.child("expulsado").getValue(String.class);
 
-                    if (nombre != null) {
-                        if (amonestado.equals("1")) {
-                            amonestado = "Si";
+                    if (nombre2 != null) {
+                        if (amonestado2.equals("1")) {
+                            amonestado2 = "Si";
                         } else {
-                            amonestado = "No";
+                            amonestado2 = "No";
                         }
-                        nombresB.append("#" + numero2 + "  " + nombre2 + "   Goles: " + goles2 + "     Amon. " + amonestado2).append("\n");
+                        if (expulsado2.equals("1")) {
+                            expulsado2 = "Si";
+                        }else{
+                            expulsado2 = "No";
+                        }
+                        if(goles2.isEmpty() || goles.equals("0")){
+                            goles2 = "0";
+                        }else{
+                            golesEquipo2 = Integer.parseInt(goles2);
+                            golesTotal= golesEquipo2+golesTotal;
+                            //golesCambio = "El total de goles es: "+golesTotal;
+                        }
+                        if (titular2.equals("1")) {
+                            nombresB.append("#"+numero2 + "  " + nombre2 + "   Goles: " + goles2 + "     Amon. " + amonestado2+ "     Exp. "+expulsado2).append("\n");
+                            // Obtener la cadena final con los nombres separados por saltos de línea
+                            nombresJugadores2 = nombresB.toString();
+                        }else{
+                            nombresB2Cambios.append("#"+numero2+"  "+nombre2+ "   Goles: "+goles2+ "     Amon. "+ amonestado2+ "     Exp. "+expulsado2).append("\n");
+                            // Obtener la cadena final con los nombres separados por saltos de línea
+                            nombresJugadores2Cambios = nombresB2Cambios.toString();
+                        }
                     }
                 }
                 // Obtener la cadena final con los nombres separados por saltos de línea
                 nombresJugadores2 = nombresB.toString();
-
-                // Utilizar la variable 'nombres' en tu lógica
-                System.out.println("Lista de nombres:\n" + nombresJugadores2);
             }
 
             @Override
