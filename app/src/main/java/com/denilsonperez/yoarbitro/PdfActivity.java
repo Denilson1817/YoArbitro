@@ -25,6 +25,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.text.TextPaint;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -57,7 +58,7 @@ public class PdfActivity extends AppCompatActivity {
     String tituloCedula = "Benemerita Escuela Normal Veracruzana", equioposTitulo = "Equipos del encuentro", cambiosTitulo="Cambios", expulsadoTitulo="Expulsados";
     String fecha, hora, campo, idJuego, datosDelPartido, arbitrosDelPartido;
     //String para arbitros
-    String central, asistente1 = " ", asistente2 = " ";
+    String central, asistente1, asistente2;
     //Strings para jugadores
     String nombre, nombre2, nombresJugadores1, nombresJugadores1Cambios, nombresJugadores2, nombresJugadores2Cambios, amonestado, expulsado, goles, numero, amonestado2, expulsado2, goles2, numero2, titular, titular2;
     int golesTotal, golesEquipo1, golesEquipo2;
@@ -103,6 +104,7 @@ public class PdfActivity extends AppCompatActivity {
         TextPaint equipo2Partido = new TextPaint();
         TextPaint tituloEquipos = new TextPaint();
         TextPaint totalGoles = new TextPaint();
+        TextPaint totalGolesb = new TextPaint();
         Bitmap bitmap, bitmapEscala;
 
         //Crear el pdf con las medidas
@@ -174,7 +176,12 @@ public class PdfActivity extends AppCompatActivity {
         //Titulo total goles
         totalGoles.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
         totalGoles.setTextSize(20);
-        canvas.drawText(String.valueOf("Total de goles: "+golesTotal), 10, 880, totalGoles);
+        canvas.drawText(String.valueOf("Total de goles: "+ golesEquipo1), 10, 880, totalGoles);
+
+        //Titulo total goles
+        totalGolesb.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+        totalGolesb.setTextSize(20);
+        canvas.drawText(String.valueOf("Total de goles: "+ golesEquipo2), 450, 880, totalGolesb);
 
         pdfDocument.finishPage(page);
         FirebaseStorage storage = FirebaseStorage.getInstance();
@@ -277,6 +284,8 @@ public class PdfActivity extends AppCompatActivity {
                     central = "" + snapshot.child("Central").getValue();
                     asistente1 = "" + snapshot.child("Asistente1").getValue();
                     asistente2 = "" + snapshot.child("Asistente2").getValue();
+                    System.out.println(asistente1);
+                    System.out.println(asistente2);
 
                     arbitrosDelPartido = "Central : " + central + "     Asistente 1 : " + asistente1 + "    Asistente 2 :" + asistente2;
                     equipo1DelPartido();
@@ -296,6 +305,8 @@ public class PdfActivity extends AppCompatActivity {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference parentRef = firebaseDatabase.getReference("Cedulas").child(idJuego);
         DatabaseReference equipo1Ref = parentRef.child("Equipo1");
+
+        golesEquipo1 = 0;
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -309,6 +320,7 @@ public class PdfActivity extends AppCompatActivity {
                     goles = childSnapshot.child("goles").getValue(String.class);
                     expulsado = childSnapshot.child("expulsado").getValue(String.class);
                     numero = childSnapshot.child("numeroDeJugador").getValue(String.class);
+                    System.out.println();
                     titular = childSnapshot.child("Titular").getValue(String.class);
 
                     if (nombre != null) {
@@ -322,8 +334,8 @@ public class PdfActivity extends AppCompatActivity {
                         }else{
                             expulsado = "No";
                         }
-                            golesEquipo1 = Integer.parseInt(goles);
-                            golesTotal= golesEquipo1+golesTotal;
+                            int golesA = Integer.parseInt(goles);
+                            golesEquipo1= golesEquipo1+golesA;
 
                         if (titular.equals("1")){
                             nombresB.append("#"+numero + "  " + nombre + "   Goles: " +goles + "     Amon. " + amonestado+ "     Exp. "+expulsado).append("\n");
@@ -349,12 +361,14 @@ public class PdfActivity extends AppCompatActivity {
     }
 
     private void equipo2DelPartido() {
+
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference parentRef = firebaseDatabase.getReference("Cedulas").child(idJuego);
         DatabaseReference equipo2Ref = parentRef.child("Equipo2");
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                golesEquipo2=0;
                 StringBuilder nombresB = new StringBuilder();
                 StringBuilder nombresB2Cambios = new StringBuilder();
 
@@ -378,9 +392,9 @@ public class PdfActivity extends AppCompatActivity {
                         }else{
                             expulsado2 = "No";
                         }
-                            golesEquipo2 = Integer.parseInt(goles2);
-                            golesTotal= golesEquipo2+golesTotal;
-                            //golesCambio = "El total de goles es: "+golesTotal;
+                        int golesB = Integer.parseInt(goles2);
+                        golesEquipo2= golesEquipo2+golesB;
+
 
                         if (titular2.equals("1")) {
                             nombresB.append("#"+numero2 + "  " + nombre2 + "   Goles: " + goles2 + "     Amon. " + amonestado2+ "     Exp. "+expulsado2).append("\n");

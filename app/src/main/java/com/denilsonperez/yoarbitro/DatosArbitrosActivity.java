@@ -46,12 +46,13 @@ public class DatosArbitrosActivity extends AppCompatActivity {
         idJuego = recibir.getStringExtra("idJuego");
 
         //recuperar los datos del form de datos del arbitro
-        nombreAsistente1 = nombreArbitroAsistente1.getText().toString();
-        nombreAsistente2 = nombreArbitroAsistente2.getText().toString();
+
 
         btnSiguiente.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
+                System.out.println("ulo"+nombreAsistente1);
 
                 if (validarDatos()==true){
                     Intent intent = new Intent(DatosArbitrosActivity.this, DatosDelPartidoActivity.class);
@@ -111,6 +112,8 @@ public class DatosArbitrosActivity extends AppCompatActivity {
     }
 
     private void subirdatos() {
+        nombreAsistente1 = nombreArbitroAsistente1.getText().toString();
+        nombreAsistente2 = nombreArbitroAsistente2.getText().toString();
         parentRef.child(idJuego).child("Arbitros").child("Central").setValue(nombreCentral);
 
 
