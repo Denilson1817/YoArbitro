@@ -48,6 +48,7 @@ public class DatosArbitrosActivity extends AppCompatActivity {
         //recuperar los datos del form de datos del arbitro
 
 
+
         btnSiguiente.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -115,14 +116,8 @@ public class DatosArbitrosActivity extends AppCompatActivity {
         nombreAsistente1 = nombreArbitroAsistente1.getText().toString();
         nombreAsistente2 = nombreArbitroAsistente2.getText().toString();
         parentRef.child(idJuego).child("Arbitros").child("Central").setValue(nombreCentral);
-
-
-        if(TextUtils.isEmpty(nombreAsistente1) && TextUtils.isEmpty(nombreAsistente2)){
-
-        } else{
-            parentRef.child(idJuego).child("Arbitros").child("Asistente1").setValue(nombreAsistente1);
-            parentRef.child(idJuego).child("Arbitros").child("Asistente2").setValue(nombreAsistente2);
-        }
+        parentRef.child(idJuego).child("Arbitros").child("Asistente1").setValue(nombreAsistente1);
+        parentRef.child(idJuego).child("Arbitros").child("Asistente2").setValue(nombreAsistente2);
 
     }
 }

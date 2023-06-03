@@ -51,6 +51,6 @@ public class Jugador {
 
     @Override
     public String toString() {
-        return nombre + ", " + numero;
+        return nombre + "," + numero;
     }
 }
