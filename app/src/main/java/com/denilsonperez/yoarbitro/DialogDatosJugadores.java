@@ -52,7 +52,7 @@ public class DialogDatosJugadores extends DialogFragment {
             pantallaDos = args.getBoolean("pantallaDos",false);
             //Separar el nombre del jugador y el numero que vienen juntos
             String[] jugadorPartes = jugadorSeleccionado.split(",");
-            //nombre = jugadorPartes[0];
+            nombre = jugadorPartes[0];
 
             if (jugadorPartes.length >= 2) {
                 nombre = jugadorPartes[0];
@@ -199,6 +199,7 @@ public class DialogDatosJugadores extends DialogFragment {
         if(pantallaDos == false){
             String jugadorId = parentRef.child(idJuego).child("Equipo1").push().getKey();
             //Guardar dato en firebase
+            System.out.println("NOMBRE ACTUAL"+ nombre);
             parentRef.child(idJuego).child("Equipo1").child(jugadorId).child("nombre").setValue(nombre);
             parentRef.child(idJuego).child("Equipo1").child(jugadorId).child("amonestado").setValue(fueAmonestado);
             parentRef.child(idJuego).child("Equipo1").child(jugadorId).child("numeroDeJugador").setValue(numeroDeJugador);
