@@ -42,6 +42,8 @@ public class AdapterJugadoresEquipo1 extends RecyclerView.Adapter<AdapterJugador
         for (int i = 0; i < myList.size(); i++) {
             if (isChecked(i)) {
                 jugadoresSeleccionados.add(myList.get(i));
+
+
             }
         }
         return jugadoresSeleccionados;

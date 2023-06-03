@@ -9,6 +9,10 @@ public class Jugador {
 
     public Jugador() {
     }
+    public Jugador(String nombre, String numero) {
+        this.nombre = nombre;
+        this.numero = numero;
+    }
 
     public Jugador(String uid, String nombre, String numero, String idEquipo) {
         this.uid = uid;
@@ -49,8 +53,12 @@ public class Jugador {
         this.idEquipo = idEquipo;
     }
 
+
+
     @Override
     public String toString() {
         return nombre + "," + numero;
     }
+
+
 }

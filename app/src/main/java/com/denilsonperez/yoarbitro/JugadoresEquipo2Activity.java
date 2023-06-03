@@ -106,8 +106,8 @@ public class JugadoresEquipo2Activity extends AppCompatActivity {
                     if (jugadoresSeleccionados.size()>=7) {
                         StringBuilder jugadoresSeleccionadosStringBuilder = new StringBuilder();
                         for (Jugador jugador : jugadoresSeleccionados) {
-                            jugadoresSeleccionadosStringBuilder.append(jugador.getNombre()).append("\n");
-                        }
+                            jugadoresSeleccionadosStringBuilder.append(jugador.getNombre()).append(", ");
+                            jugadoresSeleccionadosStringBuilder.append(jugador.getNumero()).append("\n");                        }
                         String jugadoresSeleccionadosString = jugadoresSeleccionadosStringBuilder.toString();
 
                         Intent intent = new Intent(JugadoresEquipo2Activity.this, JugadoresSeleccionados2Activity.class);

@@ -116,15 +116,18 @@ Intent recibir;
         btnSiguiente.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //int numJugadoresEquipo1 = myAdapter.getItemCount();
+                int numJugadoresEquipo1 = myAdapter.getItemCount();
                  myAdapter = (AdapterJugadoresEquipo1) listvJugadoresP.getAdapter();
-
                 if (myAdapter !=null) {
                     List<Jugador> jugadoresSeleccionados = myAdapter.getJugadoresSeleccionados();
                     if (jugadoresSeleccionados.size()>=7) {
                         StringBuilder jugadoresSeleccionadosStringBuilder = new StringBuilder();
                         for (Jugador jugador : jugadoresSeleccionados) {
-                            jugadoresSeleccionadosStringBuilder.append(jugador.getNombre()).append("\n");
+                            jugadoresSeleccionadosStringBuilder.append(jugador.getNombre()).append(", ");
+                            jugadoresSeleccionadosStringBuilder.append(jugador.getNumero()).append("\n");
+                            //jugadoresSeleccionadosStringBuilder.append(jugador.getNombre()).append(jugador.getNumero()).append("\n");
+                            //jugadoresSeleccionadosStringBuilder.append("Número: ").append(jugador.getNumero()).append("\n");
+                            //jugadoresSeleccionadosStringBuilder.append(jugador.getNombre()).append("\n");
                         }
                         String jugadoresSeleccionadosString = jugadoresSeleccionadosStringBuilder.toString();
 
@@ -146,11 +149,6 @@ Intent recibir;
     }
 
 
-    public String getNombreEquipoDos(){
-        final String n = nombreEquipoSeleccionadoDos;
-        String mensaje = "Es momento de seleccionar los jugadores del equipo " +n+" que participaran en el juego";
-        return mensaje;
-    }
     private void listarDatos(){
         databaseReference.child("Jugadores").addValueEventListener(new ValueEventListener() {
             @Override
@@ -161,11 +159,6 @@ Intent recibir;
                     if (idPrimerEquipo.equals(jugador.getIdEquipo())){
                         jugadorPList.add(jugador);
                     }
-                    //Aquí se imprime el listView con el multipleChoice para seleccionar varios jugadores.
-                    //En la vista también se debe agregar el MultipleChoice.
-                   // jugadorPArrayAdapter = new ArrayAdapter<Jugador>(JugadoresEquipo1Activity.this, android.R.layout.simple_list_item_multiple_choice, jugadorPList);
-                    //listvJugadoresP.setAdapter(jugadorPArrayAdapter);
-
                     myAdapter = new AdapterJugadoresEquipo1(jugadorPList, JugadoresEquipo1Activity.this,JugadoresEquipo1Activity.this);
                     listvJugadoresP.setAdapter(myAdapter);
                 }
