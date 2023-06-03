@@ -322,12 +322,9 @@ public class PdfActivity extends AppCompatActivity {
                         }else{
                             expulsado = "No";
                         }
-                        if(goles.isEmpty() || goles.equals("0")){
-                            goles = "0";
-                        }else{
                             golesEquipo1 = Integer.parseInt(goles);
                             golesTotal= golesEquipo1+golesTotal;
-                        }
+
                         if (titular.equals("1")){
                             nombresB.append("#"+numero + "  " + nombre + "   Goles: " +goles + "     Amon. " + amonestado+ "     Exp. "+expulsado).append("\n");
 
@@ -381,13 +378,10 @@ public class PdfActivity extends AppCompatActivity {
                         }else{
                             expulsado2 = "No";
                         }
-                        if(goles2.isEmpty() || goles.equals("0")){
-                            goles2 = "0";
-                        }else{
                             golesEquipo2 = Integer.parseInt(goles2);
                             golesTotal= golesEquipo2+golesTotal;
                             //golesCambio = "El total de goles es: "+golesTotal;
-                        }
+
                         if (titular2.equals("1")) {
                             nombresB.append("#"+numero2 + "  " + nombre2 + "   Goles: " + goles2 + "     Amon. " + amonestado2+ "     Exp. "+expulsado2).append("\n");
                             // Obtener la cadena final con los nombres separados por saltos de línea

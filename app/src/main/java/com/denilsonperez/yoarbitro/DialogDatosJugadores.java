@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -195,6 +196,9 @@ public class DialogDatosJugadores extends DialogFragment {
             parentRef.child(idJuego).child("Equipo1").child(jugadorId).child("nombre").setValue(nombre);
             parentRef.child(idJuego).child("Equipo1").child(jugadorId).child("amonestado").setValue(fueAmonestado);
             parentRef.child(idJuego).child("Equipo1").child(jugadorId).child("numeroDeJugador").setValue(numeroDeJugador);
+            if(goles.equals("0") || goles.isEmpty()){
+                goles = "0";
+            }
             parentRef.child(idJuego).child("Equipo1").child(jugadorId).child("goles").setValue(goles);
             parentRef.child(idJuego).child("Equipo1").child(jugadorId).child("expulsado").setValue(fueExpulsado);
             parentRef.child(idJuego).child("Equipo1").child(jugadorId).child("Titular").setValue(jugadorTitular);
@@ -204,6 +208,9 @@ public class DialogDatosJugadores extends DialogFragment {
             parentRef.child(idJuego).child("Equipo2").child(jugadorId).child("nombre").setValue(nombre);
             parentRef.child(idJuego).child("Equipo2").child(jugadorId).child("amonestado").setValue(fueAmonestado);
             parentRef.child(idJuego).child("Equipo2").child(jugadorId).child("numeroDeJugador").setValue(numeroDeJugador);
+            if(goles.equals("0") || goles.isEmpty()){
+                goles = "0";
+            }
             parentRef.child(idJuego).child("Equipo2").child(jugadorId).child("goles").setValue(goles);
             parentRef.child(idJuego).child("Equipo2").child(jugadorId).child("expulsado").setValue(fueExpulsado);
             parentRef.child(idJuego).child("Equipo2").child(jugadorId).child("Titular").setValue(jugadorTitular);
