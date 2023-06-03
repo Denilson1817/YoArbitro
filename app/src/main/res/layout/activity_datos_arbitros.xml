@@ -66,8 +66,6 @@
                     android:layout_marginTop="15sp"
                     android:hint="Nombre del asistente 1"
                     app:startIconDrawable="@drawable/baseline_person_pin_24"
-                    app:helperText="Campo obligatorio*"
-                    app:helperTextTextColor="@color/rojo"
                     tools:ignore="MissingConstraints">
 
                     <EditText
@@ -85,8 +83,6 @@
                     android:layout_marginTop="15sp"
                     android:hint="Nombre del asistente 2"
                     app:startIconDrawable="@drawable/baseline_person_pin_24"
-                    app:helperText="Campo obligatorio*"
-                    app:helperTextTextColor="@color/rojo"
                     app:prefixTextColor="@color/verde"
                     tools:ignore="MissingConstraints">
 

@@ -97,7 +97,7 @@
                                 app:counterEnabled="true"
                                 app:counterMaxLength="10"
                                 app:helperTextTextColor="@color/rojo"
-                                app:prefixText="+55 "
+                                app:prefixText="+52 "
                                 app:prefixTextColor="@color/verde"
                                 tools:ignore="MissingConstraints">
 
